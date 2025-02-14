@@ -15,7 +15,7 @@ public class Study {
     private String studyinsuid;
     private String studydate;
     private String studytime;
-    private String accessume;
+    private String accessnum;
     private String studyid;
 
     @Column(length = 256)
@@ -32,6 +32,6 @@ public class Study {
     private String pbirthdatetime;
     private String patage;
     private String seriescnt;
-    private String imgecnt;
+    private String imagecnt;
     private String delflag;
 }
