@@ -12,6 +12,7 @@
     <title>Hellow word</title>
 </head>
 <c:import url="/header" />
+<body>
 <div id="content-container"></div>
 </body>
 <c:import url="/footer" />
