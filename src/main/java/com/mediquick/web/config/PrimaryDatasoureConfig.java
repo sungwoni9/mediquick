@@ -24,7 +24,7 @@ import java.util.Map;
         transactionManagerRef = "primaryTransactionManager"
 )
 @EnableTransactionManagement
-class primaryDatasoureConfig {
+class PrimaryDatasoureConfig {
 
     @Value("${spring.datasource.primary.url}")
     private String url;
