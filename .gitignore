@@ -1,4 +1,5 @@
 .DS_Store
+application.datasource.properties
 
 HELP.md
 .gradle
