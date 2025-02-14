@@ -12,11 +12,10 @@
     <title>Hellow word</title>
 </head>
 <c:import url="/header" />
+<body>
 <div id="content-container">
     error Page
-
 </div>
-
 </body>
 <c:import url="/footer" />
 </html>

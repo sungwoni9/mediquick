@@ -13,12 +13,12 @@ public class HomeController {
 
     @GetMapping("/header")
     public String header(){
-        return "modle/header";
+        return "module/header";
     }
 
     @GetMapping("/footer")
     public String footer(){
-        return "modle/footer";
+        return "module/footer";
     }
 
     @GetMapping("/error")
