@@ -1,0 +1,18 @@
+nav ul {
+    display: flex;
+    gap: 10px;
+}
+
+header {
+    max-width: 1440px;
+    width: 80vw;
+    margin: auto;
+}
+
+#navi-user{
+    justify-content: flex-end;
+}
+
+#navi-main {
+    justify-content: space-between;
+}
