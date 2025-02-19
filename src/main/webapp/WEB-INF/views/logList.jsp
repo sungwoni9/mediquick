@@ -5,6 +5,7 @@
     <title>로그 리스트</title>
     <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/reset.css">
+  <script type="module" src="/script/validation-logList.js"></script>
 </head>
 <c:import url="/header"/>
 <body>
