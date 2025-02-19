@@ -35,4 +35,9 @@ public class HomeController {
     public String checkLog() {
         return "checkLog";
     }
+
+    @GetMapping("/logList")
+    public String logList() {
+        return "logList";
+    }
 }
