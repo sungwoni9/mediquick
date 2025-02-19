@@ -30,4 +30,9 @@ public class HomeController {
     public String management() {
         return "management";
     }
+
+    @GetMapping("/checkLog")
+    public String checkLog() {
+        return "checkLog";
+    }
 }
