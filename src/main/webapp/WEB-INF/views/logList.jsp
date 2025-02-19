@@ -1,0 +1,39 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<html>
+<head>
+    <title>로그 리스트</title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/reset.css">
+</head>
+<c:import url="/header"/>
+<body>
+<div id="content-container">
+  <label for="carrier">활동 로그 선택:</label>
+  <select id="carrier" name="carrier">
+    <option value="login">로그인</option>
+    <option value="logout">로그아웃</option>
+    <option value="view">영상 조회</option>
+    <option value="medical">진료 조회</option>
+    <option value="admin">관리자 활동 로그</option>
+  </select>
+
+  <div class="table-content">
+        <table class="log-list">
+            <thead>
+            <tr>
+                <th>날짜</th>
+                <th>내용</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>로그 리스트</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<c:import url="/footer"/>
+</html>
