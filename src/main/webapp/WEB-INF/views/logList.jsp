@@ -9,8 +9,8 @@
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-    <label for="carrier">조회할 로그 :</label>
-    <select id="carrier" name="carrier">
+    <label for="log-select">조회할 로그 :</label>
+    <select id="log-select" name="log-select">
         <option value="" selected disabled>선택</option>
         <option value="login">로그인</option>
         <option value="logout">로그아웃</option>
@@ -18,6 +18,7 @@
         <option value="medical">진료 조회</option>
         <option value="admin">관리자 활동 로그</option>
     </select>
+    <button id="btn-search">검색</button>
 
     <div class="table-content">
         <table class="log-list">
@@ -27,9 +28,9 @@
                 <th>내용</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="log-table-body">
             <tr>
-                <td>로그 리스트</td>
+                <td colspan="2">로그 리스트</td>
             </tr>
             </tbody>
         </table>
