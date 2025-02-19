@@ -1,3 +1,4 @@
+/src/main/resources/static/dicom/
 .DS_Store
 application.datasource.properties
 
@@ -38,3 +39,4 @@ out/
 
 ### VS Code ###
 .vscode/
+
