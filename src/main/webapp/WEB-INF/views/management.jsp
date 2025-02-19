@@ -10,11 +10,14 @@
 <html>
 <head>
     <title>management</title>
-    <link rel="stylesheet" href="/resources/static/style/global.css">
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/reset.css">
 </head>
 <c:import url="/header"/>
 <body>
-<div id="content-container"></div>
+<div id="content-container">
+    <input type="button" value="사용자 관리">
+</div>
 
 </body>
 <c:import url="/footer"/>
