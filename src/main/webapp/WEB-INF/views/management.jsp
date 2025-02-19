@@ -9,14 +9,15 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <html>
 <head>
-    <title>management</title>
+    <title>관리자 화면</title>
     <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/reset.css">
 </head>
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-    <input type="button" value="사용자 관리">
+    <button class="button" id="btn-user">사용자 관리</button>
+    <button class="button" id="btn-log">로그 관리</button>
 </div>
 
 </body>
