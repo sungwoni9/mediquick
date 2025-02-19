@@ -9,16 +9,17 @@
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-  <label for="carrier">활동 로그 선택:</label>
-  <select id="carrier" name="carrier">
-    <option value="login">로그인</option>
-    <option value="logout">로그아웃</option>
-    <option value="view">영상 조회</option>
-    <option value="medical">진료 조회</option>
-    <option value="admin">관리자 활동 로그</option>
-  </select>
+    <label for="carrier">조회할 로그 :</label>
+    <select id="carrier" name="carrier">
+        <option value="" selected disabled>선택</option>
+        <option value="login">로그인</option>
+        <option value="logout">로그아웃</option>
+        <option value="view">영상 조회</option>
+        <option value="medical">진료 조회</option>
+        <option value="admin">관리자 활동 로그</option>
+    </select>
 
-  <div class="table-content">
+    <div class="table-content">
         <table class="log-list">
             <thead>
             <tr>
