@@ -34,6 +34,11 @@
                 <th>수정 일시</th>
             </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td>사용자 리스트</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
