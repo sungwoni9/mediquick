@@ -25,4 +25,9 @@ public class HomeController {
     public String error(){
         return "error";
     }
+
+    @GetMapping("/management")
+    public String management() {
+        return "management";
+    }
 }
