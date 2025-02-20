@@ -1,5 +1,6 @@
 package com.mediquick.web.security;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RequiredArgsConstructor
 @Configuration
@@ -45,12 +45,12 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-//        StrictHttpFirewall firewall = new StrictHttpFirewall();
-//        firewall.setAllowUrlEncodedDoubleSlash(true); // 이중 슬래시 허용
-//        return firewall;
-//    }
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true); // 이중 슬래시 허용
+        return firewall;
+    }
 
     @Bean
     public AuthFilter authFilter() {

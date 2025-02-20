@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 public class LogService {
     private final LogRepository logRepository;
 
-    public void saveLog(String username, String activityType) {
+    public void saveLog(String username, Log.ActivityType activityType) {
         Log log = new Log();
         log.setUsername(username);
         log.setActivityType(activityType);
         logRepository.save(log);
     }
-
 }
