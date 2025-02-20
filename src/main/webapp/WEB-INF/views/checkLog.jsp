@@ -11,7 +11,7 @@
 <head>
     <title>로그 조회</title>
     <link rel="stylesheet" href="/style/global.css">
-    <link rel="stylesheet" href="/style/reset.css">
+    <link rel="stylesheet" href="/style/admin/check.css">
 </head>
 <c:import url="/header"/>
 <body>
@@ -36,7 +36,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>사용자 리스트</td>
+                    <td>test</td>
+                    <td>김철수</td>
+                    <td>test@gmail.com</td>
+                    <td>010-1234-5678</td>
+                    <td>서울시 강남구</td>
+                    <td>서울 아산병원</td>
+                    <td>신경외과</td>
+                    <td>false</td>
+                    <td>null</td>
+                    <td>2025-02-20 12:05</td>
+                    <td>null</td>
                 </tr>
             </tbody>
         </table>
