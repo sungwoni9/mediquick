@@ -42,9 +42,42 @@ dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
     implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '21.5.0.0'
 
-
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// 부분 컴파일(Incremental Compilation)을 활성화하여 변경된 파일만 컴파일하도록 설정 -> 빌드 속도 개선
+tasks.withType(JavaCompile).configureEach {
+    options.incremental = true
+}
+
+// JAR, WAR 등의 아카이브 생성 시 캐싱을 활성화하여 동일한 결과물이 생성될 경우 재빌드를 방지 -> 불필요한 빌드를 줄여서 속도를 향상.
+tasks.withType(AbstractArchiveTask).configureEach {
+    outputs.cacheIf { true }
+}
+
+/* Webpack 빌드 작업 추가
+ * webpackBuild라는 새로운 Gradle 작업을 등록하여 npm run build 실행
+ * workingDir 설정 -> src/main/resources/static에서 실행되도록 지정
+ * 입력/출력 디렉토리(inputs.dir / outputs.dir) 설정 -> Gradle이 변화를 감지하여 불필요한 재실행 방지
+ * 출력 로그 저장 및 출력 -> standardOutput을 통해 빌드 실행 로그를 저장하고 doLast에서 출력하여 디버깅 가능.
+ */
+tasks.register('webpackBuild', Exec) {
+    workingDir 'src/main/resources/static'
+    commandLine 'npm', 'run', 'build'
+    inputs.dir 'src/main/resources/static'
+    outputs.dir 'build/resources/main/static'
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = standardOutput
+    doLast {
+        println standardOutput.toString()
+    }
+}
+
+processResources.dependsOn tasks.named('webpackBuild')

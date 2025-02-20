@@ -1,18 +1,44 @@
-nav ul {
-    display: flex;
-    gap: 10px;
+:root {
+    --primary-color: #154D92;
 }
 
 header {
-    max-width: 1440px;
-    width: 80vw;
-    margin: auto;
+    width: 100vw;
+    height: 50px;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#navi-user{
-    justify-content: flex-end;
-}
-
-#navi-main {
+#header-cont {
+    width:80%;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+#header-cont > h2 {
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+#user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#user-info > img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+#user-details {
+    color:white;
+    text-align: center;
 }
