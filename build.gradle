@@ -70,7 +70,7 @@ tasks.withType(AbstractArchiveTask).configureEach {
  */
 tasks.register('webpackBuild', Exec) {
     workingDir 'src/main/resources/static'
-    commandLine 'npm', 'run', 'build'
+    commandLine 'npm.cmd', 'run', 'build'
     inputs.dir 'src/main/resources/static'
     outputs.dir 'build/resources/main/static'
     standardOutput = new ByteArrayOutputStream()
