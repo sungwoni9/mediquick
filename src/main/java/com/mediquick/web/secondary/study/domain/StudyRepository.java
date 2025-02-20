@@ -11,4 +11,6 @@ import java.util.List;
 public interface StudyRepository extends JpaRepository<Study,Integer> {
     @Query("SELECT s.studykey FROM Study s")
     List<Series> findByStudykey(Integer studykey);
+
+    List<Study> findByPid(String pid);
 }
