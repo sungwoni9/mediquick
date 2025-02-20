@@ -12,6 +12,18 @@ import org.springframework.stereotype.Service;
 public class UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
+    public UserInfo findByUserName(String userName) {
+        return userInfoRepository.findByUsername(userName);
+    }
+
+    public UserInfo findByPhone(String phone) {
+        return userInfoRepository.findByPhone(phone);
+    }
+
+    public UserInfo findByEmail(String email) {
+        return userInfoRepository.findByEmail(email);
+    }
+
     public Boolean createUserInfo(UserInfo userInfo) {
         if(userInfoRepository.findByUsername(userInfo.getUsername()) != null)
             return false;

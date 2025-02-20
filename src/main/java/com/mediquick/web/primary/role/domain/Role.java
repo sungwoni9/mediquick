@@ -10,5 +10,6 @@ public class Role {
 
     @Id
     private Byte code;
+    @Column(name = "role_name")
     private String roleName;
 }
