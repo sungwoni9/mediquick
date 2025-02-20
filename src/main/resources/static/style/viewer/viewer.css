@@ -1,20 +1,56 @@
+:root {
+    --navbar-width: 200px;
+    --navbar-width-min: 50px;
+}
+
 body {
     height: 100vh;
     width: 100vw;
 }
 
-#header-area {
-    background-color: #154D92;
-    width: 100%;
-    height: 50px;
-}
-
 #root {
     display: flex;
-    height: calc(100% - 50px);
+    height: calc(100% - 50px); /* 100% - 헤더 높이 */
 }
 
 #dcm-viewer {
+    position: relative;
     flex-grow: 1;
     background-color: black;
 }
+
+#dcm-viewer .layout-button-group{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    user-select: none;
+}
+
+#dcm-viewer .layout-button-group .layout-button{
+    color: #787878;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+#dcm-viewer .active {
+    color: white !important;;
+    font-weight: bold !important;;
+}
+
+#dcm-viewer #render{
+    display: grid;
+    width: 100%;
+    height: 100%;
+}
+
+#dcm-viewer #render div{
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
