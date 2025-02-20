@@ -7,13 +7,23 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
 
     public boolean createUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()) != null)
+        if(userRepository.findUserByUsername(user.getUsername()) != null)
             return false;
 
         userRepository.save(user);
@@ -22,7 +32,7 @@ public class UserService {
 
     @Transactional
     public boolean updateUser(UserRequestDto userDto) {
-        User user = userRepository.findByUsername(userDto.getUsername());
+        User user = userRepository.findUserByUsername(userDto.getUsername());
 
         if(user == null)
             return false;
@@ -33,7 +43,7 @@ public class UserService {
 
     @Transactional
     public boolean deleteUser(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findUserByUsername(username);
         if(user == null)
             return false;
 
