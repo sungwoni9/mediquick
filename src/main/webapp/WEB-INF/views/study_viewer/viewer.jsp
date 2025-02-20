@@ -6,16 +6,13 @@
     <title>MediQuick Viewer</title>
     <link rel="stylesheet" href="<c:url value="/style/viewer/viewer.css"/>">
     <link rel="stylesheet" href="<c:url value="/style/viewer/sidebar.css"/>">
-    <link rel="stylesheet" href="<c:url value="/style/reset.css"/>">
-    <link rel="stylesheet" href="<c:url value="/style/global.css"/>">
-
-    <script src="<c:url value="/script/viewer/sidebar.js"/>"></script>
+    <script type="module" src="<c:url value="/dist/viewer.bundle.js"/>"></script>
 </head>
 <body>
-<div id="header-area"></div>
+<c:import url="/header"/>
 <div id="root">
     <c:import url="/viewer/sidebar"/>
-    <div id="dcm-viewer"></div>
+    <c:import url="/viewer/dcm-viewer"/>
 </div>
 </body>
 </html>

@@ -18,4 +18,9 @@ public class ViewerController {
         return "study_viewer/sidebar";
     }
 
+    @GetMapping("/dcm-viewer")
+    public String dcmViewer() {
+        return "study_viewer/dcmViewer";
+    }
+
 }
