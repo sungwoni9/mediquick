@@ -46,6 +46,7 @@ button:hover {
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 16px;
+    table-layout: fixed;
 }
 
 .log-list th,

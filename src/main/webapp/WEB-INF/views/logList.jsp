@@ -30,6 +30,7 @@
             <tr>
                 <th>날짜</th>
                 <th>내용</th>
+                <th>코드</th>
             </tr>
             </thead>
             <tbody id="log-table-body">
