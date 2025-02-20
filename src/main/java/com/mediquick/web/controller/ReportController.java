@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReportController {
     @GetMapping({"/",""})
     public String report() {
-        return "/report/reportOpinionForm";
+        return "report/reportOpinionForm";
     }
 }

@@ -1,9 +1,12 @@
 const path = require('path');
 
 module.exports = {
-    entry: './index.js',
+    entry: {
+        index: './index.js',
+        viewer: './script/viewer/dcmViewer.js'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {

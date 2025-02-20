@@ -1,17 +1,16 @@
 package com.mediquick.web.primary.logs.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Setter
 @Getter
 @Entity
+@Table(name = "logs")
 public class Log {
 
     @Id
@@ -20,10 +19,13 @@ public class Log {
 
     private String username;
 
-    private String activityType;
+    @Enumerated(EnumType.STRING)
+    private ActivityType activityType;
 
+    @CreationTimestamp
     private Timestamp regDate;
 
+    public enum ActivityType {
+        LOGIN, LOGOUT, VIEW_VIDEO, VIEW_RECORD
+    }
 }
-
-
