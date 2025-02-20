@@ -1,5 +1,7 @@
 package com.mediquick.web.controller;
 
+import com.mediquick.web.secondary.study.domain.Study;
+import com.mediquick.web.secondary.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import com.mediquick.web.secondary.patient.domain.Patient;
 import com.mediquick.web.secondary.patient.service.PatientService;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,9 +21,11 @@ import java.util.List;
 @RestController
 public class PatientRestController {
     private final PatientService patientService;
+    private final StudyService studyService;
 
     @GetMapping("/search")
     public ResponseEntity<Object> search(@RequestParam String pname) {
+        // 1. 환자 정보 조회
         List<Patient> patientsList = patientService.findPatientByPname(pname);
 
         if (patientsList.isEmpty()) {
@@ -29,7 +34,33 @@ public class PatientRestController {
                     .body("존재하지 않는 환자입니다.");
         }
 
-        return ResponseEntity.ok(patientsList);
+        // 2. 환자 검사 조회
+        List<PatientWithStudies> result = new ArrayList<>();
+        for (Patient patient : patientsList) {
+            List<Study> studies = studyService.findStudiesByPid(patient.getPid());
+            result.add(new PatientWithStudies(patient, studies));
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    class PatientWithStudies {
+        private Patient patient;
+        private List<Study> studies;
+
+        public PatientWithStudies(Patient patient, List<Study> studies) {
+            this.patient = patient;
+            this.studies = studies;
+        }
+
+        public Patient getPatient() {
+            return patient;
+        }
+
+        public List<Study> getStudies() {
+            return studies;
+        }
     }
 }
+
 

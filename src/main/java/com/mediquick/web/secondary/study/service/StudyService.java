@@ -16,4 +16,7 @@ public class StudyService {
         return studyRepository.findAll();
     }
 
+    public List<Study> findStudiesByPid(String pid) {
+        return studyRepository.findByPid(pid);
+    }
 }
