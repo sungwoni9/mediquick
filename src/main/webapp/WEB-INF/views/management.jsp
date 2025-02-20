@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/admin/main.css">
-    <script type="module" src="/script/validation-management.js"></script>
+    <script type="module" src="/script/management.js"></script>
 </head>
 <c:import url="/header"/>
 <body>
