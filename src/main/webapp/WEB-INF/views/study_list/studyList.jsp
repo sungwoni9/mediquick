@@ -59,7 +59,7 @@
                 <div class="body-part">${study.bodypart}</div>
                 <div class="series-count">${study.seriescnt}</div>
                 <div class="image-count">${study.imagecnt}</div>
-                <div class="dropdown-icon">></div>
+                <img src="/icons/pacs-icon.png" alt="PACS Icon" class="pacs-button"/>
             </div>
         </c:forEach>
     </div>
