@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+    <script src="/script/user/login.js"></script>
     <title>Log in</title>
 </head>
 <c:import url="/header"/>

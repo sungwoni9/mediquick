@@ -17,16 +17,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("user")
+@RequestMapping("/user")
 @RestController
 public class UserRestController {
     private final UserService userService;
     private final UserInfoService userInfoService;
     private final UserRoleService userRoleService;
+    private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
@@ -34,12 +37,10 @@ public class UserRestController {
     @GetMapping("/valid/username")
     public ResponseEntity<ResponseDto> validUsername(@RequestParam("value") String username) {
         User user = userService.findByUsername(username);
-        System.out.println(username);
-        System.out.println(user);
+
         if (user == null)
             return ResponseEntity.status(HttpStatus.NO_CONTENT.value())
                     .body(new ResponseDto(HttpStatus.NO_CONTENT.value(), "User not found"));
-        System.out.println("있음");
 
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User validated"));
     }
@@ -47,8 +48,7 @@ public class UserRestController {
     @GetMapping("/valid/phone")
     public ResponseEntity<ResponseDto> validPhone(@RequestParam("value") String phone) {
         UserInfo userInfo = userInfoService.findByPhone(phone);
-        System.out.println(phone);
-        System.out.println(userInfo);
+
         if (userInfo == null)
             return ResponseEntity.status(HttpStatus.NO_CONTENT.value())
                     .body(new ResponseDto(HttpStatus.NO_CONTENT.value(), "UserInfo not found"));
@@ -67,6 +67,29 @@ public class UserRestController {
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "UserInfo validated"));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@CookieValue(value = "jwtToken", required = false) String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
+        }
+
+        try {
+            String username = jwtUtil.extractUsername(token);
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User not found"));
+            }
+
+            UserInfo userInfo = userInfoService.findByUserName(username);
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> register(@RequestBody UserRegisterRequestDto userDto) {
         String username = userDto.getUsername();
@@ -79,18 +102,6 @@ public class UserRestController {
         String department = userDto.getDepartment();
         String institutionName = userDto.getInstitutionName();
         Byte roleCode = userDto.getRoleCode();
-
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-        System.out.println("name: " + name);
-        System.out.println("phone: " + phone);
-        System.out.println("email: " + email);
-        System.out.println("address: " + address);
-        System.out.println("addressDetail: " + addressDetail);
-        System.out.println("department: " + department);
-        System.out.println("institutionName: " + institutionName);
-        System.out.println("roleCode: " + roleCode);
-
 
         User user = new User(username,passwordEncoder.encode(password));
         if(!userService.createUser(user))
@@ -116,6 +127,7 @@ public class UserRestController {
         try {
             // 사용자 정보 조회
             User user = userService.findByUsername(userDto.getUsername());
+
             if (user == null || !passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
@@ -125,8 +137,11 @@ public class UserRestController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
 
+            // UserDetails 로드
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+
             // JWT 토큰 생성
-            String token = jwtUtil.generateToken(userDto.getUsername());
+            String token = jwtUtil.generateToken(userDetails);
 
             // HTTP-Only Cookie에 JWT 저장
             Cookie jwtCookie = new Cookie("jwtToken", token);
@@ -136,7 +151,6 @@ public class UserRestController {
             jwtCookie.setMaxAge(60 * 60); // 1시간 동안 유효
 
             response.addCookie(jwtCookie);
-
             return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Login successful"));
 
         } catch (Exception e) {
