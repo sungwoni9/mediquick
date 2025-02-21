@@ -12,7 +12,8 @@
     <title>관리자 화면</title>
     <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/reset.css">
-    <script type="module" src="/script/validation-management.js"></script>
+    <link rel="stylesheet" href="/style/admin/main.css">
+    <script type="module" src="/script/management.js"></script>
 </head>
 <c:import url="/header"/>
 <body>

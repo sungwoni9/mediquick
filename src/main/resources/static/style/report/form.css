@@ -1,35 +1,152 @@
-#header {
+input, textarea {
+    outline: none;
+    border: none;
+}
+
+input[type="text"] {
+    padding: 5px 20px;
+    font-size: 12px;
     width: 100%;
-    height: 50px;
-    background-color: #154D92;
+}
+textarea {
+    resize: none;
 }
 #root {
     background-color: #F6F6F9;
-    width:30vw;
+    width: 350px;
     height:calc(100% - 50px);
+    font-size: 12px;
 }
 
 #root > div:first-child {
     width: 100%;
     height:20px;
     background-color: #E8EDF4;
-    padding: 10px 0;
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-between;
 }
 
-#root > div:first-child p {
-    padding-left: 10px;
+#root > div:first-child p,
+.f-tit > p {
+    padding-left: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#btn-group {
+    padding-right: 10px;
+}
+
+#btn-group button {
+    border: none;
+    background-color:#154D92;
+    color: white;
+    cursor: pointer;
 }
 
 .grid-table {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /*gap: 10px;*/
-
+    grid-template-columns: 3fr 7fr;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.grid-table div:nth-child(odd) {
+    background-color: #f0f0f0;
+    font-weight: bold;
 }
 .grid-table div {
     padding: 10px;
     text-align: center;
-    border: 1px solid #ddd;
 }
 
+.f-tit {
+    background-color: #E8EDF4;
+    padding: 10px 0;
+}
+
+#previous {
+    height: 50px;
+}
+
+#findings {
+    height: 52px;
+}
+#opinion {
+    height: 42px;
+}
+
+#previous,
+#findings,
+#opinion{
+    width: 100%;
+    font-size: 12px;
+    padding: 5px 20px;
+}
+
+#lesion-grid {
+    display: grid;
+    background-color: #E8EDF4;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#lesion-grid p {
+    border-right: 1px solid #e0e0e0;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#lesion-grid p:not(:last-child) {
+    border-right: none;
+}
+
+#lesion-grid input {
+    border-right: 1px solid #e0e0e0;
+}
+
+#lesion-grid input:last-child {
+    border-right: none;
+}
+
+#lesion-grid input {
+    text-align: center;
+}
+#radio-grid, #report-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#radio-grid p, #report-grid p {
+    background-color: #E8EDF4;
+    border-right: 1px solid #e0e0e0;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#radio-grid > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+#radio-grid > div:first-of-type,
+#report-grid > div:first-of-type{
+    border-right:1px solid #e0e0e0;
+}
+
+#radio-grid > div > div, #report-grid > div  {
+    display: flex;
+    align-items: center;
+}
+
+#report-grid > div {
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
 
