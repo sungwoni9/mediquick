@@ -90,10 +90,4 @@ public class UserRestController {
                     .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
         }
     }
-
-    public String getAllUsers(Model model) {
-        List<UserInfo> users = userInfoService.findAll();
-        model.addAttribute("users", users);
-        return "users";
-    }
 }
