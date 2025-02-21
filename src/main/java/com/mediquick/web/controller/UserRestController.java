@@ -3,6 +3,7 @@ package com.mediquick.web.controller;
 import com.mediquick.web.primary.user.domain.User;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
 import com.mediquick.web.primary.user.service.UserService;
+import com.mediquick.web.primary.userinfo.domain.UserInfo;
 import com.mediquick.web.primary.userinfo.service.UserInfoService;
 import com.mediquick.web.primary.userrole.service.UserRoleService;
 import com.mediquick.web.security.JwtUtil;
@@ -15,7 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("user")

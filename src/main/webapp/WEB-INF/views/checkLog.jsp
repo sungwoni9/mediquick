@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>로그 조회</title>
@@ -26,28 +27,36 @@
                 <th>이메일</th>
                 <th>연락처</th>
                 <th>주소</th>
+                <th>상세 주소</th>
                 <th>소속 병원</th>
                 <th>소속 부서</th>
-                <th>삭제 여부</th>
                 <th>삭제 날짜</th>
-                <th>가입 일시</th>
                 <th>수정 일시</th>
             </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>test</td>
-                    <td>김철수</td>
-                    <td>test@gmail.com</td>
-                    <td>010-1234-5678</td>
-                    <td>서울시 강남구</td>
-                    <td>서울 아산병원</td>
-                    <td>신경외과</td>
-                    <td>false</td>
-                    <td>null</td>
-                    <td>2025-02-20 12:05</td>
-                    <td>null</td>
-                </tr>
+            <c:choose>
+                <c:when test="${empty users}">
+                    <p>사용자 목록이 없습니다.</p>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="user" items="${users}">
+                        <tr>
+                            <td><a href="/logList?username=${user.username}">${user.username}</a></td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.address}</td>
+                            <td>${user.addressDetail}</td>
+                            <td>${user.institutionName}</td>
+                            <td>${user.department}</td>
+                            <td>${user.deleteTime}</td>
+                            <td><fmt:formatDate value="${user.modDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
             </tbody>
         </table>
     </div>

@@ -1,7 +1,11 @@
 package com.mediquick.web.controller;
 
+import com.mediquick.web.primary.userinfo.domain.UserInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -26,18 +30,4 @@ public class HomeController {
         return "error";
     }
 
-    @GetMapping("/management")
-    public String management() {
-        return "management";
-    }
-
-    @GetMapping("/checkLog")
-    public String checkLog() {
-        return "checkLog";
-    }
-
-    @GetMapping("/logList")
-    public String logList() {
-        return "logList";
-    }
 }

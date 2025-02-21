@@ -5,6 +5,8 @@ import com.mediquick.web.primary.logs.domain.LogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class LogService {
@@ -15,5 +17,9 @@ public class LogService {
         log.setUsername(username);
         log.setActivityType(activityType);
         logRepository.save(log);
+    }
+
+    public List<Log> findLogsByUsername(String username) {
+        return logRepository.findByUsername(username);
     }
 }
