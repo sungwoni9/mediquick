@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserInfoService {
@@ -40,5 +42,10 @@ public class UserInfoService {
 
         userInfo.delete();
         return true;
+    }
+
+    // 가입된 사용자 정보 가져오기
+    public List<UserInfo> findAll(){
+        return userInfoRepository.findAll();
     }
 }
