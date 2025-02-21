@@ -1,5 +1,7 @@
 package com.mediquick.web.controller;
 
+import com.mediquick.web.primary.logs.domain.Log;
+import com.mediquick.web.primary.logs.service.LogService;
 import com.mediquick.web.primary.user.domain.User;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
 import com.mediquick.web.primary.user.service.UserService;
@@ -31,6 +33,7 @@ public class UserRestController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final LogService logService;
 
     @GetMapping("/valid/username")
     public ResponseEntity<ResponseDto> validUsername(@RequestParam("username") String username) {
@@ -80,6 +83,9 @@ public class UserRestController {
 
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDto.getUsername());
+
+            // 로그인 로그 저장
+            logService.saveLog(userDto.getUsername(), Log.ActivityType.LOGIN);
 
             return ResponseEntity.ok()
                     .header("Authorization", "Bearer " + token)
