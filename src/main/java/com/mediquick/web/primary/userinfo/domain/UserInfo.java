@@ -20,10 +20,18 @@ public class UserInfo {
     private String name;
     private String phone;
     private String email;
+
+    @Column(name = "delete_time")
     private Timestamp deleteTime;
+
     private String address;
+
+    @Column(name = "address_detail")
     private String addressDetail;
+
     private String department;
+
+    @Column(name = "institution_name")
     private String institutionName;
 
     @LastModifiedDate

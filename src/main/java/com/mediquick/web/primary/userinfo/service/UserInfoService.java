@@ -3,7 +3,7 @@ package com.mediquick.web.primary.userinfo.service;
 import com.mediquick.web.primary.userinfo.domain.UserInfo;
 import com.mediquick.web.primary.userinfo.domain.UserInfoRepository;
 import com.mediquick.web.primary.userinfo.domain.UserInfoRequestDto;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +45,7 @@ public class UserInfoService {
     }
 
     // 가입된 사용자 정보 가져오기
+    @Transactional(readOnly = true)
     public List<UserInfo> findAll(){
         return userInfoRepository.findAll();
     }
