@@ -20,26 +20,17 @@ public class UserInfo {
     private String name;
     private String phone;
     private String email;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/feature/users
     @Column(name = "delete_time")
     private Timestamp deleteTime;
 
     private String address;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/feature/users
     @Column(name = "address_detail")
     private String addressDetail;
 
     private String department;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/feature/users
     @Column(name = "institution_name")
     private String institutionName;
 
