@@ -24,6 +24,7 @@ public class Log {
     private ActivityType activityType;
 
     @CreationTimestamp
+    @Column(name = "reg_date")
     private Timestamp regDate;
 
     public enum ActivityType {
