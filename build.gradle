@@ -46,6 +46,9 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    // https://mvnrepository.com/artifact/eu.agno3.jcifs/jcifs-ng
+    implementation 'eu.agno3.jcifs:jcifs-ng:2.1.7'
 }
 
 tasks.named('test') {
