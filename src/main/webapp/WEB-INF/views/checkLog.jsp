@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>로그 조회</title>
@@ -50,7 +51,7 @@
                             <td>${user.institutionName}</td>
                             <td>${user.department}</td>
                             <td>${user.deleteTime}</td>
-                            <td>${user.modDate}</td>
+                            <td><fmt:formatDate value="${user.modDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>
