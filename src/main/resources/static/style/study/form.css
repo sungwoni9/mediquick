@@ -126,10 +126,15 @@
     text-align: left;
 }
 
-.dropdown-icon {
-    grid-column: 9;
-    color: #333;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: right;
-}
+/*.pacs-button {*/
+/*    grid-column: 9;*/
+/*    text-align: right;*/
+/*    background-image: url('/icons/pacs-icon.png');
+/*    background-size: 24px 24px;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    width: 24px;*/
+/*    height: 24px;*/
+/*    cursor: pointer;*/
+/*    transition: opacity 0.3s;*/
+/*}*/
