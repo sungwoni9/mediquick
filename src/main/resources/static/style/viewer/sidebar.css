@@ -25,6 +25,10 @@ button {
 
 #nav-content {
     flex: 1;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .icon {
@@ -43,4 +47,26 @@ button {
 
 #sidebar.sidebar-closed .icon {
     transform: rotate(180deg);
+}
+
+#nav-content.sidebar-closed {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.image-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: white;
+}
+
+.image-list li {
+    padding: 8px;
+    font-size: 12px;
+    border-bottom: 1px solid #989898;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
 }
