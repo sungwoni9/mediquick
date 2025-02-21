@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindingRequestDto {
-    private long id;
+    private Integer code;
     private boolean isNormal;
     private String lesionLocation;
     private String lesionSize;
@@ -24,6 +24,7 @@ public class FindingRequestDto {
     private String additionalComment;
     private String additionalNotes;
     private String radiologistName;
+    private String institutionName;
     private int urgencyLevel;
     private int reportStatus;
 }
