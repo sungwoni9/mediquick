@@ -26,7 +26,7 @@ public class CustomUserDetails implements UserDetails {
             case 1 -> "ROLE_ADMIN"; // 관리자
             case 2 -> "ROLE_DOCTOR"; // 진료의
             case 3 -> "ROLE_RADIOLOGIST"; // 판독의
-            default -> "ROLE_USER";
+            default -> "ROLE_GUEST";
         };
 
         return List.of(new SimpleGrantedAuthority(roleName));

@@ -18,12 +18,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public boolean createUser(User user) {
-        if(userRepository.findUserByUsername(user.getUsername()) != null)
+        if(userRepository.findByUsername(user.getUsername()) != null)
             return false;
 
         userRepository.save(user);
@@ -32,7 +32,7 @@ public class UserService {
 
     @Transactional
     public boolean updateUser(UserRequestDto userDto) {
-        User user = userRepository.findUserByUsername(userDto.getUsername());
+        User user = userRepository.findByUsername(userDto.getUsername());
 
         if(user == null)
             return false;
@@ -43,7 +43,7 @@ public class UserService {
 
     @Transactional
     public boolean deleteUser(String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         if(user == null)
             return false;
 

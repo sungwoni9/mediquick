@@ -14,8 +14,8 @@
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-    <h2>Sign up</h2>
-    <form method="POST" action="/user/update">
+    <h2>MyPage</h2>
+    <form>
         <input type="text" name="username" id="username" placeholder="Username">
         <p id="error-msg-username" class="error-msg"></p>
         <input type="password" name="password" id="password" placeholder="Password">

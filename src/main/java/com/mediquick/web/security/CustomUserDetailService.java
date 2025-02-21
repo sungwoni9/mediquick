@@ -1,7 +1,6 @@
 package com.mediquick.web.security;
 
 import com.mediquick.web.primary.user.domain.User;
-import com.mediquick.web.primary.user.domain.UserRepository;
 import com.mediquick.web.primary.user.service.UserService;
 import com.mediquick.web.primary.userrole.domain.UserRole;
 import com.mediquick.web.primary.userrole.domain.UserRoleRepository;
@@ -19,7 +18,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findUserByUsername(username);
+        User user = userService.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
