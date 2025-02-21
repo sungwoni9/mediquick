@@ -41,7 +41,7 @@
                 <c:otherwise>
                     <c:forEach var="user" items="${users}">
                         <tr>
-                            <td>${user.username}</td>
+                            <td><a href="/logList?username=${user.username}">${user.username}</a></td>
                             <td>${user.name}</td>
                             <td>${user.email}</td>
                             <td>${user.phone}</td>

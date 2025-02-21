@@ -34,9 +34,22 @@
             </tr>
             </thead>
             <tbody id="log-table-body">
-            <tr>
-                <td colspan="2">로그 리스트</td>
-            </tr>
+            <c:choose>
+                <c:when test="${empty logs}">
+                    <tr>
+                        <td colspan="3">로그 리스트가 없습니다.</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="log" items="${logs}">
+                        <tr>
+                            <td>${log.regDate}</td>
+                            <td>${log.activityType}</td>
+                            <td>${log.code}</td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </tbody>
         </table>
     </div>
