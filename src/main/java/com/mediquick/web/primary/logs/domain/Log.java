@@ -19,6 +19,8 @@ public class Log {
 
     private String username;
 
+    private Integer studykey;
+
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
