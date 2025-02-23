@@ -1,5 +1,7 @@
 package com.mediquick.web.controller;
 
+import com.mediquick.web.primary.logs.domain.Log;
+import com.mediquick.web.primary.logs.service.LogService;
 import com.mediquick.web.primary.user.domain.User;
 import com.mediquick.web.primary.user.domain.UserRegisterRequestDto;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
@@ -33,6 +35,7 @@ public class UserRestController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final LogService logService;
 
     @GetMapping("/valid/username")
     public ResponseEntity<ResponseDto> validUsername(@RequestParam("value") String username) {
@@ -140,6 +143,10 @@ public class UserRestController {
             // UserDetails 로드
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
 
+
+            // 로그인 로그 저장
+            logService.saveLog(userDto.getUsername(), Log.ActivityType.LOGIN);
+
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
 
@@ -152,7 +159,6 @@ public class UserRestController {
 
             response.addCookie(jwtCookie);
             return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Login successful"));
-
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
