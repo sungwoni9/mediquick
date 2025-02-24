@@ -138,7 +138,7 @@ form {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    padding: 10px 0;
+    padding: 10px 0
 }
 
 #radio-grid > div:first-of-type,
