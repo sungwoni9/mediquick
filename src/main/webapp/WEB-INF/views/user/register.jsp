@@ -9,36 +9,50 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+    <script src="/script/user/register.js"></script>
     <title>Register account</title>
 </head>
 <c:import url="/header"/>
 <body>
 <div id="content-container">
     <h2>Create an account</h2>
-    <form method="POST" action="user/register">
-        <input type="text" name="username" id="username" placeholder="Username">
+    <form>
+        <input type="text" name="username" id="username" placeholder="Username" required
+               pattern="^[a-zA-Z][a-zA-Z0-9]{4,19}$" title="영문으로 시작하는 숫자와 영문으로 이루어진 5~20자">
         <p id="error-msg-username" class="error-msg"></p>
-        <input type="password" name="password" id="password" placeholder="Password">
+        <input type="password" name="password" id="password" placeholder="Password"
+               required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{4,20}$"
+               title="대문자, 소문자, 숫자, 특수기호(!@#$%^&*)를 하나씩 포함한 4~20자">
         <p id="error-msg-password" class="error-msg"></p>
-        <input type="password" name="password-chk" id="password-chk" placeholder="Password check">
+        <input type="password" name="password-chk" id="password-chk" placeholder="Password check"
+               required pattern="^[a-zA-Z\d!@#$%^&*]{,20}$" title="비밀번호와 일치">
         <p id="error-msg-password-chk" class="error-msg"></p>
-        <input type="text" name="contact" id="contact" placeholder="Contact">
+
+        <input type="text" name="name" id="name" placeholder="Name" required
+               pattern="^[a-zA-Z가-힣][a-zA-Z가-힣 ]{1,19}$" title="영문이나 한글로 시작하는 영문,한글,빈칸으로 이루어진 2~20자">
+        <input type="tel" name="phone" id="contact" placeholder="Contact"
+               required pattern="^01\d-?\d{3,4}-?\d{4}$" title="올바른 전화번호를 입력하세요 (예: 010-1234-5678, 01123456789)">
         <p id="error-msg-contact" class="error-msg"></p>
-        <input type="text" name="email" id="email" placeholder="Email">
+        <input type="email" name="email" id="email" placeholder="Email"
+               required pattern="^(?!.*\.\.)[a-zA-Z\d](?:[a-zA-Z\d._%+\-]*[a-zA-Z\d])?@(?:[a-zA-Z\d](?:[a-zA-Z\d\-]*[a-zA-Z\d])?\.)+[a-zA-Z]{2,10}$"
+               title="올바른 이메일 주소를 입력하세요 (예: user@example.com)">
         <p id="error-msg-email" class="error-msg"></p>
-        <div>
-            <input type="text" name="address" id="address" placeholder="Address">
-            <p id="error-msg-address" class="error-msg"></p>
-            <input type="text" name="detailed-address" id="detailed-address" placeholder="Detailed Address">
-            <p id="error-msg-detailed-address" class="error-msg"></p>
+        <div class="input-block">
+            <input type="text" name="address" id="address" placeholder="Address" required>
+            <input type="text" name="addressDetail" id="detailed-address" placeholder="Detailed Address">
         </div>
-        <div>
-            <input type="text" name="hospital" id="hospital" placeholder="Hospital Affililation">
-            <p id="error-msg-hospital" class="error-msg"></p>
+        <div class="input-block">
+            <input type="text" name="institutionName" id="hospital" placeholder="Hospital Affililation">
             <input type="text" name="department" id="department" placeholder="Department">
-            <p id="error-msg-department" class="error-msg"></p>
         </div>
-        <input type="submit" value="Register">
+        <div class="input-block">
+            <input type='radio' name='roleCode' value='2' checked/>진료의
+            <input type='radio' name='roleCode' value='3' />판독의
+        </div>
+        <input type="submit" value="Create Account">
+        <div>
+            <span id="text">Already have an account?</span> <a href="login">Login</a>
+        </div>
     </form>
 </div>
 </body>

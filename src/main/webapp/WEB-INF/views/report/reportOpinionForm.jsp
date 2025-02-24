@@ -2,19 +2,13 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+  <script src="/script/report/write.js"></script>
   <link rel="stylesheet" href="/style/report/form.css">
   <title>판독소견서</title>
 </head>
 <c:import url="/header"/>
 <body>
 <div id="root">
-  <div>
-    <p>Patient Information</p>
-    <div id="btn-group">
-      <button>save</button>
-      <button>close</button>
-    </div>
-  </div>
   <%--  환자 정보--%>
   <div class="grid-table">
     <div>차트번호</div>
@@ -25,122 +19,127 @@
     <div>男</div>
     <div>생년월일</div>
     <div>1999-05-26</div>
-    <div>담당의사</div>
-    <div>오소리</div>
-    <div>판독일자</div>
-    <div>2025-02-19</div>
   </div>
   <%--  소견 작성 폼 --%>
-  <form>
-    <div id="report-grid">
-      <p>Urgency level</p>
-      <p>Report status</p>
-      <div>
+    <form method="POST" action="/report/write">
+      <div id="btn-group">
+        <input type="submit" value="save">
+        <button>close</button>
+      </div>
+
+      <div id="radiologist-grid">
+        <p>Radiologist name</p>
+        <p>Institution name</p>
+        <input type="text" name="radiologistName">
+        <input type="text" name="institutionName">
+      </div>
+
+      <div id="report-grid">
+        <p>Urgency level</p>
+        <p>Report status</p>
         <div>
-          <input type="radio" id="routine" name="level" value="routine">
-          <label for="routine">일반</label>
+          <div>
+            <input type="radio" id="routine" name="urgencyLevel" value="1" checked>
+            <label for="routine">일반</label>
+          </div>
+          <div>
+            <input type="radio" id="semi" name="urgencyLevel" value="2">
+            <label for="semi">긴급</label>
+          </div>
+          <div>
+            <input type="radio" id="urgent" name="urgencyLevel" value="3">
+            <label for="urgent">중요</label>
+          </div>
         </div>
+
         <div>
-          <input type="radio" id="semi" name="level" value="semi">
-          <label for="semi">긴급</label>
-        </div>
-        <div>
-          <input type="radio" id="urgent" name="level" value="urgent">
-          <label for="urgent">중요</label>
+          <div>
+            <input type="radio" id="draft" name="reportStatus" value="1" checked>
+            <label for="draft">초안</label>
+          </div>
+          <div>
+            <input type="radio" id="revision" name="reportStatus" value="2">
+            <label for="revision">수정</label>
+          </div>
+
+          <div>
+            <input type="radio" id="finalized" name="reportStatus" value="3">
+            <label for="finalized">완료</label>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div>
-          <input type="radio" id="draft" name="status" value="draft">
-          <label for="draft">초안</label>
-        </div>
-        <div>
-          <input type="radio" id="revision" name="status" value="revision">
-          <label for="revision">수정</label>
-        </div>
-        <div>
-          <input type="radio" id="finalized" name="status" value="finalized">
-          <label for="finalized">완료</label>
-        </div>
+      <div class="f-tit">
+        <p>Previous Medical Records</p>
       </div>
-    </div>
-    <div class="f-tit">
-      <p>Previous Medical Records</p>
-    </div>
-    <label for="previous">
-      <textarea id="previous">매복된 하악 우측 제 3대 구치과 하치조 신경관이 파노라마 상 겹쳐있어 정확한 위치 판단을 위해 촬영한 결과 신경손상의 위험성이 있음.</textarea>
-    </label>
+        <textarea id="previous" name="comparisonStudies">매복된 하악 우측 제 3대 구치과 하치조 신경관이 파노라마 상 겹쳐있어 정확한 위치 판단을 위해 촬영한 결과 신경손상의 위험성이 있음.</textarea>
 
-    <div class="f-tit">
-      <p>Possible diagnosis</p>
-    </div>
-    <input type="text">
+      <div class="f-tit">
+        <p>Possible diagnosis</p>
+      </div>
+      <input type="text" name="possibleDiagnosis">
 
-    <div class="f-tit">
-      <p>Clinical significance</p>
-    </div>
-    <input type="text">
+      <div class="f-tit">
+        <p>Clinical significance</p>
+      </div>
+      <input type="text" name="clinicalSignificance">
 
-    <div class="f-tit">
-      <p>Morphological Features</p>
-    </div>
-    <input type="text">
+      <div class="f-tit">
+        <p>Morphological Features</p>
+      </div>
+      <input type="text" name="morphology">
 
-    <div id="lesion-grid">
-      <p>Lesions count</p>
-      <p>Lesion size</p>
-      <p>Lesion location</p>
-      <input type="text">
-      <input type="text">
-      <input type="text">
-    </div>
+      <div id="lesion-grid">
+        <p>Lesions count</p>
+        <p>Lesion size</p>
+        <p>Lesion location</p>
+        <input type="text" name="lesionCount">
+        <input type="text" name="lesionSize">
+        <input type="text" name="lesionLocation">
+      </div>
 
-    <div id="radio-grid">
-      <p>Patient status</p>
-      <p>Recommended studies</p>
-      <div>
+      <div id="radio-grid">
+        <p>Patient status</p>
+        <p>Recommended studies</p>
         <div>
-          <input type="radio" id="normal" name="normal" value="normal">
-          <label for="normal">정상</label>
+          <div>
+            <input type="radio" id="normal" name="normal" value="true" checked>
+            <label for="normal">정상</label>
+          </div>
+          <div>
+            <input type="radio" id="abnormal" name="normal" value="false">
+            <label for="abnormal">비정상</label>
+          </div>
         </div>
+
         <div>
-          <input type="radio" id="abnormal" name="normal" value="abnormal">
-          <label for="abnormal">비정상</label>
+          <div>
+            <input type="radio" id="necessary" name="recommendedStudies" value="true" checked>
+            <label for="necessary">필요</label>
+          </div>
+
+          <div>
+            <input type="radio" id="unnecessary" name="recommendedStudies" value="false">
+            <label for="unnecessary">불필요</label>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div>
-          <input type="radio" id="necessary" name="recommended" value="yes">
-          <label for="necessary">필요</label>
-        </div>
-        <div>
-          <input type="radio" id="unnecessary" name="recommended" value="no">
-          <label for="unnecessary">불필요</label>
-        </div>
+      <div class="f-tit">
+        <p>Additional findings</p>
       </div>
-    </div>
-    <div class="f-tit">
-      <p>Additional findings</p>
-    </div>
-    <label for="findings">
-      <textarea id="findings">특이 소견</textarea>
-    </label>
+        <textarea id="findings" name="additionalFindings">특이 소견</textarea>
 
-    <div class="f-tit">
-      <p>Additional opinion</p>
-    </div>
+      <div class="f-tit">
+        <p>Additional opinion</p>
+      </div>
+        <textarea id="opinion" name="additionalComment">추가적인 소견</textarea>
 
-    <label for="opinion">
-      <textarea id="opinion">추가적인 소견</textarea>
-    </label>
-
-    <div class="f-tit">
-      <p>Additional notes</p>
-    </div>
-    <input type="text">
-  </form>
-</div>
+      <div class="f-tit">
+        <p>Additional notes</p>
+      </div>
+      <input type="text" name="additionalNotes">
+    </form>
+  </div>
 </body>
 </html>

@@ -14,6 +14,7 @@ public class UserRole {
 
     @Id
     private String username;
+    @Column(name = "role_code")
     private Byte roleCode;
 
     public void update(Byte roleCode) {

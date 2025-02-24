@@ -15,11 +15,10 @@
         <label for="log-select">조회할 로그 :</label>
         <select id="log-select" name="log-select">
             <option value="" selected disabled>선택</option>
-            <option value="login">로그인</option>
-            <option value="logout">로그아웃</option>
-            <option value="view">영상 조회</option>
-            <option value="medical">진료 조회</option>
-            <option value="admin">관리자 활동 로그</option>
+            <option value="LOGIN">로그인</option>
+            <option value="LOGOUT">로그아웃</option>
+            <option value="VIEW_VIDEO">영상 조회</option>
+            <option value="VIEW_RECORD">진료 조회</option>
         </select>
         <button id="btn-search">검색</button>
     </div>
@@ -34,9 +33,22 @@
             </tr>
             </thead>
             <tbody id="log-table-body">
-            <tr>
-                <td colspan="2">로그 리스트</td>
-            </tr>
+            <c:choose>
+                <c:when test="${empty logs}">
+                    <tr>
+                        <td colspan="3">로그 리스트가 없습니다.</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="log" items="${logs}">
+                        <tr>
+                            <td>${log.regDate}</td>
+                            <td id="logType">${log.activityType}</td>
+                            <td>${log.code}</td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </tbody>
         </table>
     </div>

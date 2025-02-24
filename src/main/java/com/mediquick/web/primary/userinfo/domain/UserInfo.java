@@ -20,15 +20,35 @@ public class UserInfo {
     private String name;
     private String phone;
     private String email;
+
+    @Column(name = "delete_time")
     private Timestamp deleteTime;
+
     private String address;
+
+    @Column(name = "address_detail")
     private String addressDetail;
+
     private String department;
+
+    @Column(name = "institution_name")
     private String institutionName;
 
     @LastModifiedDate
     @Column(name = "mod_date")
     private Timestamp modDate;
+
+    public UserInfo(String username, String name, String phone, String email,
+                    String address,String addressDetail, String department, String institutionName) {
+        this.username = username;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.addressDetail = addressDetail;
+        this.department = department;
+        this.institutionName = institutionName;
+    }
 
     public void update(UserInfoRequestDto userInfoDto) {
         this.name = userInfoDto.getName();
@@ -42,5 +62,15 @@ public class UserInfo {
 
     public void delete(){
         this.deleteTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.modDate = new java.sql.Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.modDate = new java.sql.Timestamp(System.currentTimeMillis());
     }
 }
