@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MedicalRecordService {
+public class  MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
 
     public MedicalRecord save(MedicalRecord medicalRecord) {
@@ -23,9 +23,5 @@ public class MedicalRecordService {
 
     public MedicalRecord findByCode(Integer code) {
         return medicalRecordRepository.findById(code).orElse(null);
-    }
-
-    public void deleteByCode(Integer code) {
-        medicalRecordRepository.deleteById(code);
     }
 }
