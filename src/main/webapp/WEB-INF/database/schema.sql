@@ -16,7 +16,7 @@ CREATE TABLE user_info (
                            address_detail VARCHAR(255),
                            department VARCHAR(50),
                            institution_name VARCHAR(50),
-                           mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                           mod_date TIMESTAMP NOT NULL DEFAULT  CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                            FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
 );
 
@@ -46,7 +46,8 @@ CREATE TABLE medical_records (
                                  code INT PRIMARY KEY AUTO_INCREMENT,
                                  username VARCHAR(20),
                                  pid VARCHAR(64) NOT NULL,
-                                 medical_desc VARCHAR(4000) NOT NULL,
+                                 patient_symptoms VARCHAR(255),
+                                 order_desc VARCHAR(255),
                                  medical_date TIMESTAMP NOT NULL,
                                  reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                  mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -61,6 +62,7 @@ CREATE TABLE view (
                       FOREIGN KEY (username) REFERENCES users(username) ON DELETE SET NULL
 );
 
+-- 소견/판독 결과
 CREATE TABLE finding (
                          code INT PRIMARY KEY AUTO_INCREMENT,
                          is_normal BOOLEAN  NOT NULL DEFAULT TRUE,
@@ -77,9 +79,10 @@ CREATE TABLE finding (
                          additional_notes VARCHAR(4000),
                          radiologist_name VARCHAR(50) NOT NULL,
                          institution_name VARCHAR(50) NOT NULL,
-                         report_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          urgency_level TINYINT NOT NULL DEFAULT 1,
-                         report_status TINYINT NOT NULL DEFAULT 1
+                         report_status TINYINT NOT NULL DEFAULT 1,
+                         reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE interpretation (
@@ -93,10 +96,11 @@ CREATE TABLE interpretation (
                                 FOREIGN KEY (finding_code) REFERENCES finding(code) ON DELETE SET NULL
 );
 
-CREATE TABLE log (
-                     code INT PRIMARY KEY AUTO_INCREMENT,
-                     username VARCHAR(20),
-                     studykey INT NOT NULL,
-                     reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                     FOREIGN KEY (username) REFERENCES users(username) ON DELETE SET NULL
+CREATE TABLE logs (
+                      code INT PRIMARY KEY AUTO_INCREMENT,
+                      username VARCHAR(20),
+                      studykey INT DEFAULT NULL,
+                      activity_type ENUM('LOGIN', 'LOGOUT', 'VIEW_VIDEO', 'VIEW_RECORD') NOT NULL,
+                      reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      FOREIGN KEY (username) REFERENCES users (username) ON DELETE SET NULL
 );
