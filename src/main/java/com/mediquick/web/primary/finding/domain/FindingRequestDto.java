@@ -10,6 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindingRequestDto {
+
+    private Integer studykey;
+
     private Integer code;
     private boolean isNormal;
     private String lesionLocation;

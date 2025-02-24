@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", e => {
             additionalNotes: document.querySelector('input[name="additionalNotes"]').value
         };
 
-        console.log(data);
-
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -33,7 +31,7 @@ document.addEventListener("DOMContentLoaded", e => {
             body: JSON.stringify(data)
         };
 
-        const response = await fetch("http://localhost:8080/report/write", requestOptions);
+        const response = await fetch("/report/write", requestOptions);
 
         if(response.ok) {
             alert("판독 소견서가 저장되었습니다.")

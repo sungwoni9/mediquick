@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 public class FindingService {
     private final FindingRepository findingRepository;
 
-    public boolean createFinding(FindingRequestDto findingDto) {
-        Finding finding = new Finding(findingDto);
-        findingRepository.save(finding);
-        return true;
+    public Finding createFinding(Finding finding) {
+        return findingRepository.save(finding);
     }
 }
