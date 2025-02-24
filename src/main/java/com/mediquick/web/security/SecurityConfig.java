@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
             .csrf(CsrfConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
-            .headers(AbstractHttpConfigurer::disable)
+//          .headers(AbstractHttpConfigurer::disable)
             .formLogin(FormLoginConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                     .anyRequest().permitAll()
@@ -43,8 +43,8 @@ public class SecurityConfig {
             )
             .sessionManagement(sessionManagement -> sessionManagement
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
+            );
+//            .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

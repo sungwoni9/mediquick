@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>로그 리스트</title>
@@ -42,15 +43,25 @@
                 <c:otherwise>
                     <c:forEach var="log" items="${logs}">
                         <tr>
-                            <td>${log.regDate}</td>
+                            <td data-log-date="<fmt:formatDate value="${log.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/>">
+                                <fmt:formatDate value="${log.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
                             <td id="logType">${log.activityType}</td>
-                            <td>${log.code}</td>
+                            <td>${log.studykey}</td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>
             </c:choose>
             </tbody>
         </table>
+    </div>
+    <div id="pagination">
+        <button id="prev-btn" disabled>이전</button>
+        <select id="sort-order">
+            <option value="newest" selected>최신순</option>
+            <option value="oldest">오래된 순</option>
+        </select>
+        <button id="next-btn">다음</button>
     </div>
 </div>
 </body>
