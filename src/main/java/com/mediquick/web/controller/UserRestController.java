@@ -3,17 +3,20 @@ package com.mediquick.web.controller;
 import com.mediquick.web.primary.logs.domain.Log;
 import com.mediquick.web.primary.logs.service.LogService;
 import com.mediquick.web.primary.user.domain.User;
-import com.mediquick.web.primary.user.domain.UserRegisterRequestDto;
+import com.mediquick.web.primary.user.domain.UserDetailsDto;
+import com.mediquick.web.primary.user.domain.UserRegisterDto;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
 import com.mediquick.web.primary.user.service.UserService;
 import com.mediquick.web.primary.userinfo.domain.UserInfo;
+import com.mediquick.web.primary.userinfo.domain.UserInfoRequestDto;
+import com.mediquick.web.primary.userinfo.domain.UserInfoResponseDto;
 import com.mediquick.web.primary.userinfo.service.UserInfoService;
 import com.mediquick.web.primary.userrole.domain.UserRole;
+import com.mediquick.web.primary.userrole.domain.UserRoleRequestDto;
 import com.mediquick.web.primary.userrole.service.UserRoleService;
 import com.mediquick.web.security.JwtUtil;
 import com.mediquick.web.util.ResponseDto;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,31 +73,8 @@ public class UserRestController {
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "UserInfo validated"));
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@CookieValue(value = "jwtToken", required = false) String token) {
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
-        }
-
-        try {
-            String username = jwtUtil.extractUsername(token);
-            User user = userService.findByUsername(username);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User not found"));
-            }
-
-            UserInfo userInfo = userInfoService.findByUserName(username);
-            return ResponseEntity.ok(userInfo);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
-        }
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto> register(@RequestBody UserRegisterRequestDto userDto) {
+    public ResponseEntity<ResponseDto> register(@RequestBody UserRegisterDto userDto) {
         String username = userDto.getUsername();
         String password = userDto.getPassword();
         String name = userDto.getName();
@@ -121,12 +101,11 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
                     .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "UserRole creation failed"));
 
-
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User registered"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(@RequestBody UserRequestDto userDto, HttpServletResponse response) {
+    public ResponseEntity<ResponseDto> login(@RequestBody UserRequestDto userDto, HttpSession session) {
         try {
             // 사용자 정보 조회
             User user = userService.findByUsername(userDto.getUsername());
@@ -135,29 +114,18 @@ public class UserRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
             }
-
             // Spring Security 인증 수행
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
 
             // UserDetails 로드
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-
-
             // 로그인 로그 저장
             logService.saveLog(userDto.getUsername(), Log.ActivityType.LOGIN);
-
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
-
-            // HTTP-Only Cookie에 JWT 저장
-            Cookie jwtCookie = new Cookie("jwtToken", token);
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setSecure(true); // HTTPS에서만 전송 (개발 환경에서는 false 설정 가능)
-            jwtCookie.setPath("/"); // 모든 경로에서 사용 가능
-            jwtCookie.setMaxAge(60 * 60); // 1시간 동안 유효
-
-            response.addCookie(jwtCookie);
+            System.out.println("new token: " + token);
+            session.setAttribute("jwtToken", token);
             return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Login successful"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -165,17 +133,118 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<ResponseDto> logout(HttpServletResponse response) {
-        // 쿠키 삭제 (유효시간 0으로 설정)
-        Cookie jwtCookie = new Cookie("jwtToken", null);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(true);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(0); // 즉시 만료
+    @GetMapping("/myaccount")
+    public ResponseEntity<ResponseDto> myAccount(HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
+        }
+        try {
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+            }
+            UserDetailsDto userDetailsDto = userService.findUserDetailsByUsername(username);
+            if (userDetailsDto == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User details not found"));
+            }
+            return ResponseEntity.ok(userDetailsDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+        }
+    }
 
-        response.addCookie(jwtCookie);
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> update(@RequestBody UserRegisterDto userDto, HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized - token : null"));
+        }
+        try {
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+            }
 
+            String password = userDto.getPassword();
+            String name = userDto.getName();
+            String phone = userDto.getPhone();
+            String email = userDto.getEmail();
+            String address = userDto.getAddress();
+            String addressDetail = userDto.getAddressDetail();
+            String department = userDto.getDepartment();
+            String institutionName = userDto.getInstitutionName();
+            Byte roleCode = userDto.getRoleCode();
+
+            if(!password.isEmpty()){
+                UserRequestDto user = new UserRequestDto(username,passwordEncoder.encode(password));
+                if(!userService.updateUser(user))
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
+                            .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "User update failed"));
+            }
+
+            UserInfoRequestDto userInfo = new UserInfoRequestDto(username,name,phone,email,address,addressDetail,department,institutionName);
+            if(!userInfoService.updateUserInfo(userInfo))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
+                        .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "UserInfo update failed"));
+
+            if(roleCode!=null) {
+                UserRoleRequestDto userRole = new UserRoleRequestDto(username, roleCode);
+                if (!userRoleService.updateUserRole(userRole))
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
+                            .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "UserRole update failed"));
+            }
+
+            return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User updated"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+        }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<ResponseDto> logout(HttpSession session) {
+        session.removeAttribute("jwtToken");
+        session.invalidate();
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Logged out successfully"));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDto> delete(@RequestBody UserRegisterDto userDto, HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
+        }
+        try {
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+            }
+            User user = userService.findByUsername(username);
+            if (user == null || !passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid password"));
+            }
+            // 사용자 삭제 로직
+            userService.deleteUser(username);
+            session.removeAttribute("jwtToken");
+            session.invalidate(); // 세션 무효화
+            return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Deletion failed"));
+        }
+    }
+
 }

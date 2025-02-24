@@ -1,23 +1,31 @@
 package com.mediquick.web.primary.user.domain;
 
+import com.mediquick.web.primary.userinfo.domain.UserInfo;
+import com.mediquick.web.primary.userrole.domain.UserRole;
 import com.mediquick.web.util.Timestamp;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity(name = "users")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "users")
 public class User extends Timestamp {
-
     @Id
+    @Column(length = 20)
     private String username;
+
+    @Column(length = 255, nullable = false)
     private String password;
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;  // 기본값 false
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
+
+    @OneToOne(mappedBy = "user")
+    private UserInfo userInfo;
+
+    @OneToOne(mappedBy = "user")
+    private UserRole userRole;
 
     public User(String username, String password) {
         this.username = username;

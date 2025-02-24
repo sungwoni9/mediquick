@@ -1,5 +1,6 @@
 package com.mediquick.web.primary.user.domain;
 
+import com.mediquick.web.util.ResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+public class UserResponseDto extends ResponseDto {
     private String username;
     private String password;
     private Boolean is_deleted;

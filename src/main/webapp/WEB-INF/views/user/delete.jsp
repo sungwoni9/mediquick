@@ -9,13 +9,14 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+    <script src="/script/user/delete.js"></script>
     <title>Delete account</title>
 </head>
 <c:import url="/header"/>
 <body>
 <div id="content-container">
     <h2>Delete account</h2>
-    <form method="POST" action="/user/delete">
+    <form>
         <input type="password" name="password" id="password" placeholder="password">
         <p id="error-msg-password" class="error-msg"></p>
         <input type="submit" value="Delete">
