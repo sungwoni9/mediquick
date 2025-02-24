@@ -13,12 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 public class Timestamp {
 
-    @CreatedDate
-    @Column(name = "reg_date")
+    @Column(name = "reg_date",nullable = false, updatable = false)
     private java.sql.Timestamp regDate;
 
-    @LastModifiedDate
-    @Column(name = "mod_date")
+    @Column(name = "mod_date",nullable = false)
     private java.sql.Timestamp modDate;
 
     @PrePersist

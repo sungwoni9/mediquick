@@ -12,5 +12,8 @@ import lombok.Setter;
 public class UserRequestDto {
     private String username;
     private String password;
-    private Boolean is_deleted;
+
+    public UserRequestDto(String password) {
+        this.password = password;
+    }
 }
