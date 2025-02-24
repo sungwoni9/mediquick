@@ -6,7 +6,12 @@ import jcifs.CIFSContext;
 import jcifs.context.SingletonContext;
 import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +23,12 @@ import java.util.Map;
 @Service
 public class ImageService {
 
-    private static final String SMB_URL = "smb://192.168.50.154/STS/";
-    private static final String USERNAME = "PACS";
-    private static final String PASSWORD = "Sphinx6600";
+    @Value("${smb.username}")
+    private String USERNAME;
+    @Value("${smb.password}")
+    private String PASSWORD;
+    @Value("${smb.url}")
+    private String SMB_URL;
 
     private final ImageRepository imageRepository;
 
@@ -28,44 +36,29 @@ public class ImageService {
         return imageRepository.findImageByStudykey(studykey);
     }
 
-    public List<SmbFile> getSmbFilesByStudykey(int studykey) throws Exception {
-        List<Image> images = imageRepository.findImageByStudykey(studykey);
+    public InputStreamResource getImage(int studykey, int serieskey, int imagekey) throws Exception {
+        Image image = imageRepository.findByStudykeyAndSerieskeyAndImagekey(studykey, serieskey, imagekey);
 
-        if (images == null || images.isEmpty()) {
+        if (image == null){
+            System.out.println("!getImage - 이미지를 찾을 수 없습니다.");
             return null;
         }
 
-        Map<String, List<String>> pathToFiles = new HashMap<>();
-
-        for (Image image : images) {
-            pathToFiles.computeIfAbsent(image.getPath(), k -> new ArrayList<>())
-                    .add(image.getFname());
-        }
-
-        List<SmbFile> smbFiles = new ArrayList<>();
         NtlmPasswordAuthenticator auth = new NtlmPasswordAuthenticator(USERNAME, PASSWORD);
-
         CIFSContext baseContext = SingletonContext.getInstance();
         CIFSContext context = baseContext.withCredentials(auth);
 
-        for (Map.Entry<String, List<String>> entry : pathToFiles.entrySet()) {
-            String path = entry.getKey();
-            SmbFile dir = new SmbFile(SMB_URL + path,  context);
-            SmbFile[] files = dir.listFiles();
-            if (files != null) {
-                for (SmbFile file : files) {
-                    if (file.isFile() && isDicomFile(file)) {
-                        smbFiles.add(file);
-                    }
-                }
-            }
+        String smbFilePath = SMB_URL + image.getPath().replace("\\", "/") + image.getFname();
+        SmbFile smbFile = new SmbFile(smbFilePath, context);
+
+        if (!smbFile.exists() || !smbFile.isFile()) {
+            System.out.println("!getImage -SMB 파일을 찾을 수 없습니다.");
+            return null;
         }
 
-        return smbFiles;
-    }
-
-    private boolean isDicomFile(SmbFile file) {
-        return file.getName().toLowerCase().endsWith(".dcm");
+        // 파일 스트리밍
+        SmbFileInputStream inputStream = new SmbFileInputStream(smbFile);
+        return new InputStreamResource(inputStream);
     }
 
 }
