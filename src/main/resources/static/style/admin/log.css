@@ -10,6 +10,21 @@
     margin-bottom: 10px;
 }
 
+#filter-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#search-container,
+#sort-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 select, button {
     padding: 10px 15px;
     margin: 10px 0;
@@ -27,13 +42,6 @@ button {
 
 button:hover {
     background-color: rgba(21, 77, 146, 0.8);
-}
-
-#search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
 .table-content {
@@ -67,4 +75,16 @@ button:hover {
 
 .log-list tr:hover {
     background-color: #ddd;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#page-info {
+    font-size: 16px;
 }

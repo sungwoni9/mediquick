@@ -12,23 +12,25 @@
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-    <div id="search-container">
-        <label for="log-select">조회할 로그 :</label>
-        <select id="log-select" name="log-select">
-            <option value="" selected disabled>선택</option>
-            <option value="LOGIN">로그인</option>
-            <option value="LOGOUT">로그아웃</option>
-            <option value="VIEW_VIDEO">영상 조회</option>
-            <option value="VIEW_RECORD">진료 조회</option>
-        </select>
-        <button id="btn-search">검색</button>
-    </div>
-    <div id="sort-container">
-        <label for="sort-order">정렬:</label>
-        <select id="sort-order">
-            <option value="newest" selected>최신순</option>
-            <option value="oldest">오래된 순</option>
-        </select>
+    <div id="filter-container">
+        <div id="search-container">
+            <label for="log-select">조회할 로그 :</label>
+            <select id="log-select" name="log-select">
+                <option value="" selected disabled>선택</option>
+                <option value="LOGIN">로그인</option>
+                <option value="LOGOUT">로그아웃</option>
+                <option value="VIEW_VIDEO">영상 조회</option>
+                <option value="VIEW_RECORD">진료 조회</option>
+            </select>
+            <button id="btn-search">검색</button>
+        </div>
+        <div id="sort-container">
+            <label for="sort-order">정렬:</label>
+            <select id="sort-order">
+                <option value="newest" selected>최신순</option>
+                <option value="oldest">오래된 순</option>
+            </select>
+        </div>
     </div>
     <div class="table-content">
         <table class="log-list">
