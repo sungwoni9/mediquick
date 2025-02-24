@@ -12,6 +12,7 @@
 <c:import url="/header"/>
 <body>
 <div id="content-container">
+    <h2>Log List</h2>
     <div id="filter-container">
         <div id="search-container">
             <label for="log-select">조회할 로그 :</label>
