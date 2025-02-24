@@ -23,7 +23,13 @@
         </select>
         <button id="btn-search">검색</button>
     </div>
-
+    <div id="sort-container">
+        <label for="sort-order">정렬:</label>
+        <select id="sort-order">
+            <option value="newest" selected>최신순</option>
+            <option value="oldest">오래된 순</option>
+        </select>
+    </div>
     <div class="table-content">
         <table class="log-list">
             <thead>
@@ -57,10 +63,7 @@
     </div>
     <div id="pagination">
         <button id="prev-btn" disabled>이전</button>
-        <select id="sort-order">
-            <option value="newest" selected>최신순</option>
-            <option value="oldest">오래된 순</option>
-        </select>
+        <span id="page-info">1/1</span>
         <button id="next-btn">다음</button>
     </div>
 </div>

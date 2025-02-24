@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById("prev-btn").disabled = page === 1;
         document.getElementById("next-btn").disabled = page === totalPages;
+
+        document.getElementById("page-info").textContent = `${page}/${totalPages}`;
     }
 
     document.getElementById("prev-btn").addEventListener("click", function () {
