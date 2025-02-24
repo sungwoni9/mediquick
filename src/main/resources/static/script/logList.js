@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        document.getElementById("prev-btn").disabled = page === 1;
-        document.getElementById("next-btn").disabled = page === totalPages;
+        document.getElementById("prev-btn").style.display = page === 1 ? 'none' : 'inline-block';
+        document.getElementById("next-btn").style.display = page === totalPages ? 'none' : 'inline-block';
 
         document.getElementById("page-info").textContent = `${page}/${totalPages}`;
     }

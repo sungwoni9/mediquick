@@ -64,7 +64,7 @@
         </table>
     </div>
     <div id="pagination">
-        <button id="prev-btn" disabled>이전</button>
+        <button id="prev-btn">이전</button>
         <span id="page-info">1/1</span>
         <button id="next-btn">다음</button>
     </div>
