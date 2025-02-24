@@ -27,6 +27,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
         // 인증이 필요 없는 경로는 필터를 거치지 않음
         if (requestURI !=null || requestURI.startsWith("/user/register") || requestURI.startsWith("/user/login") || requestURI.startsWith("/user/valid")
+
                 || requestURI.startsWith("/script") || requestURI.startsWith("/style") || requestURI.endsWith(".js") || requestURI.endsWith(".css")) {
             chain.doFilter(request, response);
             return;
