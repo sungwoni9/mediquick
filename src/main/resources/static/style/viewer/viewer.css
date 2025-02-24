@@ -21,6 +21,7 @@ body {
 
 #dcm-viewer .layout-button-group{
     position: absolute;
+    z-index: 1000;
     top: 20px;
     right: 20px;
     color: white;
