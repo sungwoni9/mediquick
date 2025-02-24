@@ -1,19 +1,20 @@
-package com.mediquick.web.primary.medicalrecord.domain;
+package com.mediquick.web.controller;
 
 
+import com.mediquick.web.primary.medicalrecord.domain.MedicalRecord;
 import com.mediquick.web.primary.medicalrecord.service.MedicalRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/medical-records")
-public class MedicalRecordRestController {
+@RequestMapping("/medical")
+public class MedicalRestController {
     private final MedicalRecordService medicalRecordService;
 
     @PostMapping
@@ -25,9 +26,9 @@ public class MedicalRecordRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getRecordsByPid(@RequestParam String pid){
+    public ResponseEntity<Object> getRecordsByPid(@RequestParam String pid) {
         List<MedicalRecord> records = medicalRecordService.findByPid(pid);
-        if(records.isEmpty()){
+        if (records.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("해당 환자의 진료 기록이 없습니다.");
@@ -49,7 +50,7 @@ public class MedicalRecordRestController {
     @PutMapping("/{code}")
     public ResponseEntity<MedicalRecord> updateRecord(@PathVariable Integer code, @RequestBody MedicalRecord updatedRecord) {
         MedicalRecord existingRecord = medicalRecordService.findByCode(code);
-        if(existingRecord == null){
+        if (existingRecord == null) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(null);
@@ -58,5 +59,4 @@ public class MedicalRecordRestController {
         MedicalRecord saveRecord = medicalRecordService.save(updatedRecord);
         return ResponseEntity.ok(saveRecord);
     }
-
 }

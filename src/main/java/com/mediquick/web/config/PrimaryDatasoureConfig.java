@@ -39,18 +39,18 @@ class PrimaryDatasoureConfig {
     private String driverClassName;
 
     @Primary
-    @Bean(name="primaryDataSource")
+    @Bean(name = "primaryDataSource")
     public DataSource dataSource() {
-      return DataSourceBuilder.create()
-              .url(url)
-              .username(username)
-              .password(password)
-              .driverClassName(driverClassName)
-              .build();
+        return DataSourceBuilder.create()
+                .url(url)
+                .username(username)
+                .password(password)
+                .driverClassName(driverClassName)
+                .build();
     }
 
     @Primary
-    @Bean(name="primaryEntityManager")
+    @Bean(name = "primaryEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
@@ -64,13 +64,14 @@ class PrimaryDatasoureConfig {
         properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.format_sql", true);
+        properties.put("hibernate.naming.physical-strategy", "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
         factory.setJpaPropertyMap(properties);
 
         return factory;
     }
 
     @Primary
-    @Bean(name="primaryTransactionManager")
+    @Bean(name = "primaryTransactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 
         JpaTransactionManager txManager = new JpaTransactionManager();

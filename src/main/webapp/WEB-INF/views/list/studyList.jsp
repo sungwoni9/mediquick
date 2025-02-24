@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="/style/study/form.css">
     <title>검사 리스트</title>
 </head>
-<c:import url="/header"/>
 <body>
 <div class="main-container">
     <div>
@@ -47,6 +46,7 @@
             <div class="body-part">BodyPart</div>
             <div class="series-count">Series Count</div>
             <div class="image-count">Image Count</div>
+            <div class="pacs-viewer">Pacs Viewer</div>
         </div>
 
         <c:forEach var="study" items="${studies}">
@@ -59,7 +59,8 @@
                 <div class="body-part">${study.bodypart}</div>
                 <div class="series-count">${study.seriescnt}</div>
                 <div class="image-count">${study.imagecnt}</div>
-                <img src="/icons/pacs-icon.png" alt="PACS Icon" class="pacs-button"/>
+
+                <img class="pacs-button" src="/icons/pacs-icon.png" alt="PACS Icon" />
             </div>
         </c:forEach>
     </div>

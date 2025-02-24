@@ -15,6 +15,4 @@ public interface StudyRepository extends JpaRepository<Study,Integer> {
 
     List<Study> findByPid(String pid);
 
-    // studykey 기준 오름차순으로 모든 Study 가져오기
-    List<Study> findAll(Sort sort);
 }

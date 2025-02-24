@@ -20,12 +20,12 @@ public class MedicalRecord extends Timestamp {
     @Column(nullable = false, length = 64)
     private String pid;
 
-    @Column(length = 255)
+    @Column(name = "patient_symptoms", length = 255)
     private String patientSymptoms;
 
-    @Column(length = 255)
+    @Column(name = "order_desc", length = 255)
     private String orderDesc;
 
-    @Column(nullable = false)
+    @Column(name = "medical_date", nullable = false)
     private java.sql.Timestamp medicalDate;
 }
