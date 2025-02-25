@@ -23,4 +23,9 @@ public class ViewerController {
         return "study_viewer/dcmViewer";
     }
 
+    @GetMapping("/viewer-tools")
+    public String viewerTools(){
+        return "study_viewer/viewerTools";
+    }
+
 }

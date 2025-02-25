@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <div id="dcm-viewer">
@@ -6,6 +7,5 @@
         <button class="layout-button btn-1x2">1x2</button>
         <button class="layout-button btn-2x2">2x2</button>
     </div>
-    <div id="render">
-    </div>
+    <div id="render"></div>
 </div>

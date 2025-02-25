@@ -47,7 +47,7 @@ public class AuthFilter extends OncePerRequestFilter {
         String token = getToken(session, request);
 
         if (token != null) {
-            processToken(token, session, request);
+            processToken(token, session, request, response);
         } else if (session != null) {
             session.removeAttribute("jwtToken"); // 토큰 없음 시 세션 정리
         }
@@ -83,24 +83,46 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     // 토큰 처리 (검증, 갱신, 인증 설정)
-    private void processToken(String token, HttpSession session, HttpServletRequest request) {
-        try{
+    private void processToken(String token, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
             String username = jwtUtil.extractUsername(token);
+
+            // 토큰이 만료되었을 경우 자동 로그아웃
+            if (jwtUtil.isTokenExpired(token)) {
+                handleExpiredToken(session, response);
+                return;
+            }
+
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 String newToken = jwtUtil.validateAndRefreshToken(token, userDetails);
+
                 if (newToken != null) {
                     setAuthentication(request, userDetails);
                     if (session != null)
                         session.setAttribute("jwtToken", newToken);
-                } else if (session != null)
+                } else if (session != null) {
                     session.removeAttribute("jwtToken");
+                }
             }
-        }catch (Exception e){
+        } catch (ExpiredJwtException e) {
+            handleExpiredToken(session, response);
+        } catch (Exception e) {
             if (session != null)
                 session.removeAttribute("jwtToken");
         }
     }
+
+    // 만료된 토큰 처리
+    private void handleExpiredToken(HttpSession session, HttpServletResponse response) throws IOException {
+        if (session != null) {
+            session.invalidate(); // 세션 삭제
+        }
+        SecurityContextHolder.clearContext(); // Spring Security 인증 정보 삭제
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Session expired. Please log in again.");
+    }
+
 
     // 인증 설정
     private void setAuthentication(HttpServletRequest request, UserDetails userDetails) {

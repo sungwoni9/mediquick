@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         filteredRows = allRows.filter(row => {
             const logTypeCell = row.querySelector('#logType');
             const logType = logTypeCell.textContent;
-            return selectedLog === "" || selectedLog === logType;
+            return selectedLog === "" || selectedLog === "all" || selectedLog === logType;
         });
 
         filteredRows.sort((a, b) => {

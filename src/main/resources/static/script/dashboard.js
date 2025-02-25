@@ -2,16 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-item');
     const contentArea = document.getElementById('content-area');
 
+    // 초기 로드 시 'study' 페이지를 기본으로 표시
     loadContent('study');
 
+    // 네비게이션 항목에 클릭 이벤트 추가
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
+            // 클릭된 항목의 data-page 속성 값 가져오기 (study, patients, medical)
             const page = item.getAttribute('data-page');
 
             navItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
 
+            // 선택된 페이지 콘텐츠 로드
             loadContent(page);
         });
     });
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 url = '/list/studyList';
         }
 
+        // 서버에서 해당 페이지의 HTML을 가져옴
         fetch(url, { method: 'GET' })
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => {
                 contentArea.innerHTML = html;
                 loadPageScript(page);
-                initializeDynamicContent();
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // 페이지별 전용 스크립트를 동적으로 로드하는 함수
     function loadPageScript(page) {
         const existingScript = document.querySelector(`script[data-page-script="${page}"]`);
         if (existingScript) existingScript.remove();
@@ -55,81 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const script = document.createElement('script');
         script.setAttribute('data-page-script', page);
         script.defer = true;
-
         script.src = `/script/${page}List.js`;
-        script.onload = () => console.log(`${page} script loaded successfully`);
-        script.onerror = () => console.error(`${page} script failed to load`);
-
+        script.onload = () => {
+            console.log(`${page} 스크립트 불러오기 성공`);
+            // 페이지별 초기화 함수 호출
+            if (page === 'study' && typeof initializeStudyContent === 'function') {
+                initializeStudyContent();
+            }
+        };
+        script.onerror = () => console.error(`${page} 스크립트 불러오기 실패`);
         document.body.appendChild(script);
-    }
-
-    function initializeDynamicContent() {
-        const searchForm = document.querySelector('#searchForm');
-        if (searchForm) {
-            searchForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                filterStudies();
-            });
-
-            const resetButton = searchForm.querySelector('button[type="button"]');
-            if (resetButton)
-                resetButton.addEventListener('click', resetForm);
-
-        }
-
-        const pacsButtons = document.querySelectorAll('.pacs-button');
-        if (pacsButtons.length > 0) {
-            pacsButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const studyId = button.closest('.list-element').querySelector('.study-id').textContent;
-                    window.location.href = `/viewer?studykey=${studyId}`;
-                });
-            });
-        }
-
-        // 페이지네이션 버튼 (현재 HTML에 없음, 필요 시 추가)
-        const paginationButtons = document.querySelectorAll('.pagination-btn');
-        if (paginationButtons.length > 0) {
-            paginationButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const page = btn.getAttribute('data-page');
-                    loadContent('study', page);
-                });
-            });
-        }
-    }
-
-    function filterStudies() {
-        const patientName = document.querySelector('#patientName')?.value.toLowerCase() || '';
-        const studyTime = document.querySelector('#studyTime')?.value.toLowerCase() || '';
-        const modality = document.querySelector('#modality')?.value.toLowerCase() || '';
-        const bodyPart = document.querySelector('#bodyPart')?.value.toLowerCase() || '';
-
-        const studies = document.getElementsByClassName('list-element');
-        for (let i = 1; i < studies.length; i++) {
-            const study = studies[i];
-            const pName = study.querySelector('.patients-name')?.textContent.toLowerCase() || '';
-            const sTime = study.querySelector('.study-time')?.textContent.toLowerCase() || '';
-            const mod = study.querySelector('.modality')?.textContent.toLowerCase() || '';
-            const bPart = study.querySelector('.body-part')?.textContent.toLowerCase() || '';
-
-            const matches = (!patientName || pName.includes(patientName)) &&
-                (!studyTime || sTime.includes(studyTime)) &&
-                (!modality || mod.includes(modality)) &&
-                (!bodyPart || bPart.includes(bodyPart));
-
-            study.style.display = matches ? '' : 'none';
-        }
-    }
-
-    function resetForm() {
-        const searchForm = document.querySelector('#searchForm');
-        if (searchForm) {
-            searchForm.reset();
-            const studies = document.getElementsByClassName('list-element');
-            for (let i = 1; i < studies.length; i++)
-                studies[i].style.display = '';
-
-        }
     }
 });
