@@ -3,6 +3,7 @@
 /src/main/resources/static/dicom/
 .DS_Store
 application.datasource.properties
+application.*.properties
 
 HELP.md
 .gradle

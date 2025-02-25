@@ -51,7 +51,7 @@
 
         <c:forEach var="study" items="${studies}">
             <div class="list-element" id="study-${study.studykey}">
-                <div class="study-id">${study.studykey}</div>
+                <div class="study-key">${study.studykey}</div>
                 <div class="patients-name">${study.pname}</div>
                 <div class="study-time">${study.studytime}</div>
                 <div class="study-desc">${study.studydesc}</div>

@@ -62,10 +62,19 @@ CREATE TABLE view (
                       FOREIGN KEY (username) REFERENCES users(username) ON DELETE SET NULL
 );
 
+CREATE TABLE interpretation (
+                                code INT PRIMARY KEY AUTO_INCREMENT,
+                                username VARCHAR(20),
+                                studykey INT NOT NULL,
+                                reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                FOREIGN KEY (username) REFERENCES users(username) ON DELETE SET NULL
+);
+
 -- 소견/판독 결과
 CREATE TABLE finding (
                          code INT PRIMARY KEY AUTO_INCREMENT,
-                         is_normal BOOLEAN  NOT NULL DEFAULT TRUE,
+                         is_normal BOOLEAN NOT NULL DEFAULT TRUE,
                          lesion_location VARCHAR(255),
                          lesion_size VARCHAR(255),
                          lesion_count INT NOT NULL DEFAULT 0,
@@ -82,18 +91,8 @@ CREATE TABLE finding (
                          urgency_level TINYINT NOT NULL DEFAULT 1,
                          report_status TINYINT NOT NULL DEFAULT 1,
                          reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                         mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
-CREATE TABLE interpretation (
-                                code INT PRIMARY KEY AUTO_INCREMENT,
-                                username VARCHAR(20),
-                                studykey INT NOT NULL,
-                                finding_code INT,
-                                reg_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                                FOREIGN KEY (username) REFERENCES users(username) ON DELETE SET NULL,
-                                FOREIGN KEY (finding_code) REFERENCES finding(code) ON DELETE SET NULL
+                         mod_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         FOREIGN KEY (code) REFERENCES interpretation(code) ON DELETE cascade
 );
 
 CREATE TABLE logs (

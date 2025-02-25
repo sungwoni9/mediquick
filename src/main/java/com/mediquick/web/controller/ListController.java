@@ -9,18 +9,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
-@RequestMapping
 @Controller
-public class StudyController {
+@RequestMapping("/list")
+public class ListController {
 
     private final StudyService studyService;
 
-    @GetMapping("/list/studyList")
+    @GetMapping("/studyList")
     public String list(Model model) {
-
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-
         model.addAttribute("studies", studyService.findStudyAll());
         return "list/studyList";
+    }
+
+    @GetMapping("/patientList")
+    public String patientList() {
+        return "list/patientList";
+    }
+
+    @GetMapping("/medicalList")
+    public String medicalList() {
+        return "list/medicalList";
     }
 }
