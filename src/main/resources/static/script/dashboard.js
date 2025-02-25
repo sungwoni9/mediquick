@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pacsButtons.length > 0) {
             pacsButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    const studyId = button.closest('.list-element').querySelector('.study-id').textContent;
-                    window.location.href = `/viewer?studykey=${studyId}`;
+                    const studyKey = button.closest('.list-element').querySelector('.study-key').textContent;
+                    window.location.href = `/viewer?studyKey=${studyKey}`;
                 });
             });
         }
