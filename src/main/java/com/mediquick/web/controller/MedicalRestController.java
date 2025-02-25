@@ -3,22 +3,35 @@ package com.mediquick.web.controller;
 
 import com.mediquick.web.primary.medicalrecord.domain.MedicalRecord;
 import com.mediquick.web.primary.medicalrecord.service.MedicalRecordService;
+import com.mediquick.web.security.JwtUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/medical")
+@RequestMapping("/medical-records")
 public class MedicalRestController {
     private final MedicalRecordService medicalRecordService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping
-    public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord medicalRecord) {
+    public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord medicalRecord, HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            throw new RuntimeException("JWT 토큰이 없습니다. 로그인 필요.");
+        }
+        String username = jwtUtil.extractUsername(token);
+        System.out.println("Username from JWT: " + username);
+
+        // MedicalRecord에 username 설정
+        medicalRecord.setUsername(username);
+
+        // DB에 저장
         MedicalRecord savedRecord = medicalRecordService.save(medicalRecord);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
