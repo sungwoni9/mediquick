@@ -8,12 +8,13 @@ import com.mediquick.web.primary.user.domain.UserRegisterDto;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
 import com.mediquick.web.primary.user.service.UserService;
 import com.mediquick.web.primary.userinfo.domain.UserInfo;
+import com.mediquick.web.primary.user.domain.UserInfoDto;
 import com.mediquick.web.primary.userinfo.domain.UserInfoRequestDto;
-import com.mediquick.web.primary.userinfo.domain.UserInfoResponseDto;
 import com.mediquick.web.primary.userinfo.service.UserInfoService;
 import com.mediquick.web.primary.userrole.domain.UserRole;
 import com.mediquick.web.primary.userrole.domain.UserRoleRequestDto;
 import com.mediquick.web.primary.userrole.service.UserRoleService;
+import com.mediquick.web.security.EmailService;
 import com.mediquick.web.security.JwtUtil;
 import com.mediquick.web.util.ResponseDto;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +28,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Random;
+
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
@@ -39,6 +42,7 @@ public class UserRestController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final LogService logService;
+    private final EmailService emailService;
 
     @GetMapping("/valid/username")
     public ResponseEntity<ResponseDto> validUsername(@RequestParam("value") String username) {
@@ -71,6 +75,66 @@ public class UserRestController {
                     .body(new ResponseDto(HttpStatus.NO_CONTENT.value(), "UserInfo not found"));
 
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "UserInfo validated"));
+    }
+
+    // 인증코드 발송
+    @GetMapping("/valid/send")
+    public ResponseEntity<ResponseDto> sendCode(@RequestParam("email") String email,HttpSession session) {
+        String verifyCode = String.format("%06d", new Random().nextInt(999999));
+
+        session.setAttribute("verifyCode", verifyCode);
+        session.setAttribute("verifiedEmail", email);
+
+        // 이메일 전송
+        emailService.sendVerificationCode(email, verifyCode);
+        System.out.println("전송완료");
+        
+        return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Verification code sent"));
+    }
+
+    // 인증코드 확인
+    @GetMapping("/valid/verify")
+    public ResponseEntity<ResponseDto> sendCode(@RequestParam("email") String email,@RequestParam("code") String code, HttpSession session) {
+        String sessionCode = (String) session.getAttribute("verifyCode");
+        String verifiedEmail = (String) session.getAttribute("verifiedEmail");
+
+        if (!sessionCode.equals(code)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "Invalid verification code"));
+        }
+        if (!verifiedEmail.equals(email)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "Email has been changed. Please reverify."));
+        }
+
+        return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Email verification successful."));
+    }
+
+    @GetMapping("/valid/info")
+    public ResponseEntity<ResponseDto> userInfo(HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            System.out.println("null");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
+        }
+        try {
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+            }
+            UserInfoDto userInfoDto = userService.findUserInfoByUsername(username);
+            if (userInfoDto == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User info not found"));
+            }
+            return ResponseEntity.ok(userInfoDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+        }
     }
 
     @PostMapping("/register")
@@ -124,7 +188,7 @@ public class UserRestController {
             logService.saveLog(userDto.getUsername(), Log.ActivityType.LOGIN);
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
-            System.out.println("new token: " + token);
+
             session.setAttribute("jwtToken", token);
             return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Login successful"));
         } catch (Exception e) {
@@ -212,20 +276,8 @@ public class UserRestController {
 
     @GetMapping("/logout")
     public ResponseEntity<ResponseDto> logout(HttpSession session) {
-        
-        // username 가져오기
-        String token = (String) session.getAttribute("jwtToken");
-        String username = jwtUtil.extractUsername(token);
-        System.out.println("Username : " + username);
-
         session.removeAttribute("jwtToken");
         session.invalidate();
-        
-        // 로그아웃 로그 저장
-        if (username != null) {
-            logService.saveLog(username, Log.ActivityType.LOGOUT);
-        }
-
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Logged out successfully"));
     }
 
@@ -249,10 +301,12 @@ public class UserRestController {
                         .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid password"));
             }
             // 사용자 삭제 로직
-            userService.deleteUser(username);
-            session.removeAttribute("jwtToken");
-            session.invalidate(); // 세션 무효화
-            return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User deleted successfully"));
+            if(userService.deleteUser(username)) {
+                session.removeAttribute("jwtToken");
+                session.invalidate(); // 세션 무효화
+                return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "User deleted successfully"));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User not found"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Deletion failed"));

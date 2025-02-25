@@ -4,6 +4,7 @@ import com.mediquick.web.primary.user.domain.User;
 import com.mediquick.web.primary.user.domain.UserDetailsDto;
 import com.mediquick.web.primary.user.domain.UserRepository;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
+import com.mediquick.web.primary.user.domain.UserInfoDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class UserService {
 
     public UserDetailsDto findUserDetailsByUsername(String username) {
         return usersRepository.findUserDetailsDtoByUsername(username);
+    }
+
+    public UserInfoDto findUserInfoByUsername(String username) {
+        return usersRepository.findUserInfoDtoByUsername(username);
     }
 
     public boolean createUser(User user) {
