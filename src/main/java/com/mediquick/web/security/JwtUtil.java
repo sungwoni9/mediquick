@@ -1,15 +1,20 @@
 package com.mediquick.web.security;
 
+import com.mediquick.web.util.ResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -114,4 +119,18 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    @GetMapping("/check-login")
+    public ResponseEntity<ResponseDto> checkLogin(HttpSession session) {
+        String token = (String) session.getAttribute("jwtToken");
+
+        if (token == null || isTokenExpired(token)) {
+            session.invalidate(); // 세션 삭제
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Session expired. Please log in again."));
+        }
+
+        return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Session is active."));
+    }
+
 }
