@@ -1,5 +1,5 @@
 // 스크린샷 차단
-document.addEventListener("keydown", function (e) {
+document.addEventListener("keyup", function (e) {
     if (e.key === "PrintScreen" || (e.ctrlKey && e.key === "c") || (e.ctrlKey && e.key === "v")) {
         alert("스크린샷 기능은 사용할 수 없습니다.");
         navigator.clipboard.writeText(""); // 클립보드 초기화
