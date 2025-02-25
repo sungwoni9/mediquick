@@ -212,8 +212,20 @@ public class UserRestController {
 
     @GetMapping("/logout")
     public ResponseEntity<ResponseDto> logout(HttpSession session) {
+        
+        // username 가져오기
+        String token = (String) session.getAttribute("jwtToken");
+        String username = jwtUtil.extractUsername(token);
+        System.out.println("Username : " + username);
+
         session.removeAttribute("jwtToken");
         session.invalidate();
+        
+        // 로그아웃 로그 저장
+        if (username != null) {
+            logService.saveLog(username, Log.ActivityType.LOGOUT);
+        }
+
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Logged out successfully"));
     }
 
