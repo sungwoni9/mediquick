@@ -1,54 +1,74 @@
 package com.mediquick.web.security;
 
-
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
-@RequiredArgsConstructor
-@Configuration
-public class SecurityConfig {
+import javax.naming.AuthenticationException;
+import java.io.IOException;
 
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println(http.toString());
         http
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-//                .sessionManagement(AbstractHttpConfigurer::disable) // 세션 비활성화 (Stateless)
-                .authorizeHttpRequests(auth -> auth
-                    .anyRequest().permitAll() // 전체 접근 가능
-//                    .requestMatchers("/","/user/register", "/user/login").permitAll() // 로그인 없이 접근 가능
-//                    .requestMatchers("/user/profile", "/user/delete").authenticated()
-//                    .requestMatchers("/management/**","/heckLog/**","/logList/**").hasRole("ADMIN") // 관리자 권한 필요
-//                    .anyRequest().authenticated()
-                )
-                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class) // JWT 필터 추가
-                .formLogin(AbstractHttpConfigurer::disable); // 기본 로그인 폼 비활성화
-                //.httpBasic(AbstractHttpConfigurer::disable); // HTTP Basic 인증 비활성화
-        System.out.println(http.toString());
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
 
+                .formLogin(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/valid/**").permitAll() // 인증 불필요
+                        .requestMatchers("/user/login", "/user/register").anonymous() // 권한이 없는 사람만 접근
+                        .requestMatchers("/user/**").authenticated() // 인증 필요
+                        .requestMatchers("/doctor/**").hasAnyRole("DOCTOR", "ADMIN") // 진료의 및 관리자 접근 가능
+                        .requestMatchers("/radiologist/**").hasAnyRole("RADIOLOGIST", "ADMIN")// 판독의 및 관리자 접근 가능
+                        .requestMatchers("/management", "/logList", "/checkLog").hasRole("ADMIN")// 관리자만 접근 가능
+                        .anyRequest().permitAll()// 나머지 요청은 인증 불필요
+                )
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/user/login"); // 인증 실패 시 리다이렉션
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            if (request.getRequestURI().equals("/user/login") || request.getRequestURI().equals("/user/register")) {
+                                response.sendRedirect("/user/profile"); // 인증된 사용자가 접근 시 리다이렉션
+                            }
+                        })
+                )
+                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedDoubleSlash(true); // 이중 슬래시 허용
+        firewall.setAllowUrlEncodedDoubleSlash(true);
         return firewall;
     }
 

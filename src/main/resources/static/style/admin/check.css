@@ -7,13 +7,17 @@
 
 #content-container > h2 {
     color: white;
-    background-color: var(--primary-color);
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 22px;
+    background: linear-gradient(135deg, #154D92, #1E88E5);
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 26px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
 .table-content {
@@ -26,6 +30,10 @@
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 16px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-table th,
@@ -36,14 +44,16 @@
 }
 
 .user-table th {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #154D92, #1E88E5);
     color: white;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .user-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
 }
 
 .user-table tr:hover {
-    background-color: #ddd;
+    background-color: #f1f1f1;
 }

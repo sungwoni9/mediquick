@@ -12,11 +12,8 @@ import org.springframework.stereotype.Service;
 public class UserRoleService {
     private final UserRoleRepository userRoleRepository;
 
-    public Byte getRoleCodeByUsername(String username) {
-        UserRole userRole = userRoleRepository.findByUsername(username);
-        if(userRole == null)
-            return null;
-        return userRole.getRoleCode();
+    public UserRole findByUsername(String username) {
+        return userRoleRepository.findByUsername(username);
     }
 
     public Boolean createUserRole(UserRole userRole) {

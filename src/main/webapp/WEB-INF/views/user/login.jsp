@@ -9,18 +9,20 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+    <script src="/script/user/login.js"></script>
     <title>Log in</title>
 </head>
 <c:import url="/header"/>
 <body>
 <div id="content-container">
-    <h2>Log in</h2>
-    <form method="POST" action="/user/login">
+    <h2>Login</h2>
+    <form>
         <input type="text" name="username" id="username" placeholder="username">
-        <p id="error-msg-username" class="error-msg"></p>
         <input type="password" name="password" id="password" placeholder="password">
-        <p id="error-msg-password" class="error-msg"></p>
-        <input type="submit" value="Log in">
+        <input type="submit" value="Login">
+        <p id="find-password"><a href="">Forget your Password?</a></p>
+        <p id="text">Don't have an account?</p>
+        <input type="button" id="register-btn" value="Create new account" onclick="location.href='register';">
     </form>
 </div>
 </body>

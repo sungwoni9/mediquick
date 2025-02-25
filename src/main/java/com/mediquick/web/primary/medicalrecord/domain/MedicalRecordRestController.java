@@ -59,16 +59,4 @@ public class MedicalRecordRestController {
         return ResponseEntity.ok(saveRecord);
     }
 
-    @DeleteMapping("/{code}")
-    public ResponseEntity<Object> deleteRecord(@PathVariable Integer code) {
-        MedicalRecord record = medicalRecordService.findByCode(code);
-        if(record == null){
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("삭제할 진료 기록이 없습니다.");
-        }
-
-        medicalRecordService.deleteByCode(code);
-        return ResponseEntity.ok("진료 기록이 삭제되었습니다.");
-    }
 }

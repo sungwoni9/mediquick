@@ -11,23 +11,22 @@ input[type="text"] {
 textarea {
     resize: none;
 }
+
+form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 #root {
     background-color: #F6F6F9;
     width: 350px;
     height:calc(100% - 50px);
     font-size: 12px;
-}
-
-#root > div:first-child {
-    width: 100%;
-    height:20px;
-    background-color: #E8EDF4;
-    padding: 12px 0;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
-#root > div:first-child p,
 .f-tit > p {
     padding-left: 20px;
     font-size: 12px;
@@ -35,14 +34,22 @@ textarea {
 }
 
 #btn-group {
-    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-group button, input[type="submit"] {
+    border: none;
+    background-color:#154D92;
+    cursor: pointer;
+    width: 50%;
+    padding: 5px 0;
+    color: white;
 }
 
 #btn-group button {
-    border: none;
-    background-color:#154D92;
-    color: white;
-    cursor: pointer;
+    color: black;
+    background-color:#e0e0e0;
 }
 
 .grid-table {
@@ -70,7 +77,8 @@ textarea {
 }
 
 #findings {
-    height: 52px;
+    flex:1;
+    min-height: 50px;
 }
 #opinion {
     height: 42px;
@@ -112,12 +120,12 @@ textarea {
 #lesion-grid input {
     text-align: center;
 }
-#radio-grid, #report-grid {
+#radio-grid, #report-grid, #radiologist-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
-#radio-grid p, #report-grid p {
+#radio-grid p, #report-grid p, #radiologist-grid p {
     background-color: #E8EDF4;
     border-right: 1px solid #e0e0e0;
     padding: 10px;
@@ -130,11 +138,12 @@ textarea {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    padding: 10px 0;
+    padding: 10px 0
 }
 
 #radio-grid > div:first-of-type,
-#report-grid > div:first-of-type{
+#report-grid > div:first-of-type,
+input[name="radiologistName"] {
     border-right:1px solid #e0e0e0;
 }
 

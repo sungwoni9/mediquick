@@ -19,6 +19,8 @@ public class Log {
 
     private String username;
 
+    private Integer studykey;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "activity_type")
     private ActivityType activityType;
