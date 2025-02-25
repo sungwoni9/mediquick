@@ -17,12 +17,9 @@ public class Interpretation extends Timestamp {
     private Integer code;
     private String username;
     private int studykey;
-    @Column(name = "finding_code")
-    private int findingCode;
 
-    public Interpretation(String username, int studykey, int findingCode) {
+    public Interpretation(String username, int studykey) {
         this.username = username;
         this.studykey = studykey;
-        this.findingCode = findingCode;
     }
 }

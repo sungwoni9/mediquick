@@ -49,7 +49,7 @@ public class Finding extends Timestamp {
     @Column(name = "report_status")
     private int reportStatus = 1;
 
-    public Finding(FindingRequestDto findingDto) {
+    public Finding(int code, FindingRequestDto findingDto) {
         this.isNormal = findingDto.isNormal();
         this.lesionLocation = findingDto.getLesionLocation();
         this.lesionSize = findingDto.getLesionSize();
