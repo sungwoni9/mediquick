@@ -7,15 +7,11 @@ import com.mediquick.web.primary.interpretation.domain.Interpretation;
 import com.mediquick.web.primary.interpretation.service.InterpretationService;
 import com.mediquick.web.security.JwtUtil;
 import com.mediquick.web.util.ResponseDto;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/report")
@@ -26,27 +22,19 @@ public class ReportRestController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/write")
-    public ResponseEntity<ResponseDto> write(@RequestBody FindingRequestDto findingDto, HttpServletRequest request) {
-        Finding finding = new Finding(findingDto);
-        Finding entity = findingService.createFinding(finding);
+    public ResponseEntity<ResponseDto> write(@RequestBody FindingRequestDto findingDto, HttpSession session) {
 
-        Cookie[] cookies = request.getCookies();
-        String token = "";
-        for(Cookie cookie : cookies) {
-            String cookieName = cookie.getName();
-            if(cookieName.equals("jwtToken")) {
-                token = cookie.getValue();
-            }
-        }
-
-        // 판독 객체 생성 및 데이터베이스 저장
+        String token = (String) session.getAttribute("jwtToken");
         String username = jwtUtil.extractUsername(token);
-//      Integer studykey = findingDto.getStudykey();
-        Integer studykey = 9999;
-        Integer findingCode = entity.getCode();
 
-        Interpretation interpretation = new Interpretation(username, studykey, findingCode);
+        int studykey = 9998;
+
+        Interpretation interpretation = new Interpretation(username, studykey);
         interpService.createInterpretation(interpretation);
+
+        Integer interpretationCode = interpretation.getCode();
+        Finding finding = new Finding(interpretationCode, findingDto);
+        findingService.createFinding(finding);
 
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "판독 소견서가 성공적으로 저장되었습니다."));
     }
