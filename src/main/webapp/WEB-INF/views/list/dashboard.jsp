@@ -16,7 +16,6 @@
 </nav>
 <div id="content-area" class="content-area">
 </div>
-</body>
 <script src="/script/dashboard.js"></script>
-<script src="/script/studyList.js"></script>
+</body>
 </html>
