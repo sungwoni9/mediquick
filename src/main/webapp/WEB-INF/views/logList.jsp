@@ -18,6 +18,7 @@
             <label for="log-select">조회할 로그 :</label>
             <select id="log-select" name="log-select">
                 <option value="" selected disabled>선택</option>
+                <option value="all">전체</option>
                 <option value="LOGIN">로그인</option>
                 <option value="LOGOUT">로그아웃</option>
                 <option value="VIEW_VIDEO">영상 조회</option>
