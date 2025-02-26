@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/medical-records")
+@RequestMapping("/medical")
 public class MedicalRestController {
     private final MedicalRecordService medicalRecordService;
     private final JwtUtil jwtUtil;
@@ -23,7 +23,7 @@ public class MedicalRestController {
     public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord medicalRecord, HttpSession session) {
         String token = (String) session.getAttribute("jwtToken");
         if (token == null) {
-            throw new RuntimeException("JWT 토큰이 없습니다. 로그인 필요.");
+            throw new RuntimeException("로그인이 필요합니다.");
         }
         String username = jwtUtil.extractUsername(token);
         System.out.println("Username from JWT: " + username);
