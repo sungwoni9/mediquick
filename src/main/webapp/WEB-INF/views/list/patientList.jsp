@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
     <link rel="stylesheet" href="/style/study/form.css">
@@ -44,8 +45,8 @@
             <div class="patient-sex">Patient Sex</div>
             <div class="patient-birth">Patient Birth</div>
         </div>
-
-        <c:forEach var="patient" items="${patients}">
+s
+        <c:forEach var="patient" items="${patient}">
             <div class="list-element" id="patient-${patient.pid}">
                 <div class="patient-code">${patient.pid}</div>
                 <div class="patients-name">${patient.pname}</div>
