@@ -1,4 +1,5 @@
 import {Enums} from '@cornerstonejs/core';
+import {setupTools} from "./dicomViewer-tools";
 
 export function setupLayoutButtons(state) {
     state.buttons = document.querySelectorAll(".layout-button-group .layout-button");
@@ -40,6 +41,7 @@ export async function configureGrid(state, rows, cols) {
         handleViewportClick(state, div);
         handleViewportDoubleClick(state, div);
         element.appendChild(div);
+        element.oncontextmenu = (e) => e.preventDefault();
     }
 
     state.currentLayout = {rows, cols};
