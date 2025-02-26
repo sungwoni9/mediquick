@@ -13,9 +13,7 @@ import java.util.List;
 public class StudyService {
     private final StudyRepository studyRepository;
 
-    public List<Study> findStudyAll(){
-        return studyRepository.findAll(Sort.by(Sort.Direction.ASC,"studykey"));
-    }
+    public List<Study> findStudyAll(){return studyRepository.findAll(Sort.by(Sort.Direction.ASC,"studykey"));}
 
     public List<Study> findStudiesByPid(String pid) {
         return studyRepository.findByPid(pid);
