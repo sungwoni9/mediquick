@@ -12,13 +12,13 @@
   <%--  환자 정보--%>
   <div class="grid-table">
     <div>차트번호</div>
-    <div>P-3532498324</div>
+    <div id="chartNo">불러오는중...</div>
     <div>성&emsp;&emsp;명</div>
-    <div>이가탄</div>
+    <div id="patientName">불러오는중...</div>
     <div>성&emsp;&emsp;별</div>
-    <div>男</div>
+    <div id="patientGender">불러오는중...</div>
     <div>생년월일</div>
-    <div>1999-05-26</div>
+    <div id="patientBirth">불러오는중...</div>
   </div>
   <%--  소견 작성 폼 --%>
     <form method="POST" action="/report/write">
@@ -72,7 +72,7 @@
       <div class="f-tit">
         <p>Previous Medical Records</p>
       </div>
-        <textarea id="previous" name="comparisonStudies">매복된 하악 우측 제 3대 구치과 하치조 신경관이 파노라마 상 겹쳐있어 정확한 위치 판단을 위해 촬영한 결과 신경손상의 위험성이 있음.</textarea>
+        <textarea id="previous" name="comparisonStudies"></textarea>
 
       <div class="f-tit">
         <p>Possible diagnosis</p>
@@ -128,12 +128,12 @@
       <div class="f-tit">
         <p>Additional findings</p>
       </div>
-        <textarea id="findings" name="additionalFindings">특이 소견</textarea>
+        <textarea id="findings" name="additionalFindings"></textarea>
 
       <div class="f-tit">
         <p>Additional opinion</p>
       </div>
-        <textarea id="opinion" name="additionalComment">추가적인 소견</textarea>
+        <textarea id="opinion" name="additionalComment"></textarea>
 
       <div class="f-tit">
         <p>Additional notes</p>
