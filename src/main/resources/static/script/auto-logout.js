@@ -1,3 +1,8 @@
+function isLogin() {
+    const token = localStorage.getItem("jwtToken");
+    return token !== null;
+}
+
 async function updateTokenExpiry() {
     const token = localStorage.getItem("jwtToken");
     console.log("저장된 JWT:", token);
@@ -7,12 +12,13 @@ async function updateTokenExpiry() {
     try {
         const response = await fetch("/user/token-expiry", {
             method: "GET",
-            headers: { "Authorization": `Bearer ${token}` }
+            headers: {"Authorization": `Bearer ${token}`}
         });
 
         if (!response.ok) {
             alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "user/login";
+            localStorage.removeItem("jwtToken");
+            window.location.href = "/user/login";
             return;
         }
 
@@ -32,19 +38,19 @@ async function extendToken() {
     const token = localStorage.getItem("jwtToken");
     if (!token) {
         alert("연장할 수 있는 토큰이 없습니다. 다시 로그인해주세요.");
-        window.location.href = "user/login";
+        window.location.href = "/user/login";
         return;
     }
 
     try {
         const response = await fetch("/user/extend-token", {
             method: "POST",
-            headers: { "Authorization": `Bearer ${token}` }
+            headers: {"Authorization": `Bearer ${token}`}
         });
 
         if (!response.ok) {
             alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "user/login";
+            window.location.href = "/user/login";
             return;
         }
 
@@ -61,8 +67,10 @@ async function extendToken() {
     }
 }
 
+if (isLogin()) {
 // 1초마다 남은 시간 업데이트
-setInterval(updateTokenExpiry, 1000);
-
+    setInterval(updateTokenExpiry, 1000);
 // 전역에서 `extendToken()`을 호출할 수 있도록 등록
-window.extendToken = extendToken;
+    window.extendToken = extendToken;
+}
+
