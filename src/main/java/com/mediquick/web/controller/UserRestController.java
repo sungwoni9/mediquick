@@ -27,6 +27,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
@@ -258,5 +261,28 @@ public class UserRestController {
                     .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Deletion failed"));
         }
     }
+
+    @GetMapping("/token-expiry")
+    public ResponseEntity<Map<String, Object>> getTokenExpiry(@RequestHeader("Authorization") String authHeader) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.put("message", "No token provided");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        String token = authHeader.substring(7);
+        if (jwtUtil.isTokenExpired(token)) {
+            response.put("message", "Token expired");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        long expirationTime = jwtUtil.getExpirationTime(token);
+        long remainingTime = expirationTime - System.currentTimeMillis(); // 남은 시간(ms)
+
+        response.put("remainingTime", remainingTime); // 남은 시간(ms) 반환
+        return ResponseEntity.ok(response);
+    }
+
 
 }
