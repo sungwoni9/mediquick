@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.mediquick.web.secondary.patient.domain.Patient;
 import com.mediquick.web.secondary.patient.service.PatientService;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/patients")
+@RequestMapping("patient")
 @RestController
 public class PatientRestController {
     private final PatientService patientService;
     private final StudyService studyService;
+
+    @GetMapping({"","/"})
+    public ResponseEntity<?> getPatients() {return ResponseEntity.ok(patientService.findPatientsAll());}
 
     @GetMapping("/search")
     public ResponseEntity<Object> search(@RequestParam String pname) {
@@ -40,7 +42,6 @@ public class PatientRestController {
             List<Study> studies = studyService.findStudiesByPid(patient.getPid());
             result.add(new PatientWithStudies(patient, studies));
         }
-
         return ResponseEntity.ok(result);
     }
 
@@ -53,7 +54,7 @@ public class PatientRestController {
             this.studies = studies;
         }
 
-        public Patient getPatient() {
+        public Patient getPatients() {
             return patient;
         }
 

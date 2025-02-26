@@ -10,7 +10,7 @@
 <nav class="navigation-bar">
     <ul>
         <li class="nav-item" data-page="study">Study List</li>
-        <li class="nav-item" data-page="patients">Patients List</li>
+        <li class="nav-item" data-page="patient">Patient List</li>
         <li class="nav-item" data-page="medical">Medical List</li>
     </ul>
 </nav>

@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
 
-            // 선택된 페이지 콘텐츠 로드
             loadContent(page);
         });
     });
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'study':
                 url = '/list/studyList';
                 break;
-            case 'patients':
+            case 'patient':
                 url = '/list/patientList';
                 break;
             case 'medical':
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const script = document.createElement('script');
         script.setAttribute('data-page-script', page);
         script.defer = true;
-        script.src = `/script/${page}List.js`;
+        script.src = `/script/list/${page}List.js`;
         script.onload = () => {
             console.log(`${page} 스크립트 불러오기 성공`);
             // 페이지별 초기화 함수 호출

@@ -3,7 +3,9 @@ package com.mediquick.web.primary.medicalrecord.service;
 
 import com.mediquick.web.primary.medicalrecord.domain.MedicalRecord;
 import com.mediquick.web.primary.medicalrecord.domain.MedicalRecordRepository;
+import com.mediquick.web.secondary.patient.domain.Patient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class  MedicalRecordService {
         return medicalRecordRepository.findByPid(pid);
     }
 
-    public MedicalRecord findByCode(Integer code) {
-        return medicalRecordRepository.findById(code).orElse(null);
-    }
+    public MedicalRecord findByCode(Integer code) {return medicalRecordRepository.findById(code).orElse(null);}
+
+    public List<MedicalRecord> findMedicalAll(){return medicalRecordRepository.findAll(Sort.by(Sort.Direction.ASC,"code"));}
 }

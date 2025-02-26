@@ -7,6 +7,7 @@
 </head>
 <body>
 <div class="main-container">
+    <!-- 검색 폼 -->
     <div>
         <div>
             <form id="searchForm" class="search-form">
@@ -36,6 +37,7 @@
         </div>
     </div>
 
+    <!-- 검사 리스트 -->
     <div class="study-list-container">
         <div id="list-header" class="list-element">
             <div class="study-id">Study Id</div>
@@ -60,11 +62,11 @@
                 <div class="series-count">${study.seriescnt}</div>
                 <div class="image-count">${study.imagecnt}</div>
 
-                <img class="pacs-button" src="/icons/pacs-icon.png" alt="PACS Icon" />
+                <img class="pacs-button" src="/icons/pacs-icon.png" alt="PACS Icon"/>
             </div>
         </c:forEach>
     </div>
 </div>
 </body>
-<script src="/script/studyList.js"></script>
+<script src="/script/list/studyList.js"></script>
 </html>
