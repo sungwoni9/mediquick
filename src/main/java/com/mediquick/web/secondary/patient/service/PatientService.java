@@ -1,5 +1,6 @@
 package com.mediquick.web.secondary.patient.service;
 
+import com.mediquick.web.primary.medicalrecord.domain.MedicalRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
