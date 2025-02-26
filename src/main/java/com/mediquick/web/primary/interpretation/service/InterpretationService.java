@@ -14,4 +14,9 @@ public class InterpretationService {
         interpretationRepository.save(interpretation);
         return true;
     }
+
+    public Integer findInterpretationCodeByStudykey(int studykey) {
+        Interpretation interpretation = interpretationRepository.findByStudykey(studykey);
+        return interpretation != null ? interpretation.getCode() : null;
+    }
 }
