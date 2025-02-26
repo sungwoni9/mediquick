@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: {
         index: './index.js',
-        viewer: './script/viewer/dcmViewer.js'
+        viewer: './script/viewer/viewer.js'
     },
     output: {
         filename: '[name].bundle.js',

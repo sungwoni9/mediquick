@@ -1,4 +1,4 @@
-export function initSidebar() {
+export function initSidebarModule() {
     document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const studyKey = urlParams.get('studyKey');
@@ -38,10 +38,12 @@ export function initSidebar() {
                             const serieskey = this.dataset.serieskey;
                             const imagekey = this.dataset.imagekey;
                             const event = new CustomEvent('imageSelected',
-                                { detail: {
-                                    "studykey": studykey,
-                                    "serieskey":serieskey,
-                                    "imagekey":imagekey}
+                                {
+                                    detail: {
+                                        "studykey": studykey,
+                                        "serieskey": serieskey,
+                                        "imagekey": imagekey
+                                    }
                                 });
                             document.dispatchEvent(event);
                         });
@@ -66,11 +68,16 @@ async function getDicomMetadata(studyKey) {
 
         if (!response.ok) {
             if (response.status === 204) return [];
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if (response.status === 500) return [];
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching DICOM metadata:', error);
+        console.error(
+            'DICOM 메타데이터 가져오기 실패:', {
+                message: error.message,
+                studyKey,
+                stack: error.stack
+            });
         throw error;
     }
 }
