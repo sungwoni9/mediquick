@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/global.css">
     <script src="/script/auto-logout.js"></script>
+    <script type="module" src="/script/block-screenshot.js"></script>
 </head>
 <body>
 <header>

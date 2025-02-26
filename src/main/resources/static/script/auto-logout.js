@@ -5,7 +5,7 @@ function isLogin() {
 
 async function updateTokenExpiry() {
     const token = localStorage.getItem("jwtToken");
-    console.log("저장된 JWT:", token);
+//  console.log("저장된 JWT:", token);
 
     if (!token) return;
 
@@ -57,7 +57,7 @@ async function extendToken() {
         const data = await response.json();
         if (data.newToken) {
             localStorage.setItem("jwtToken", data.newToken); // 새로운 JWT 저장
-            alert("세션이 연장되었습니다!");
+            alert("시간이 연장되었습니다!");
             updateTokenExpiry(); // 남은 시간 업데이트
         } else {
             alert("토큰 연장에 실패했습니다. 다시 로그인해주세요.");
