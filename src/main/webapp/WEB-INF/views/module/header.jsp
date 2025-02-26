@@ -4,7 +4,7 @@
     <title>mediquick</title>
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/global.css">
-    <script type="module" src="/script/auto-logout.js"></script>
+    <script src="/script/auto-logout.js"></script>
 </head>
 <body>
 <header>
