@@ -29,7 +29,7 @@ public class ListController {
 
     @GetMapping("/patientList")
     public String patientList(Model model) {
-        model.addAttribute("patients", patientService.findPatientsAll());
+        model.addAttribute("patient", patientService.findPatientsAll());
         return "list/patientList";
     }
 
