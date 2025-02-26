@@ -16,8 +16,8 @@
                 <p>담당부서</p>
             </div>
             <img src="https://ca.slack-edge.com/T07GQKB796Y-U07H88MAF6J-ed560c702e4e-512" alt="profile-img">
-            <div id="token-timer">남은 시간: -</div>
-            <button onclick="extendToken()">시간 연장</button>
+            <div id="token-timer">남은 시간: </div>
+            <button id="btn-extend" onclick="extendToken()">시간 연장</button>
         </div>
     </div>
 </header>

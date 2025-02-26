@@ -7,7 +7,7 @@
 
 #content-container > h2 {
     color: white;
-    background: linear-gradient(135deg, #154D92, #1E88E5);
+    background-color: var(--primary-color);
     padding: 15px 30px;
     border-radius: 10px;
     font-size: 26px;
@@ -44,7 +44,7 @@
 }
 
 .user-table th {
-    background: linear-gradient(135deg, #154D92, #1E88E5);
+    background-color: var(--primary-color);
     color: white;
     font-weight: bold;
     text-transform: uppercase;
