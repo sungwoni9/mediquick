@@ -68,4 +68,23 @@ public class Finding extends Timestamp {
         this.reportStatus = findingDto.getReportStatus();
     }
 
+    public void update(FindingRequestDto findingDto) {
+        this.isNormal = findingDto.isNormal();
+        this.lesionLocation = findingDto.getLesionLocation();
+        this.lesionSize = findingDto.getLesionSize();
+        this.lesionCount = findingDto.getLesionCount();
+        this.morphology = findingDto.getMorphology();
+        this.additionalFindings = findingDto.getAdditionalFindings();
+        this.possibleDiagnosis = findingDto.getPossibleDiagnosis();
+        this.clinicalSignificance = findingDto.getClinicalSignificance();
+        this.recommendedStudies = findingDto.isRecommendedStudies();
+        this.comparisonStudies = findingDto.getComparisonStudies();
+        this.additionalComment = findingDto.getAdditionalComment();
+        this.additionalNotes = findingDto.getAdditionalNotes();
+        this.radiologistName = findingDto.getRadiologistName();
+        this.institutionName = findingDto.getInstitutionName();
+        this.urgencyLevel = findingDto.getUrgencyLevel();
+        this.reportStatus = findingDto.getReportStatus();
+    }
+
 }

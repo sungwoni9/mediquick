@@ -15,4 +15,6 @@ public interface StudyRepository extends JpaRepository<Study,Integer> {
 
     List<Study> findByPid(String pid);
 
+    Study findStudyByStudykey(int studykey);
+
 }

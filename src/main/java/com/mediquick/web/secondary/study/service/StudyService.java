@@ -18,4 +18,8 @@ public class StudyService {
     public List<Study> findStudiesByPid(String pid) {
         return studyRepository.findByPid(pid);
     }
+
+    public Study findStudyByStudykey(int studykey) {
+        return studyRepository.findStudyByStudykey(studykey);
+    }
 }
