@@ -284,5 +284,34 @@ public class UserRestController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/extend-token")
+    public ResponseEntity<Map<String, Object>> extendToken(@RequestHeader("Authorization") String authHeader, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.put("message", "No token provided");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        String token = authHeader.substring(7);
+        if (jwtUtil.isTokenExpired(token)) {
+            response.put("message", "Token expired");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        // 새로운 JWT 발급
+        String username = jwtUtil.extractUsername(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        String newToken = jwtUtil.generateToken(userDetails);
+
+        // 세션에도 새로운 JWT 저장
+        session.setAttribute("jwtToken", newToken);
+
+        response.put("newToken", newToken);
+        response.put("message", "Token extended successfully");
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }
