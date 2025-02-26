@@ -1,7 +1,6 @@
 package com.mediquick.web.primary.user.domain;
 
 import com.mediquick.web.util.ResponseDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", e=> {
     const form = document.querySelector("form");
     const username = document.getElementById("username");
     const password = document.getElementById("password");
@@ -6,7 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const contact = document.getElementById("contact");
     const email = document.getElementById("email");
-
+    const sendCodeBtn = document.getElementById("send-code-btn");
+    const verifyCode = document.getElementById("verify-code");
+    const verifyCodeBtn = document.getElementById("verify-code-btn");
+    const verifiedEmail = document.getElementById("verified-email");
 
     // 오류 메시지 표시 함수
     function showError(input, message) {
@@ -48,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     contact.addEventListener("change", async e => {
-        let phone =e.target.value;
+        let phone = e.target.value;
         const digits = phone.replace(/\D/g, "");
         console.log(digits);
         if (/^01\d{9}$/.test(digits)) {
             console.log(22);
             phone = digits.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-        }else if (/^01\d{8}$/.test(digits)) {
+        } else if (/^01\d{8}$/.test(digits)) {
             console.log(33);
             phone = digits.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
         }
@@ -76,27 +79,61 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    let verifingEmail
     email.addEventListener("change", async e => {
+        if(e.target.value!=="" && e.target.value===verifiedEmail.value){
+            validEmail = true;
+            sendCodeBtn.disabled = true;
+            verifyCode.disabled = true;
+            verifyCodeBtn.disabled = true;
+            return;
+        }
+        sendCodeBtn.disabled = false;
+        validEmail = false;
         try {
             const response = await fetch(`/user/valid/email?value=${e.target.value}`);
             if (response.status === 200) {
-                validEmail = false;
                 showError(e.target, "이미 등록된 이메일입니다.");
             } else {
-                validEmail = true;
                 clearError(e.target);
             }
         } catch {
             showError(e.target, "유효성 검사를 수행할 수 없습니다.");
-            validEmail = false;
         }
     });
 
+    sendCodeBtn.addEventListener("click", async e =>{
+        const response = await fetch(`/user/valid/send?email=${email.value}`);
+        const data = await response.json();
+        if (response.ok) {
+            verifyCode.disabled = false;
+            verifyCodeBtn.disabled = false;
+            alert("인증 코드가 이메일로 전송되었습니다.");
+        } else {
+            alert(`인증 코드 전송 실패: ${data.message}`);
+        }
+    })
+
+    verifyCodeBtn.addEventListener("click", async e =>{
+        const response = await fetch(`/user/valid/verify?email=${email.value}&code=${verifyCode.value}`);
+        const data = await response.json();
+        if (response.ok) {
+            verifiedEmail.value=email.value;
+            sendCodeBtn.disabled = true;
+            verifyCode.disabled = true;
+            verifyCodeBtn.disabled = true;
+            validEmail = true;
+            alert("이메일 인증을 성공하였습니다.");
+        } else {
+            alert(`이메일 인증 실패: ${data.message}`);
+        }
+    })
+
     // 폼 제출 시 모든 입력값 검증 & 서버로 요청
-    form.addEventListener("submit", async e=> {
+    form.addEventListener("submit", async e => {
         e.preventDefault(); // 기본 제출 방지
 
-        if (!validUsername || !validPhone || !validEmail){
+        if (!validUsername || !validPhone || !validEmail) {
             alert("회원가입 정보를 확인해주세요.");
             return;
         }
@@ -110,10 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const response = await fetch("/user/register", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(jsonData),
         });
-        if(response.ok) {
+        if (response.ok) {
             alert("회원가입이 완료되었습니다!");
             location.href = "/user/login";
         } else {

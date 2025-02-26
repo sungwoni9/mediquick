@@ -37,6 +37,10 @@
                required pattern="^(?!.*\.\.)[a-zA-Z\d](?:[a-zA-Z\d._%+\-]*[a-zA-Z\d])?@(?:[a-zA-Z\d](?:[a-zA-Z\d\-]*[a-zA-Z\d])?\.)+[a-zA-Z]{2,10}$"
                title="올바른 이메일 주소를 입력하세요 (예: user@example.com)">
         <p id="error-msg-email" class="error-msg"></p>
+        <input type="button" id="send-code-btn" value="인증 코드 전송" disabled>
+        <input type="text" name="verifyCode" id="verify-code"  placeholder="Verify Code" disabled>
+        <input type="button" id="verify-code-btn" value="인증 코드 확인" disabled>
+        <input type="hidden" name="verifiedEmail" id="verified-email">
         <div class="input-block">
             <input type="text" name="address" id="address" placeholder="Address" required>
             <input type="text" name="addressDetail" id="detailed-address" placeholder="Detailed Address">

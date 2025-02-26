@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <script src="/script/user/header.js"></script>
     <title>mediquick</title>
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/global.css">
-    <script src="/script/auto-logout.js"></script>
-    <script type="module" src="/script/block-screenshot.js"></script>
+    <link rel="stylesheet" href="/style/user/header.css">
 </head>
 <body>
 <header>
@@ -13,12 +13,13 @@
         <h2>MediQuick</h2>
         <div id="user-info">
             <div id="user-details">
-                <p>테스터</p>
-                <p>담당부서</p>
             </div>
-            <img src="https://ca.slack-edge.com/T07GQKB796Y-U07H88MAF6J-ed560c702e4e-512" alt="profile-img">
-            <div id="token-timer">남은 시간: </div>
-            <button id="btn-extend" onclick="extendToken()">시간 연장</button>
+            <div id="user-profile-image">
+            </div>
+            <div id="user-menu">
+                <button id="login-profile-button"></button>
+                <button id="register-logout-button"></button>
+            </div>
         </div>
     </div>
 </header>

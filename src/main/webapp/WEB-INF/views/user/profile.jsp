@@ -52,6 +52,7 @@
         <label for="doctor" id="doctor-label">진료의</label><input type='radio' name='roleCode' id="doctor" value='2' checked/>
         <label for="radiologist" id="radiologist-label">판독의</label><input type='radio' name='roleCode' id="radiologist" value='3' />
         <input type="submit" value="Register">
+        <input type="button" value="Delete Account" onclick="location.href='delete';">
     </form>
 </div>
 </body>

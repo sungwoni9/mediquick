@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
     const radiologist = document.getElementById('radiologist');
 
     // 사용자 데이터 가져오기
-    const response = await fetch('/user/myaccount', { method: "GET" });
+    const response = await fetch('/user/myaccount');
     if (!response.ok) {
         location.href = '/user/login';
         return;
