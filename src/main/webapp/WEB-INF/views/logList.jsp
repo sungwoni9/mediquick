@@ -4,8 +4,6 @@
 <html>
 <head>
     <title>로그 리스트</title>
-    <link rel="stylesheet" href="/style/global.css">
-    <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/admin/log.css">
     <script type="module" src="/script/logList.js"></script>
 </head>

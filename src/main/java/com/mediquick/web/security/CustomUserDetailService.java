@@ -7,6 +7,7 @@ import com.mediquick.web.primary.user.service.UserService;
 import com.mediquick.web.primary.userrole.domain.UserRole;
 import com.mediquick.web.primary.userrole.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ public class CustomUserDetailService implements UserDetailsService {
     private final UserRoleService userRoleService;
     private final RoleService roleService;
 
+    @Cacheable(value = "userCache", key = "#username") // 캐싱 적용
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usersService.findByUsername(username);

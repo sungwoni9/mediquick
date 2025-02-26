@@ -10,8 +10,6 @@
 <html>
 <head>
     <title>관리자 화면</title>
-    <link rel="stylesheet" href="/style/global.css">
-    <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/admin/main.css">
     <script type="module" src="/script/management.js"></script>
 </head>

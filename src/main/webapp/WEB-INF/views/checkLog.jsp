@@ -11,9 +11,7 @@
 <html>
 <head>
     <title>로그 조회</title>
-    <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/admin/check.css">
-    <script type="module" src="/script/block-screenshot.js"></script>
 </head>
 <c:import url="/header"/>
 <body>

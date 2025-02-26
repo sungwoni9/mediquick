@@ -27,6 +27,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
@@ -105,33 +108,45 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(@RequestBody UserRequestDto userDto, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserRequestDto userDto, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+
         try {
             // 사용자 정보 조회
             User user = userService.findByUsername(userDto.getUsername());
 
             if (user == null || !passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
+                response.put("message", "Invalid username or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
+
             // Spring Security 인증 수행
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
 
             // UserDetails 로드
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+
             // 로그인 로그 저장
             logService.saveLog(userDto.getUsername(), Log.ActivityType.LOGIN);
+
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
             System.out.println("new token: " + token);
-            session.setAttribute("jwtToken", token);
-            return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Login successful"));
+            session.setAttribute("jwtToken", token); // 세션에 토큰 저장
+
+            // JWT 토큰을 응답에 포함
+            response.put("token", token);
+            response.put("message", "Login successful");
+            response.put("status", HttpStatus.OK.value());
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password"));
+            response.put("message", "Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+
 
     @GetMapping("/myaccount")
     public ResponseEntity<ResponseDto> myAccount(HttpSession session) {
@@ -258,5 +273,57 @@ public class UserRestController {
                     .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Deletion failed"));
         }
     }
+
+    @GetMapping("/token-expiry")
+    public ResponseEntity<Map<String, Object>> getTokenExpiry(@RequestHeader("Authorization") String authHeader) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.put("message", "No token provided");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        String token = authHeader.substring(7);
+        if (jwtUtil.isTokenExpired(token)) {
+            response.put("message", "Token expired");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        long expirationTime = jwtUtil.getExpirationTime(token);
+        long remainingTime = expirationTime - System.currentTimeMillis(); // 남은 시간(ms)
+
+        response.put("remainingTime", remainingTime); // 남은 시간(ms) 반환
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/extend-token")
+    public ResponseEntity<Map<String, Object>> extendToken(@RequestHeader("Authorization") String authHeader, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.put("message", "No token provided");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        String token = authHeader.substring(7);
+        if (jwtUtil.isTokenExpired(token)) {
+            response.put("message", "Token expired");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        // 새로운 JWT 발급
+        String username = jwtUtil.extractUsername(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        String newToken = jwtUtil.generateToken(userDetails);
+
+        // 세션에도 새로운 JWT 저장
+        session.setAttribute("jwtToken", newToken);
+
+        response.put("newToken", newToken);
+        response.put("message", "Token extended successfully");
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }

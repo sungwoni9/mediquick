@@ -133,4 +133,9 @@ public class JwtUtil {
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Session is active."));
     }
 
+    public long getExpirationTime(String token) {
+        return extractExpiration(token).getTime();
+    }
+
+
 }
