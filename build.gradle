@@ -76,7 +76,11 @@ tasks.withType(AbstractArchiveTask).configureEach {
  */
 tasks.register('webpackBuild', Exec) {
     workingDir 'src/main/resources/static'
-    commandLine 'npm.cmd', 'run', 'build'
+
+    // OS에 따라 npm 또는 npm.cmd 설정
+    def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+    commandLine = isWindows ? ['npm.cmd', 'run', 'build'] : ['npm', 'run', 'build']
+
     inputs.dir 'src/main/resources/static'
     outputs.dir 'build/resources/main/static'
     standardOutput = new ByteArrayOutputStream()
