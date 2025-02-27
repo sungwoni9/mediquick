@@ -196,6 +196,12 @@ public class UserRestController {
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
             session.setAttribute("jwtToken", token);
+
+            // JWT 토큰을 응답에 포함
+            response.put("token", token);
+            response.put("message", "Login successful");
+            response.put("status", HttpStatus.OK.value());
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", "Invalid username or password");
