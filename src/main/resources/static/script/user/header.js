@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", async e => {
     const userMenu = document.getElementById('user-menu');
     const loginProfileButton = document.getElementById('login-profile-button');
     const registerLogoutButton = document.getElementById('register-logout-button');
+    const tokenTimer = document.getElementById("token-timer");
+    const extendButton = document.querySelector("button[onclick='extendToken()']");
 
 
     userInfo.addEventListener("click", e => {
@@ -37,6 +39,11 @@ document.addEventListener("DOMContentLoaded", async e => {
         registerLogoutButton.onclick = () => {
             location.href = 'register';
         };
+
+        // 로그아웃 상태에서는 타이머 & 버튼 숨기기
+        tokenTimer.style.display = "none";
+        extendButton.style.display = "none";
+
         return;
     }
     const data = await response.json();
@@ -76,4 +83,8 @@ document.addEventListener("DOMContentLoaded", async e => {
         
         location.href = '/user/login';
     };
+
+    // 로그인 상태에서는 타이머 & 버튼 표시
+    tokenTimer.style.display = "block";
+    extendButton.style.display = "block";
 });
