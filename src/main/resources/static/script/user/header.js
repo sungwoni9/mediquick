@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", async e => {
     const userMenu = document.getElementById('user-menu');
     const loginProfileButton = document.getElementById('login-profile-button');
     const registerLogoutButton = document.getElementById('register-logout-button');
+    const tokenTimer = document.getElementById("token-timer");
+    const extendButton = document.querySelector("button[onclick='extendToken()']");
 
 
     userInfo.addEventListener("click", e => {
@@ -31,12 +33,17 @@ document.addEventListener("DOMContentLoaded", async e => {
             </svg>`;
         loginProfileButton.innerText = "로그인";
         loginProfileButton.onclick = () => {
-            location.href = 'login';
+            location.href = '/user/login';
         };
         registerLogoutButton.innerText = "회원가입";
         registerLogoutButton.onclick = () => {
-            location.href = 'register';
+            location.href = '/user/register';
         };
+
+        // 로그아웃 상태에서는 타이머 & 버튼 숨기기
+        tokenTimer.style.display = "none";
+        extendButton.style.display = "none";
+
         return;
     }
     const data = await response.json();
@@ -61,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async e => {
         </svg>`;
     loginProfileButton.innerText = "회원정보";
     loginProfileButton.onclick = () => {
-        location.href = 'profile';
+        location.href = '/user/profile';
     };
     registerLogoutButton.innerText = "로그아웃";
     registerLogoutButton.onclick = async () => {
@@ -70,6 +77,14 @@ document.addEventListener("DOMContentLoaded", async e => {
             alert("로그아웃 실패.")
             return;
         }
-        location.href = 'login';
+        
+        // 토큰 삭제
+        localStorage.removeItem("jwtToken");
+        
+        location.href = '/user/login';
     };
+
+    // 로그인 상태에서는 타이머 & 버튼 표시
+    tokenTimer.style.display = "block";
+    extendButton.style.display = "block";
 });

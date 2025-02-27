@@ -5,7 +5,7 @@ function isLogin() {
 
 async function updateTokenExpiry() {
     const token = localStorage.getItem("jwtToken");
-//  console.log("저장된 JWT:", token);
+    console.log("저장된 JWT:", token);
 
     if (!token) return;
 
@@ -16,7 +16,8 @@ async function updateTokenExpiry() {
         });
 
         if (!response.ok) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("시간이 만료되었습니다. 다시 로그인해주세요.");
+            await fetch('/user/logout');
             localStorage.removeItem("jwtToken");
             window.location.href = "/user/login";
             return;

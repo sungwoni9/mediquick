@@ -11,9 +11,8 @@ module.exports = {
         },
     },
     output: {
-        filename: '[name].[contenthash].bundle.js', // 캐싱 최적화
+        filename: '[name].bundle.js', // 캐싱 최적화
         path: path.resolve(__dirname, 'dist'),
-        chunkFilename: '[name].[chunkhash].chunk.js', // 청크 파일
     },
     module: {
         rules: [

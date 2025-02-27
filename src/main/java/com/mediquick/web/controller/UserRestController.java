@@ -196,6 +196,12 @@ public class UserRestController {
             // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails);
             session.setAttribute("jwtToken", token);
+
+            // JWT 토큰을 응답에 포함
+            response.put("token", token);
+            response.put("message", "Login successful");
+            response.put("status", HttpStatus.OK.value());
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", "Invalid username or password");
@@ -282,8 +288,20 @@ public class UserRestController {
 
     @GetMapping("/logout")
     public ResponseEntity<ResponseDto> logout(HttpSession session) {
+
+        // username 가져오기
+        String token = (String) session.getAttribute("jwtToken");
+        String username = jwtUtil.extractUsername(token);
+        System.out.println("Username : " + username);
+
         session.removeAttribute("jwtToken");
         session.invalidate();
+
+        // 로그아웃 로그 저장
+        if (username != null) {
+            logService.saveLog(username, Log.ActivityType.LOGOUT);
+        }
+
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "Logged out successfully"));
     }
 
