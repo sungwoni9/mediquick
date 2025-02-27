@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async e => {
         };
         registerLogoutButton.innerText = "회원가입";
         registerLogoutButton.onclick = () => {
-            location.href = 'register';
+            location.href = '/user/register';
         };
 
         // 로그아웃 상태에서는 타이머 & 버튼 숨기기
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async e => {
         </svg>`;
     loginProfileButton.innerText = "회원정보";
     loginProfileButton.onclick = () => {
-        location.href = 'profile';
+        location.href = '/user/profile';
     };
     registerLogoutButton.innerText = "로그아웃";
     registerLogoutButton.onclick = async () => {
