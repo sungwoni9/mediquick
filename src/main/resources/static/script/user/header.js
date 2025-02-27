@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async e => {
             </svg>`;
         loginProfileButton.innerText = "로그인";
         loginProfileButton.onclick = () => {
-            location.href = 'login';
+            location.href = '/user/login';
         };
         registerLogoutButton.innerText = "회원가입";
         registerLogoutButton.onclick = () => {
@@ -70,6 +70,10 @@ document.addEventListener("DOMContentLoaded", async e => {
             alert("로그아웃 실패.")
             return;
         }
-        location.href = 'login';
+        
+        // 토큰 삭제
+        localStorage.removeItem("jwtToken");
+        
+        location.href = '/user/login';
     };
 });
