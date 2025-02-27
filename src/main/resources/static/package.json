@@ -10,16 +10,12 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@cornerstonejs/codec-charls": "^1.2.3",
-    "@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
-    "@cornerstonejs/codec-openjpeg": "^1.2.4",
-    "@cornerstonejs/codec-openjph": "^2.4.7",
     "@cornerstonejs/core": "^2.19.7",
-    "@cornerstonejs/dicom-image-loader": "^2.19.15",
+    "@cornerstonejs/dicom-image-loader": "^2.19.7",
     "@cornerstonejs/nifti-volume-loader": "^2.19.7",
-    "@cornerstonejs/tools": "^2.19.15",
+    "@cornerstonejs/tools": "^2.19.7",
     "@icr/polyseg-wasm": "^0.4.0",
-    "webpack": "^5.98.0",
+    "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
   },
   "devDependencies": {
