@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/style/user/header.css">
     <script src="/script/user/header.js"></script>
     <script src="/script/auto-logout.js"></script>
+    <script type="module" src="/script/block-screenshot.js"></script>
 </head>
 <body>
 <header>
@@ -21,9 +22,9 @@
                 <button id="login-profile-button"></button>
                 <button id="register-logout-button"></button>
             </div>
+            <div id="token-timer">남은 시간:</div>
+            <button id="btn-extend" onclick="extendToken()">시간 연장</button>
         </div>
-        <div id="token-timer">남은 시간: </div>
-        <button onclick="extendToken()">시간 연장</button>
     </div>
 </header>
 </body>
