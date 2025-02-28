@@ -41,7 +41,7 @@
     <div class="study-list-container">
         <div id="list-header" class="list-element">
             <div class="study-id">Study Id</div>
-            <div class="patients-name">Patients Name</div>
+            <div class="patient-name">Patients Name</div>
             <div class="study-time">Study Time</div>
             <div class="study-desc">Study Description</div>
             <div class="modality">Modality</div>
@@ -54,7 +54,7 @@
         <c:forEach var="study" items="${studies}">
             <div class="list-element" id="study-${study.studykey}">
                 <div class="study-key">${study.studykey}</div>
-                <div class="patients-name">${study.pname}</div>
+                <div class="patient-name">${study.pname}</div>
                 <div class="study-time">${study.studytime}</div>
                 <div class="study-desc">${study.studydesc}</div>
                 <div class="modality">${study.modality}</div>
@@ -68,5 +68,4 @@
     </div>
 </div>
 </body>
-<script src="/script/list/studyList.js"></script>
 </html>

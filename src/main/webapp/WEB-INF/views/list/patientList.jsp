@@ -41,15 +41,15 @@
     <div class="patient-list-container">
         <div id="list-header" class="list-element">
             <div class="patient-code">Patient Code</div>
-            <div class="patients-name">Patient Name</div>
+            <div class="patient-name">Patient Name</div>
             <div class="patient-sex">Patient Sex</div>
             <div class="patient-birth">Patient Birth</div>
         </div>
-s
+
         <c:forEach var="patient" items="${patient}">
             <div class="list-element" id="patient-${patient.pid}">
                 <div class="patient-code">${patient.pid}</div>
-                <div class="patients-name">${patient.pname}</div>
+                <div class="patient-name">${patient.pname}</div>
                 <div class="patient-sex">${patient.psex}</div>
                 <div class="patient-birth">${patient.pbirthdate}</div>
             </div>
@@ -57,5 +57,4 @@ s
     </div>
 </div>
 </body>
-<script src="/script/list/patientList.js"></script>
 </html>
