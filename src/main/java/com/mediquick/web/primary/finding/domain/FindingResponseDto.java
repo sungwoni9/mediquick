@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +31,7 @@ public class FindingResponseDto extends ResponseDto {
     private String institutionName;
     private int urgencyLevel;
     private int reportStatus;
+    private Timestamp regDate;
 
     public FindingResponseDto(Finding finding) {
         this.setStatusCode(HttpStatus.OK.value());
@@ -50,6 +53,7 @@ public class FindingResponseDto extends ResponseDto {
         this.institutionName = finding.getInstitutionName();
         this.urgencyLevel = finding.getUrgencyLevel();
         this.reportStatus = finding.getReportStatus();
+        this.regDate = finding.getRegDate();
     }
 
 }
