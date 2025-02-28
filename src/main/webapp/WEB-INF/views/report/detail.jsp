@@ -3,48 +3,53 @@
 <html>
 <head>
     <link rel="stylesheet" href="/style/report/detail.css">
+    <script src="/script/report/detail.js"></script>
     <title>진료/판독 조회</title>
 </head>
 <c:import url="/header"/>
 <body>
 <div id="recode">
-    <div id="top">MS0001 / Anonymous / 1979-01-22 / F</div>
-    <div id="wrap">
-
-<%-- 진료기록 --%>
-        <div>
-            <p>환자 증상 : </p>
-            <p>의사 처방전 : </p>
-            <p>진료의 이름 : </p>
-            <p>병원/기관명 : </p>
-            <p>소속 부서 : </p>
-            <p>진료 날짜 : 2024-03-23</p>
-        </div>
-
-
-<%-- 판독--%>
-        <div>
-            <p>정상/비정상 여부 : 정상 </p>
-            <p>추가 검사 필요 여부 : 불필요 </p>
-            <p>병변 위치 : 우측 신장 상부 </p>
-            <p>병변 크기 : 5cm </p>
-            <p>병변 수 : 6 </p>
-            <p>형태학적 특징 : Round </p>
-            <p>특이 소견 : No additional findings</p>
-            <p>의심되는 진단명 : No additional findings </p>
-            <p>임상적 의미 : No additional findings </p>
-            <p>참고할 과거 검사 : No additional findings</p>
-            <p>추가적인 소견 : No additional findings </p>
-            <p>전달 사항 : No additional findings</p>
-            <p>판독의 이름 : tester</p>
-            <p>병원/기관명 : 신촌연세병원</p>
-            <p>소속부서 : 내과</p>
-            <p>판독 등급 : 중요</p>
-            <p>보고서 상태 : 초안</p>
-            <p>보고 날짜 : 2023-06-22</p>
-        </div>
+    <div id="top">
+        <p>Chart No :</p>
+        <p id="chartNo"></p>
+        <p>Name :</p>
+        <p id="patientName"></p>
+        <p>Birth :</p>
+        <p id="patientBirth"></p>
+        <p>Gender :</p>
+        <p id="patientGender"></p>
     </div>
 
+    <div id="wrap">
+        <%-- 진료기록 --%>
+        <div class="medi-grid">
+            <div class="grid-item"><p class="label">진료의 :</p><p class="value" id="test1">test</p></div>
+            <div class="grid-item"><p class="label">병원/기관명 :</p><p class="value" id="test2">test</p></div>
+            <div class="grid-item"><p class="label">소속 부서 :</p><p class="value" id="test3">test</p></div>
+            <div class="grid-item"><p class="label">처방전 :</p><p class="value" id="test4">test</p></div>
+            <div class="grid-item"><p class="label">진료일 :</p><p class="value" id="test5">test</p></div>
+        </div>
+        <%-- 판독--%>
+        <div class="grid">
+            <div class="grid-item"><p class="label">판독의 :</p><p class="value" id="reader">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">병원/기관명 :</p><p class="value" id="hospital">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">판독 등급 :</p><p class="value" id="report-level">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">정상/비정상 여부 :</p><p class="value" id="normal-status">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">추가 검사 필요 여부 :</p><p class="value" id="additional-exam-needed"></p></div>
+            <div class="grid-item"><p class="label">병변 위치 :</p><p class="value" id="lesion-location">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">병변 크기 :</p><p class="value" id="lesion-size">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">병변 수 :</p><p class="value" id="lesion-count">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">형태학적 특징 :</p><p class="value" id="morphological-features">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">특이 소견 :</p><p class="value" id="special-findings">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">의심되는 진단명 :</p><p class="value" id="suspected-diagnosis">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">임상적 의미 :</p><p class="value" id="clinical-significance">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">참고할 과거 검사 :</p><p class="value" id="past-exam-reference">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">추가적인 소견 :</p><p class="value" id="additional-comments">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">전달 사항 :</p><p class="value" id="notes">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">보고서 상태 :</p><p class="value" id="report-status">판독 정보가 없습니다.</p></div>
+            <div class="grid-item"><p class="label">보고 날짜 :</p><p class="value" id="report-date">판독 정보가 없습니다.</p></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
