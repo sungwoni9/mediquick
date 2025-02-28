@@ -1,3 +1,7 @@
+header{
+    height: 50px;
+}
+
 #user-info {
     position: relative;
     cursor: pointer;
