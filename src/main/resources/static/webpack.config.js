@@ -11,8 +11,9 @@ module.exports = {
         },
     },
     output: {
-        filename: '[name].bundle.js', // 캐싱 최적화
+        filename: '[name].[contenthash].bundle.js', // 캐싱 최적화
         path: path.resolve(__dirname, 'dist'),
+        chunkFilename: '[name].[chunkhash].chunk.js', // 청크 파일
     },
     module: {
         rules: [
@@ -31,8 +32,13 @@ module.exports = {
             "wasi_snapshot_preview1": false,
         },
     },
-    experiments: {
-        asyncWebAssembly: true,
+    module: {
+        rules: [
+            {
+                test: /\.wasm/,
+                type: 'asset/resource',
+            }
+        ]
     },
     mode: 'development'
 };

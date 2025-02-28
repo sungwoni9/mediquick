@@ -1,37 +1,33 @@
-import {init as coreInit, RenderingEngine} from '@cornerstonejs/core';
+import {Enums, init as coreInit, RenderingEngine} from '@cornerstonejs/core';
 import {init as dicomImageLoaderInit} from '@cornerstonejs/dicom-image-loader';
 import {init as cornerstoneToolsInit, ToolGroupManager} from '@cornerstonejs/tools';
-import {configureGrid, handleImageSelection,setupLayoutButtons} from './dicomViewer-render'
+import {initializeLayout} from "./dicomViewer-layout";
+import {initRender} from "./dicomViewer-render";
+import {initializeTools} from "./dicomViewer-tools";
 
 // 상태관리 객체
 const state = {
-    currentViewport: null,
-    viewportImages: {},                     // 현재 뷰포트에 할당된 이미지
-    originalViewportImages: {},             // 보고있던 이미지 상태 저장
-    currentLayout: { rows: 1, cols: 1 },
-    originalLayout: { rows: 1, cols: 1 },   // 사용중이던 레이아웃 크기 저장
-    renderingEngineId: 'mediQuickEngine',
-    toolGroupId:'mediQuickToolGroup',
-    renderingEngine: null,
-    toolGroup: null,
-    buttons: null,                          // 초기화 시 설정
-    isSingleView: false                     // 1x1 확대 모드 여부
+    currentViewport: null,      // 현재 클릭된 뷰포트 스크린
+    screens: ['screen1', 'screen2', 'screen3', 'screen4'],
+    renderingEngine: null,      // 코어 렌더링 엔진
+    toolGroup: null,            // 도구 그룹
+    isSingleViewport: false,    // 현재 뷰포트 풀 스크린 상태인지 여부
+    savedLayout: [],            // 풀 스크린 진입 전 레이아웃
+    bindingTool: 'zoom'
 };
 
 async function initializeCornerstone() {
     await coreInit();
     await dicomImageLoaderInit();
     await cornerstoneToolsInit();
-    state.renderingEngine = new RenderingEngine(state.renderingEngineId);
-    state.toolGroup = ToolGroupManager.createToolGroup(state.toolGroupId);
+    state.renderingEngine = new RenderingEngine('mediQuickEngine');
+    state.toolGroup = ToolGroupManager.createToolGroup('toolGroup');
 }
 
-// INIT RENDER
-export function initViewerModule() {
-    document.addEventListener('DOMContentLoaded', async () => {
-        await initializeCornerstone(); // 코너스톤 기능 초기화
-        setupLayoutButtons(state); // 레이아웃 변경 버튼 기능 초기화
-        await handleImageSelection(state); // 이미지 선택 기능 초기화
-        await configureGrid(state,1, 1); // 레이아웃 1x1로 설정
-    });
+export async function initViewerModule() {
+    await initializeCornerstone();
+    initializeTools(state);
+    initializeLayout(state);
+    initRender(state);
 }
+
