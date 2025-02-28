@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            // 클릭된 항목의 data-page 속성 값 가져오기 (study, patients, medical)
+            // 클릭된 항목의 data-page 속성 값 가져오기 (study, patient, medical)
             const page = item.getAttribute('data-page');
 
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 서버에서 해당 페이지의 HTML을 가져옴
-        fetch(url, { method: 'GET' })
+        fetch(url, {method: 'GET'})
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 return response.text();
@@ -63,8 +63,22 @@ document.addEventListener('DOMContentLoaded', () => {
         script.onload = () => {
             console.log(`${page} 스크립트 불러오기 성공`);
             // 페이지별 초기화 함수 호출
-            if (page === 'study' && typeof initializeStudyContent === 'function') {
-                initializeStudyContent();
+            switch (page) {
+                case 'study':
+                    if (typeof initializeStudyContent === 'function') {
+                        initializeStudyContent();
+                    }
+                    break;
+                case 'patient':
+                    if (typeof initializePatientContent === 'function') {
+                        initializePatientContent();
+                    }
+                    break;
+                case 'medical':
+                    if (typeof initializePatientContent === 'function') {
+                        initializePatientContent();
+                    }
+                    break;
             }
         };
         script.onerror = () => console.error(`${page} 스크립트 불러오기 실패`);
