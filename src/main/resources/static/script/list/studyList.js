@@ -31,6 +31,21 @@ function initializeStudyContent() {
         pacsButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const studyKey = button.closest('.list-element').querySelector('.study-key').textContent;
+                
+                // 로그 저장
+                fetch("/logs/view-video", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    credentials: "include"
+                }).then(response => {
+                    if (response.ok) {
+                        console.log("영상 조회 로그 저장 완료");
+                    } else {
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                }).catch(error => console.error("로그 저장 실패:", error));
+
+
                 window.location.href = `/viewer?studyKey=${studyKey}`;
             });
         });
