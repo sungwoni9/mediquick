@@ -5,6 +5,7 @@ import com.mediquick.web.primary.user.domain.UserDetailsDto;
 import com.mediquick.web.primary.user.domain.UserRepository;
 import com.mediquick.web.primary.user.domain.UserRequestDto;
 import com.mediquick.web.primary.user.domain.UserInfoDto;
+import com.mediquick.web.primary.userinfo.domain.UserInfo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,10 +55,17 @@ public class UserService {
     @Transactional
     public boolean deleteUser(String username) {
         User user = usersRepository.findByUsername(username);
+        UserInfo userInfo = user.getUserInfo();
         if(user == null)
             return false;
 
         user.delete();
+        userInfo.delete();
         return true;
     }
+
+//    public List<UserInfoDto> findAllUsersWithRole() {
+//        return usersRepository.findAllUsersWithRole();
+//    }
+
 }

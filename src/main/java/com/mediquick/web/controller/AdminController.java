@@ -2,6 +2,10 @@ package com.mediquick.web.controller;
 
 import com.mediquick.web.primary.logs.domain.Log;
 import com.mediquick.web.primary.logs.service.LogService;
+import com.mediquick.web.primary.user.domain.User;
+import com.mediquick.web.primary.user.domain.UserDetailsDto;
+import com.mediquick.web.primary.user.domain.UserRepository;
+import com.mediquick.web.primary.user.service.UserService;
 import com.mediquick.web.primary.userinfo.domain.UserInfo;
 import com.mediquick.web.primary.userinfo.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +20,10 @@ import java.util.List;
 @Controller
 public class AdminController {
 
+    private final UserRepository userRepository;
     private final UserInfoService userInfoService;
     private final LogService logService;
+    private final UserService userService;
 
     @GetMapping("/management")
     public String management() {
@@ -45,4 +51,14 @@ public class AdminController {
         return "checkLog";
     }
 
+    @GetMapping("/userList")
+    public String getUsers(Model model) {
+        List<UserDetailsDto> users = userRepository.findAll()
+                .stream()
+                .map(user -> userRepository.findUserDetailsDtoByUsername(user.getUsername()))
+                .toList();
+
+        model.addAttribute("userList", users);
+        return "userList";
+    }
 }

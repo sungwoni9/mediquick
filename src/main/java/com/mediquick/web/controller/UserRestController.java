@@ -337,6 +337,12 @@ public class UserRestController {
         }
     }
 
+    @PostMapping("/deleteByManager")
+    public String deleteByManager(@RequestParam("username") String username) {
+        userService.deleteUser(username);
+        return "userList";
+    }
+
     @GetMapping("/token-expiry")
     public ResponseEntity<Map<String, Object>> getTokenExpiry(@RequestHeader("Authorization") String authHeader) {
         Map<String, Object> response = new HashMap<>();
