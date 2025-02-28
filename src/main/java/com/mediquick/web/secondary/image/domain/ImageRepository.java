@@ -12,5 +12,5 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     List<Image> findImageByStudykey(int studykey);
 
     Image findByStudykeyAndSerieskeyAndImagekey(int studykey, int serieskey, int imagekey);
-
+    List<Image> findByStudykeyAndSerieskey(int studykey, int serieskey);
 }
