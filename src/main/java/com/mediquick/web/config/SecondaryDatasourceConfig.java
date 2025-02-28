@@ -54,7 +54,6 @@ class SecondaryDatasourceConfig {
         properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("hibernate.show_sql", false);
         properties.put("hibernate.format_sql", true);
-        properties.put("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
 
         factory.setJpaPropertyMap(properties);
 
