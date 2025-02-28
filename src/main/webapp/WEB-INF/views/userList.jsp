@@ -9,7 +9,6 @@
 </head>
 <c:import url="/header"/>
 <body>
-
 <div id="content-container">
     <h2>사용자 목록</h2>
     <div class="table-content">
@@ -23,10 +22,10 @@
                 <th>주소</th>
                 <th>소속 병원</th>
                 <th>부서</th>
-                <th>가입일</th>
                 <th>권한</th>
-                <th>삭제 여부</th>
+                <th>가입일</th>
                 <th>삭제 날짜</th>
+                <th>버튼</th>
             </tr>
             </thead>
             <tbody>
@@ -40,7 +39,6 @@
                         <td>${user.address} ${user.addressDetail}</td>
                         <td>${user.institutionName}</td>
                         <td>${user.department}</td>
-                        <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>
                             <c:choose>
                                 <c:when test="${user.roleCode == 1}">
@@ -54,8 +52,14 @@
                                 </c:when>
                             </c:choose>
                         </td>
-                        <td>${user.deleted}</td>
+                        <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td><fmt:formatDate value="${user.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        <td>
+                            <form action="/user/deleteByManager" method="POST">
+                                <input type="hidden" name="username" value="${user.username}">
+                                <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </c:if>
