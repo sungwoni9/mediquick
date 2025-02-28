@@ -2,14 +2,21 @@ package com.mediquick.web.controller;
 
 import com.mediquick.web.secondary.image.domain.Image;
 import com.mediquick.web.secondary.image.service.ImageService;
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
+import jcifs.smb.NtlmPasswordAuthenticator;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +25,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class ViewerRestController {
 
+    @Value("${smb.username}")
+    private String USERNAME;
+    @Value("${smb.password}")
+    private String PASSWORD;
+    @Value("${smb.url}")
+    private String SMB_URL;
+
     private final ImageService imageService;
 
-    public record ImageInfo(int studykey, int serieskey, int imagekey, String filename, String path) {}
+    public record ImageInfo(int studykey, int serieskey, int imagekey, String filename, String path) {
+    }
 
     @GetMapping("/dicom/{studykey}")
     public ResponseEntity<List<ImageInfo>> getDicomMetadata(@PathVariable int studykey) {
@@ -70,29 +85,47 @@ public class ViewerRestController {
         return ResponseEntity.ok(seriesImages);
     }
 
-    // 개별 DICOM 파일 제공
-    @Cacheable("dicomFiles")
+
     @GetMapping("/wado")
-    public ResponseEntity<InputStreamResource> getDicomFile(
+    public ResponseEntity<List<String>> getDicomSeries(
             @RequestParam("requestType") String requestType,
             @RequestParam("studykey") Integer studykey,
-            @RequestParam("serieskey") Integer serieskey,
-            @RequestParam("imagekey") Integer imagekey) throws Exception {
+            @RequestParam("serieskey") Integer serieskey) throws IOException {
 
-        // WADO 요청 확인
-        if (!"WADO".equals(requestType) || studykey == null || serieskey == null || imagekey == null) {
+        if (!"WADO".equals(requestType) || studykey == null || serieskey == null) {
             return ResponseEntity.badRequest().build();
         }
+        List<Image> images = imageService.getSeriesImages(studykey, serieskey);
 
-        InputStreamResource resource = imageService.getImage(studykey, serieskey, imagekey);
+        if (images == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-        if (resource == null) return ResponseEntity.notFound().build();
+        NtlmPasswordAuthenticator auth = new NtlmPasswordAuthenticator(USERNAME, PASSWORD);
+        CIFSContext baseContext = SingletonContext.getInstance();
+        CIFSContext context = baseContext.withCredentials(auth);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/dicom"))
-                .body(resource);
+        List<String> encodingSeries = new ArrayList<>();
+        for (Image image : images) {
+            String smbFilePath = SMB_URL + image.getPath().replace("\\", "/") + image.getFname();
+            SmbFile smbFile = new SmbFile(smbFilePath, context);
+
+            if (smbFile.exists() && smbFile.isFile()) {
+                try (SmbFileInputStream inputStream = new SmbFileInputStream(smbFile)) {
+                    // 파일을 바이트 배열로 읽어들임
+                    byte[] fileContent = inputStream.readAllBytes();
+
+                    // Base64로 인코딩
+                    String encodedString = Base64.getEncoder().encodeToString(fileContent);
+                    encodingSeries.add(encodedString);
+                }
+            }
+        }
+        return ResponseEntity.ok(encodingSeries);
     }
+
 }
+
 
 
 
