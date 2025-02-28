@@ -63,4 +63,9 @@ public class UserService {
         userInfo.delete();
         return true;
     }
+
+//    public List<UserInfoDto> findAllUsersWithRole() {
+//        return usersRepository.findAllUsersWithRole();
+//    }
+
 }
