@@ -6,7 +6,7 @@ function showMedicalForm(selectedPid) {
         medicalForm.remove();
     }
 
-    fetch('/medical/form')
+    fetch(`/medical/form?pid=${selectedPid}`)
         .then(response => response.text())
         .then(html => {
             studyElement.insertAdjacentHTML('afterend', html);
@@ -57,7 +57,7 @@ function saveMedicalRecord() {
 
     fetch('/medical', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(medicalRecord)
     })
         .then(response => {
