@@ -41,7 +41,19 @@
                         <td>${user.institutionName}</td>
                         <td>${user.department}</td>
                         <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                        <td>${user.roleCode}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.roleCode == 1}">
+                                    관리자
+                                </c:when>
+                                <c:when test="${user.roleCode == 2}">
+                                    진료의
+                                </c:when>
+                                <c:when test="${user.roleCode == 3}">
+                                    판독의
+                                </c:when>
+                            </c:choose>
+                        </td>
                         <td>${user.deleted}</td>
                         <td><fmt:formatDate value="${user.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     </tr>
