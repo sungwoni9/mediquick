@@ -30,28 +30,23 @@
             </tr>
             </thead>
             <tbody>
-            <c:choose>
-                <c:when test="${empty userList}">
-                    <p>사용자 목록이 없습니다.</p>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach var="user" items="${userList}">
-                        <tr>
-                            <td>${user.username}</td>
-                            <td>${user.name}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.email}</td>
-                            <td>${user.address} ${user.addressDetail}</td>
-                            <td>${user.institutionName}</td>
-                            <td>${user.department}</td>
-                            <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <td>${user.roleCode}</td>
-                            <td><fmt:formatDate value="${user.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <td>${user.deleteTime}</td>
-                        </tr>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
+            <c:if test="${not empty userList}">
+                <c:forEach var="user" items="${userList}">
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.name}</td>
+                        <td>${user.phone}</td>
+                        <td>${user.email}</td>
+                        <td>${user.address} ${user.addressDetail}</td>
+                        <td>${user.institutionName}</td>
+                        <td>${user.department}</td>
+                        <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        <td>${user.roleCode}</td>
+                        <td>${user.deleted}</td>
+                        <td><fmt:formatDate value="${user.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    </tr>
+                </c:forEach>
+            </c:if>
             </tbody>
         </table>
     </div>

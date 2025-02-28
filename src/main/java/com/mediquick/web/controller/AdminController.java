@@ -54,12 +54,11 @@ public class AdminController {
     @GetMapping("/userList")
     public String getUsers(Model model) {
         List<UserDetailsDto> users = userRepository.findAll()
-                        .stream()
-                                .map(user -> userRepository.findUserDetailsDtoByUsername(user.getUsername()))
-                                        .toList();
+                .stream()
+                .map(user -> userRepository.findUserDetailsDtoByUsername(user.getUsername()))
+                .toList();
 
         model.addAttribute("userList", users);
         return "userList";
     }
-
 }
