@@ -9,10 +9,6 @@ button {
     cursor: pointer;
 }
 
-::-webkit-scrollbar-track {
-    background: #232323; /* 흰색 부분(트랙) 색상 변경 */
-}
-
 #sidebar {
     width: var(--navbar-width);
     background-color: #232323;
@@ -33,6 +29,12 @@ button {
     opacity: 1;
     overflow-y: auto;
     max-height: 100%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+#nav-content::-webkit-scrollbar {
+    display: none; /* Webkit (Chrome, Safari) */
 }
 
 .icon {

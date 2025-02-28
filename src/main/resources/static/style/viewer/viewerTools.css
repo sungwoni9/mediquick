@@ -14,3 +14,11 @@
     display: flex;
     gap: 10px;
 }
+
+.tool {
+    color: white;
+}
+
+.tool.active {
+    color: red;
+}
