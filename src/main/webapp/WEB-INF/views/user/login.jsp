@@ -1,14 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: TJ
-  Date: 2025-02-20
-  Time: 오전 11:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
+    <link rel="stylesheet" href="/style/user/login.css">
     <script src="/script/user/login.js"></script>
     <title>Log in</title>
 </head>
