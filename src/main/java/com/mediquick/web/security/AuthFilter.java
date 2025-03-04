@@ -25,7 +25,9 @@ public class AuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
     private final List<String> PERMIT_ALL_PATHS = Arrays.asList(
-            "", "/", "/error"); // 권한 인증 불필요 명시 (권한 인증 경로와 겹치지 않으면 안 써도 됌)
+            "", "/", "/error",
+            "/user/valid/**", "/user/login", "/user/register"
+            );
     private final List<String> PROTECTED_PATHS = Arrays.asList(
             "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog" );
     // 권한 인증 경로 (SecurityConfig와 동기화 필요)

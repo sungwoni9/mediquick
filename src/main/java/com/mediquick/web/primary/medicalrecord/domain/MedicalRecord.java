@@ -17,6 +17,9 @@ public class MedicalRecord extends Timestamp {
     @Column(nullable = false, length = 20)
     private String username;
 
+    @Column(nullable = false)
+    private Integer studykey;
+
     @Column(nullable = false, length = 64)
     private String pid;
 
@@ -28,4 +31,7 @@ public class MedicalRecord extends Timestamp {
 
     @Column(name = "medical_date", nullable = false)
     private java.sql.Timestamp medicalDate;
+
+    @Transient
+    private String pname;
 }

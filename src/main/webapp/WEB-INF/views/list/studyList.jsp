@@ -40,7 +40,7 @@
     <!-- 검사 리스트 -->
     <div class="study-list-container">
         <div id="list-header" class="list-element">
-            <div class="study-id">Study Id</div>
+            <div class="study-id">Study Key</div>
             <div class="patient-name">Patients Name</div>
             <div class="study-time">Study Time</div>
             <div class="study-desc">Study Description</div>

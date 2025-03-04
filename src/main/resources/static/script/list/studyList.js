@@ -65,6 +65,15 @@ function filterStudies() {
     }
 }
 
-// 전역에서 함수 노출
+function resetForm() {
+    const form = document.getElementById('searchForm');
+    if (!form)
+        return;
+
+    form.reset();
+    filterMedicalRecords();
+}
+
 window.initializePatientContent = initializePatientContent;
 window.filterPatients = filterPatients;
+window.resetForm = resetForm;

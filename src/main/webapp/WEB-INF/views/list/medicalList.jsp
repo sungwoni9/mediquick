@@ -41,8 +41,9 @@
     <div class="medical-list-container">
         <div id="list-header" class="list-element">
             <div class="record-code">Record Code</div>
+            <div class="patient-name">patient name</div>
             <div class="patient-code">Patient Code</div>
-            <div class="username">Username</div>
+            <div class="username">Medical Doctor</div>
             <div class="patient-symptoms">Patient Symptoms</div>
             <div class="order-desc">Order Description</div>
             <div class="medical-date">Medical Date</div>
@@ -51,8 +52,9 @@
         <c:forEach var="medical" items="${medical}">
             <div class="list-element" id="medical-${medical.code}">
                 <div class="record-code">${medical.code}</div>
-                <div class="patient-code">${medical.pid}</div>
                 <div class="username">${medical.username}</div>
+                <div class="patient-code">${medical.pid}</div>
+                <div class="patient-name">${medical.pname != null ? medical.pname : '-'}</div>
                 <div class="patient-symptoms">${medical.patientSymptoms}</div>
                 <div class="order-desc">${medical.orderDesc}</div>
                 <div class="medical-date">${medical.medicalDate}</div>
