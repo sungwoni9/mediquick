@@ -31,4 +31,7 @@ public class MedicalRecord extends Timestamp {
 
     @Column(name = "medical_date", nullable = false)
     private java.sql.Timestamp medicalDate;
+
+    @Transient
+    private String pname;
 }
