@@ -1,0 +1,123 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#login-form input {
+    min-width: 260px;
+}
+
+input {
+    border:none;
+    outline: none;
+    background-color: #E8EDF4;
+    padding: 10px 5px;
+    border-radius: 4px;
+}
+
+label {
+    font-size: 14px !important;
+}
+
+#tit {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+#content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 50px);
+}
+
+.error-msg {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+}
+input[type="button"],
+input[type="submit"] {
+    padding: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    background-color: #0FB894;
+}
+input[type=button] {
+    background-color: #CB0000;
+}
+
+.input-block label {
+    font-size: 12px;
+}
+
+.send-code {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+#send-code-btn, #verify-code-btn {
+    background-color: #efefef;
+    color: black;
+}
+
+#email, #verify-code {
+    width: 100%;
+}
+
+#create-acc-btn, #login-btn {
+    background-color: #154D92;
+}
+
+#address-group {
+    display: flex;
+    gap: 8px;
+}
+
+#address-group > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-wrap > input {
+    width: 100%;
+}
+
+#register-btn {
+    border:1px solid #ddd;
+    background-color: white;
+    color: black;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+#no-acc {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+#find-password, #login-txt {
+    text-align: center;
+}
+#find-password > a, #login-txt {
+    font-size: 14px;
+    text-align: center;
+    color: #757575;
+}
+#acc-txt {
+    font-size: 12px;
+}
+

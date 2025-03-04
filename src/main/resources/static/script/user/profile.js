@@ -1,6 +1,5 @@
-document.addEventListener("DOMContentLoaded", async e=> {
+document.addEventListener("DOMContentLoaded", async (e) => {
     const form = document.querySelector("form");
-    const username = document.getElementById('username');
     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const password = document.getElementById('password');
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", async e=> {
     console.log(data);
 
     // 입력 필드 채우기
-    username.innerText = data.username;
     name.value = data.name;
     email.value = data.email;
     contact.value = data.phone;
@@ -34,22 +32,21 @@ document.addEventListener("DOMContentLoaded", async e=> {
     detailedAddress.value = data.addressDetail;
     hospital.value = data.institutionName;
     department.value = data.department;
-    if(data.roleCode===1){
+
+    if (data.roleCode === 1) {
         doctor.checked = false;
         radiologist.checked = false;
-        doctorLabel.style.display="none";
-        doctor.style.display="none";
-        radiologistLabel.style.display="none";
-        radiologist.style.display="none";
-    }else if(data.roleCode===2){
+        doctorLabel.style.display = "none";
+        doctor.style.display = "none";
+        radiologistLabel.style.display = "none";
+        radiologist.style.display = "none";
+    } else if (data.roleCode === 2) {
         doctor.checked = true;
         radiologist.checked = false;
-    }else if(data.roleCode===3){
+    } else if (data.roleCode === 3) {
         doctor.checked = false;
         radiologist.checked = true;
     }
-
-
 
     // 오류 메시지 표시 함수
     function showError(input, message) {
@@ -66,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
     }
 
     // 비밀번호 입력 시 비밀번호 확인 패턴 동기화
-    password.addEventListener("change", () => {
+    password.addEventListener("input", () => {
         if (password.value) {
             passwordChk.setAttribute("pattern", password.value);
             passwordChk.setAttribute("required", "required");
@@ -77,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
     });
 
     // 비밀번호 확인 입력 시 비밀번호와 일치 여부 체크
-    passwordChk.addEventListener("change", () => {
+    passwordChk.addEventListener("input", () => {
         if (password.value && passwordChk.value !== password.value) {
             showError(passwordChk, "비밀번호와 일치해야 합니다.");
         } else {
@@ -87,21 +84,17 @@ document.addEventListener("DOMContentLoaded", async e=> {
 
     let validPhone = true, validEmail = true;
 
-    contact.addEventListener("change", async e => {
-        let phone =e.target.value;
+    contact.addEventListener("change", async (e) => {
+        let phone = e.target.value;
         const digits = phone.replace(/\D/g, "");
-        console.log(digits);
         if (/^01\d{9}$/.test(digits)) {
-            console.log(22);
             phone = digits.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-        }else if (/^01\d{8}$/.test(digits)) {
-            console.log(33);
+        } else if (/^01\d{8}$/.test(digits)) {
             phone = digits.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
         }
         e.target.value = phone;
 
-        if(data.phone === phone)
-            return;
+        if (data.phone === phone) return;
 
         try {
             const response = await fetch(`/user/valid/phone?value=${phone}`);
@@ -118,9 +111,8 @@ document.addEventListener("DOMContentLoaded", async e=> {
         }
     });
 
-    email.addEventListener("change", async e => {
-        if(data.email === e.target.value)
-            return;
+    email.addEventListener("change", async (e) => {
+        if (data.email === e.target.value) return;
 
         try {
             const response = await fetch(`/user/valid/email?value=${e.target.value}`);
@@ -138,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
     });
 
     // 폼 제출 시 모든 입력값 검증 & 서버로 요청
-    form.addEventListener("submit", async e=> {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 기본 제출 방지
 
         // 비밀번호 조건 검증
@@ -147,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
             return;
         }
 
-        if (!validPhone || !validEmail){
+        if (!validPhone || !validEmail) {
             alert("회원정보를 확인해주세요.");
             return;
         }
@@ -165,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async e=> {
             body: JSON.stringify(jsonData),
         });
         const data = await response.json();
-        if(response.ok) {
+        if (response.ok) {
             alert("회원정보수정이 완료되었습니다!");
         } else {
             alert("회원정보수정 요청 중 오류가 발생했습니다." + data.message);
