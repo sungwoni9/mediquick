@@ -1,4 +1,4 @@
-import { Enums } from '@cornerstonejs/core';
+import {Enums} from "@cornerstonejs/core";
 
 const API_BASE_URL = 'http://localhost:8080';
 
@@ -6,7 +6,6 @@ export function initRender(state) {
     handleImageSelection(state);
 }
 
-// 사이드 바에서 넘어온 선택 이벤트 처리
 function handleImageSelection(state) {
     document.addEventListener('imageSelected', async (e) => {
         const studykey = e.detail.studykey;
@@ -24,12 +23,28 @@ async function assignImageToViewport(state, studykey, serieskey) {
     const existingViewport = state.renderingEngine.getViewport(viewportId);
 
     // 기존 뷰포트가 있으면 비활성화
-    if (existingViewport) {state.renderingEngine.disableElement(viewportId);}
+    if (existingViewport) {
+        state.renderingEngine.disableElement(viewportId);
+    }
 
+    // 기존 콘텐츠 초기화
     content.innerHTML = "";
+
+    // 뷰포트 요소 생성
     const element = document.createElement('div');
     element.style.width = "100%";
     element.style.height = "100%";
+
+    // 로딩 요소
+    const loadingElement = document.createElement('div');
+    loadingElement.className = 'loader';
+    loadingElement.style.position = 'absolute';                 // 뷰포트 중앙에 표시
+    loadingElement.style.top = '50%';
+    loadingElement.style.left = '50%';
+    loadingElement.style.transform = 'translate(-50%, -50%)';   // 중앙 정렬
+    loadingElement.style.zIndex = '10';                         // 이미지 위에 표시되도록
+
+    element.appendChild(loadingElement);
     content.appendChild(element);
 
     const viewportInput = {
@@ -63,10 +78,12 @@ async function assignImageToViewport(state, studykey, serieskey) {
             `wadouri:data:application/dicom;base64,${base64String}`
         );
 
-        viewport.setStack(imageIds, 0); // 첫 번째 이미지부터 렌더링
+        viewport.setStack(imageIds, 0);
         viewport.render();
+        element.removeChild(loadingElement);
     } catch (error) {
         alert('DICOM 이미지 로드 중 오류 발생');
         console.error('DICOM 이미지 로드 중 오류 발생:', error);
+        content.removeChild(loadingElement); // 오류 발생 시 로딩 제거
     }
 }
