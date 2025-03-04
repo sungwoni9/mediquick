@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/valid/**").permitAll() // 인증 불필요
                         .requestMatchers("/user/login", "/user/register").anonymous() // 권한이 없는 사람만 접근 가능
-                        .requestMatchers("/user/**", "/logs/**", "/logs/viewVideo").authenticated() // 인증 필요
+                        .requestMatchers("/user/**", "/logs/**", "/logs/view-video").authenticated() // 인증 필요
                         .requestMatchers("/doctor/**").hasAnyRole("DOCTOR", "ADMIN") // 의사 및 관리자 접근 가능
                         .requestMatchers("/radiologist/**").hasAnyRole("RADIOLOGIST", "ADMIN") // 판독의 및 관리자 접근 가능
                         .requestMatchers("/management", "/logList", "/checkLog", "/userList").hasRole("ADMIN") // 관리자만 접근 가능
