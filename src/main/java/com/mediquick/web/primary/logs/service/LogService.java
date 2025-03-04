@@ -19,6 +19,14 @@ public class LogService {
         logRepository.save(log);
     }
 
+    public void saveLog(String username, Log.ActivityType activityType, Integer code) {
+        Log log = new Log();
+        log.setUsername(username);
+        log.setActivityType(activityType);
+        log.setStudykey(code);
+        logRepository.save(log);
+    }
+
     public List<Log> findLogsByUsername(String username) {
         return logRepository.findByUsername(username);
     }

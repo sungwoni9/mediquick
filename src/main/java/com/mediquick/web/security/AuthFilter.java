@@ -29,11 +29,12 @@ public class AuthFilter extends OncePerRequestFilter {
             "/user/valid/**", "/user/login", "/user/register"
             );
     private final List<String> PROTECTED_PATHS = Arrays.asList(
-            "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog" );
+            "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog", "/userList", "/logs/**" );
     // 권한 인증 경로 (SecurityConfig와 동기화 필요)
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
@@ -54,6 +55,7 @@ public class AuthFilter extends OncePerRequestFilter {
             session.removeAttribute("jwtToken"); // 토큰 없음 시 세션 정리
         }
 
+
         chain.doFilter(request, response);
     }
 
@@ -72,10 +74,7 @@ public class AuthFilter extends OncePerRequestFilter {
     // 세션 또는 헤더에서 토큰 추출
     private String getToken(HttpSession session, HttpServletRequest request) {
         String token = (session != null) ? (String) session.getAttribute("jwtToken") : null;
-        if (token == null) {
-            token = extractToken(request);
-        }
-        return token;
+        return (token == null) ? extractToken(request) : token;
     }
 
     // 토큰 추출 (헤더에서)
@@ -88,30 +87,27 @@ public class AuthFilter extends OncePerRequestFilter {
     private void processToken(String token, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String username = jwtUtil.extractUsername(token);
+            System.out.println("추출된 username: " + username);
 
-            // 토큰이 만료되었을 경우 자동 로그아웃
             if (jwtUtil.isTokenExpired(token)) {
+                System.out.println("JWT 토큰 만료됨: " + token);
                 handleExpiredToken(session, response);
                 return;
             }
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                String newToken = jwtUtil.validateAndRefreshToken(token, userDetails);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            String newToken = jwtUtil.validateAndRefreshToken(token, userDetails);
 
-                if (newToken != null) {
-                    setAuthentication(request, userDetails);
-                    if (session != null)
-                        session.setAttribute("jwtToken", newToken);
-                } else if (session != null) {
-                    session.removeAttribute("jwtToken");
-                }
+            if (newToken != null) {
+                setAuthentication(request, userDetails);
+                if (session != null) session.setAttribute("jwtToken", newToken);
+            } else {
+                System.out.println("JWT 검증 실패: " + token);
+                if (session != null) session.removeAttribute("jwtToken");
             }
-        } catch (ExpiredJwtException e) {
-            handleExpiredToken(session, response);
         } catch (Exception e) {
-            if (session != null)
-                session.removeAttribute("jwtToken");
+            System.out.println("JWT 처리 중 예외 발생: " + e.getMessage());
+            if (session != null) session.removeAttribute("jwtToken");
         }
     }
 
@@ -129,9 +125,10 @@ public class AuthFilter extends OncePerRequestFilter {
     // 인증 설정
     private void setAuthentication(HttpServletRequest request, UserDetails userDetails) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities()
-        );
+                userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
+
+        System.out.println("인증 성공: " + SecurityContextHolder.getContext().getAuthentication());
     }
 }
