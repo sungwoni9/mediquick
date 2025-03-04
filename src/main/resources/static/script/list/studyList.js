@@ -32,8 +32,7 @@ function initializeStudyContent() {
         pacsButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 const studyKey = button.closest('.list-element').querySelector('.study-key').textContent;
-                const token = localStorage.getItem("jwtToken"); // JWT 토큰 가져오기
-                console.log("JWT 토큰 : ", token);
+                const token = localStorage.getItem("jwtToken");
 
                 if (!token) {
                     alert("로그인이 필요합니다.");
@@ -42,9 +41,7 @@ function initializeStudyContent() {
                 }
 
                 try {
-                    console.log("JWT 토큰 : ", token);
-                    // 로그 저장 요청
-                    await fetch("/logs/viewVideo", {
+                    const response = await fetch("/logs/view-video", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -53,19 +50,24 @@ function initializeStudyContent() {
                         credentials: "include"
                     });
 
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            throw new Error("인증 실패: 로그인 정보를 다시 확인하세요.");
+                        } else {
+                            throw new Error(`오류 발생: ${response.status}`);
+                        }
+                    }
+
                     console.log("로그 저장 완료");
 
                 } catch (error) {
                     console.error("로그 저장 실패:", error);
+                    alert(error.message);
                 }
-
-                // 페이지 이동
-             //   window.location.href = `/viewer?studyKey=${studyKey}`;
+                window.location.href = `/viewer?studyKey=${studyKey}`;
             });
         });
     }
-
-
 }
 
 function filterStudies() {
@@ -150,7 +152,7 @@ function saveMedicalRecord() {
 
     fetch('/medical', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(medicalRecord)
     })
         .then(response => {
