@@ -1,5 +1,4 @@
 .medical-form {
-    max-width: 500px;
     margin: 20px auto;
     padding: 20px;
     background: #ddebf6;
@@ -36,7 +35,6 @@
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
-    background-color: #e8edf4;
     border-radius: 4px;
     font-size: 14px;
     resize: vertical;
