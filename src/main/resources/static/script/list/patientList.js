@@ -189,3 +189,4 @@ window.toggleMedicalForm = toggleMedicalForm;
 window.closeMedicalForm = closeMedicalForm;
 window.saveMedicalRecord = saveMedicalRecord;
 window.filterPatients = filterPatients;
+window.resetForm = resetForm;
