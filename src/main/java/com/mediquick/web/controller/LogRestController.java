@@ -2,6 +2,7 @@ package com.mediquick.web.controller;
 
 import com.mediquick.web.primary.logs.domain.Log;
 import com.mediquick.web.primary.logs.service.LogService;
+import com.mediquick.web.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/logs")
 public class LogRestController {
-
+    private final JwtUtil jwtUtil;
     private final LogService logService;
 
     // 로그인 로그 저장
@@ -29,10 +30,20 @@ public class LogRestController {
     }
 
     // 영상 조회 로그 저장
-    @PostMapping("/view-video")
-    public void logViewVideo(@RequestParam String username, Integer code) {
-        logService.saveLog(username, Log.ActivityType.VIEW_VIDEO, code);
+    @PostMapping("/viewVideo")
+    public ResponseEntity<String> logViewVideo(@RequestHeader("Authorization") String authHeader) {
+        // "Bearer <JWT 토큰>" 형식이므로 "Bearer " 부분 제거
+        String token = authHeader.replace("Bearer ", "");
+
+        // JWT에서 username 추출
+        String username = jwtUtil.extractUsername(token);
+
+        // 로그 저장 (studyKey는 예시 값, 실제로는 클라이언트에서 받아와야 함)
+        logService.saveLog(username, Log.ActivityType.VIEW_VIDEO);
+
+        return ResponseEntity.ok("로그 저장 완료");
     }
+
 
 
     // 진료 기록 조회 로그 저장

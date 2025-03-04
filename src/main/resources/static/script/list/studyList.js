@@ -27,29 +27,45 @@ function initializeStudyContent() {
 
     // PACS 버튼 이벤트
     const pacsButtons = document.querySelectorAll('.pacs-button');
+
     if (pacsButtons.length > 0) {
         pacsButtons.forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', async () => {
                 const studyKey = button.closest('.list-element').querySelector('.study-key').textContent;
-                
-                // 로그 저장
-                fetch("/logs/view-video", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    credentials: "include"
-                }).then(response => {
-                    if (response.ok) {
-                        console.log("영상 조회 로그 저장 완료");
-                    } else {
-                        return response.text().then(text => { throw new Error(text); });
-                    }
-                }).catch(error => console.error("로그 저장 실패:", error));
+                const token = localStorage.getItem("jwtToken"); // JWT 토큰 가져오기
+                console.log("JWT 토큰 : ", token);
 
+                if (!token) {
+                    alert("로그인이 필요합니다.");
+                    window.location.href = "/login";
+                    return;
+                }
 
-                window.location.href = `/viewer?studyKey=${studyKey}`;
+                try {
+                    console.log("JWT 토큰 : ", token);
+                    // 로그 저장 요청
+                    await fetch("/logs/viewVideo", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        credentials: "include"
+                    });
+
+                    console.log("로그 저장 완료");
+
+                } catch (error) {
+                    console.error("로그 저장 실패:", error);
+                }
+
+                // 페이지 이동
+             //   window.location.href = `/viewer?studyKey=${studyKey}`;
             });
         });
     }
+
+
 }
 
 function filterStudies() {
