@@ -9,5 +9,4 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, In
     List<MedicalRecord> findByPid(String pid);
 
     List<MedicalRecord> findAll(Sort sort);
-
 }
