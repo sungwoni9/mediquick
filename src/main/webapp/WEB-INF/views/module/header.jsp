@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/style/global.css">
     <link rel="stylesheet" href="/style/user/header.css">
     <script src="/script/user/header.js"></script>
-    <script src="/script/auto-logout.js"></script>
+
     <script type="module" src="/script/block-screenshot.js"></script>
 </head>
 <body>

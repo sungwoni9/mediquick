@@ -27,11 +27,12 @@ public class AuthFilter extends OncePerRequestFilter {
     private final List<String> PERMIT_ALL_PATHS = Arrays.asList(
             "", "/", "/error"); // 권한 인증 불필요 명시 (권한 인증 경로와 겹치지 않으면 안 써도 됌)
     private final List<String> PROTECTED_PATHS = Arrays.asList(
-            "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog" );
+            "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog", "/userList" );
     // 권한 인증 경로 (SecurityConfig와 동기화 필요)
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
@@ -51,6 +52,7 @@ public class AuthFilter extends OncePerRequestFilter {
         } else if (session != null) {
             session.removeAttribute("jwtToken"); // 토큰 없음 시 세션 정리
         }
+
 
         chain.doFilter(request, response);
     }

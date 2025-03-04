@@ -5,7 +5,7 @@ function isLogin() {
 
 async function updateTokenExpiry() {
     const token = localStorage.getItem("jwtToken");
-    console.log("저장된 JWT:", token);
+//  console.log("저장된 JWT:", token);
 
     if (!token) return;
 

@@ -30,13 +30,8 @@ public class LogRestController {
 
     // 영상 조회 로그 저장
     @PostMapping("/view-video")
-    public ResponseEntity<String> logViewVideo(Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인되지 않음");
-        }
-        String username = principal.getName();
-        logService.saveLog(username, Log.ActivityType.VIEW_VIDEO);
-        return ResponseEntity.ok("로그 저장 완료");
+    public void logViewVideo(@RequestParam String username, Integer code) {
+        logService.saveLog(username, Log.ActivityType.VIEW_VIDEO, code);
     }
 
 
