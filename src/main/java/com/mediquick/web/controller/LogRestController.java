@@ -1,6 +1,7 @@
 package com.mediquick.web.controller;
 
 import com.mediquick.web.primary.logs.domain.Log;
+import com.mediquick.web.primary.logs.domain.LogRequestDto;
 import com.mediquick.web.primary.logs.service.LogService;
 import com.mediquick.web.security.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -34,8 +35,9 @@ public class LogRestController {
 
     // 영상 조회 로그 저장
     @PostMapping("/view-video")
-    public ResponseEntity<String> logViewVideo(@RequestHeader("Authorization") String authHeader) {
-        System.out.println("요청 수신: /view-video");
+    public ResponseEntity<String> logViewVideo(@RequestHeader("Authorization") String authHeader,
+                                               @RequestBody LogRequestDto request) {
+        System.out.println("요청 수신: /view-video, studykey : " + request.getStudyKey());
         System.out.println("Authorization 헤더 값: " + authHeader);
 
         try {
@@ -44,7 +46,7 @@ public class LogRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization header missing or invalid format");
             }
 
-            String token = authHeader.substring(7); // "Bearer " 제거
+            String token = authHeader.replace("Bearer ", "");
             System.out.println("추출된 JWT 토큰: " + token);
 
             // JWT에서 username 추출
@@ -56,7 +58,7 @@ public class LogRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
             }
 
-            logService.saveLog(username, Log.ActivityType.VIEW_VIDEO);
+            logService.saveLog(username, Log.ActivityType.VIEW_VIDEO, request.getStudyKey());
             return ResponseEntity.ok("로그 저장 완료");
 
         } catch (ExpiredJwtException e) {
