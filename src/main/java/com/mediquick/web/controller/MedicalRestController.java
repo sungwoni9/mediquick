@@ -21,27 +21,33 @@ public class MedicalRestController {
 
     @PostMapping
     public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord medicalRecord, HttpSession session) {
-//        String token = (String) session.getAttribute("jwtToken");
-//        if (token == null) {
-//            throw new RuntimeException("로그인이 필요합니다.");
-//        }
-//        String username = jwtUtil.extractUsername(token);
-//        System.out.println("Username from JWT: " + username);
-//
-//        // MedicalRecord에 username 설정
-//        medicalRecord.setUsername(username);
+        String token = (String) session.getAttribute("jwtToken");
+        if (token == null) {
+            throw new RuntimeException("로그인이 필요합니다.");
+        }
+        String username = jwtUtil.extractUsername(token);
+        System.out.println("Username from JWT: " + username);
 
-        if (medicalRecord.getUsername() == null || medicalRecord.getUsername().isEmpty()) {
+        // MedicalRecord에 username 설정
+        medicalRecord.setUsername(username);
+
+        if (medicalRecord.getStudykey() == null) { // studykey가 null인지 확인
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(null);
         }
 
-        // DB에 저장
+        try {
+        // MedicalRecord 저장
         MedicalRecord savedRecord = medicalRecordService.save(medicalRecord);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedRecord);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 
     @GetMapping
