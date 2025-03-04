@@ -4,12 +4,9 @@ import {
     addTool,
     PanTool,
     LengthTool,
-    SegmentationIntersectionTool,
-    AnnotationTool,
     CircleROITool,
     RectangleROITool,
     StackScrollTool,
-    SegmentSelectTool,
     LabelTool, ArrowAnnotateTool
 } from '@cornerstonejs/tools';
 import * as csToolsEnums from "@cornerstonejs/tools/enums";
@@ -58,9 +55,7 @@ export function initializeTools(state) {
 
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => {
-        const viewport = state.renderingEngine.getViewport(screen.id);
         state.toolGroup.addViewport(screen.id);
-        // viewport.render();
     })
 
     // 초기 상태 설정
@@ -74,7 +69,7 @@ export function initializeTools(state) {
     const tools = document.querySelectorAll('.tool');
     tools.forEach(tool => {
         tool.addEventListener('click', () => {
-            if(tool.id !== "rotate" && tool.id !== "reset")
+            if (tool.id !== "rotate" && tool.id !== "reset")
                 setActiveTool(state, tool.id);
         });
     });
@@ -96,7 +91,7 @@ function setActiveTool(state, toolId) {
     }
 }
 
-function changeLeftButton(state, tool){
+function changeLeftButton(state, tool) {
     state.toolGroup.setToolDisabled(toolMap[state.bindingTool]);
 
     state.toolGroup.setToolActive(toolMap[tool], {
