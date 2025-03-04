@@ -19,7 +19,7 @@ public class LogService {
         logRepository.save(log);
     }
 
-    public void saveLog(String username, Log.ActivityType activityType, Integer code) {
+    public void saveLog(String username, Log.ActivityType activityType, String code) {
         Log log = new Log();
         log.setUsername(username);
         log.setActivityType(activityType);

@@ -47,7 +47,8 @@ function initializeStudyContent() {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${token}`
                         },
-                        credentials: "include"
+                        credentials: "include",
+                        body: JSON.stringify({ studyKey })
                     });
 
                     if (!response.ok) {
@@ -58,7 +59,7 @@ function initializeStudyContent() {
                         }
                     }
 
-                    console.log("로그 저장 완료");
+                    console.log("로그 저장 완료", studyKey);
 
                 } catch (error) {
                     console.error("로그 저장 실패:", error);
