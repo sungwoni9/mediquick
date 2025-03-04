@@ -17,6 +17,9 @@ public class MedicalRecord extends Timestamp {
     @Column(nullable = false, length = 20)
     private String username;
 
+    @Column(nullable = false)
+    private Integer studykey;
+
     @Column(nullable = false, length = 64)
     private String pid;
 
