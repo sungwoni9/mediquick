@@ -78,6 +78,12 @@ function showMedicalForm(selectedPid) {
                 form.style.display = 'block';
                 document.getElementById('pid').value = selectedPid;
                 document.getElementById('medicalDate').value = new Date().toISOString().slice(0, 16);
+
+                const patientNameElement = document.getElementById('patientName');
+                if (patientNameElement) {
+                    patientNameElement.textContent = patientName || 'Unknown';
+                }
+
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     saveMedicalRecord();
