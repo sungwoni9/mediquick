@@ -17,6 +17,7 @@ public class PatientService {
 
     public List<Patient> findPatientsAll(){return patientRepository.findAll(Sort.by(Sort.Direction.ASC,"pid"));}
 
-    public List<Patient> findPatientByPname(String pname) {return patientRepository.findByPname(pname);
-    }
+    public List<Patient> findPatientByPname(String pname) {return patientRepository.findByPname(pname);}
+
+    public List<Patient> findPatientsByPid(List<String> pids) {return patientRepository.findByPidIn(pids);}
 }
