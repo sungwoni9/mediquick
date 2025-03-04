@@ -18,11 +18,10 @@ export function initSidebarModule() {
                 if (imageInfoList.length > 0) {
                     content.innerHTML = `
                         <ul class="image-list">
-                            ${imageInfoList.map(image => `
-                                <li data-studykey="${image.studykey}" 
-                                    data-serieskey="${image.serieskey}" 
-                                    data-imagekey="${image.imagekey}">
-                                    ${image.filename}
+                            ${imageInfoList.map(data => `
+                                <li data-studykey="${data.studykey}" 
+                                    data-serieskey="${data.serieskey}">
+                                    Study:${data.studykey} / Series:${data.serieskey} (images ${data.imageCount}) ${data.modality} ${data.bodyPart}
                                 </li>
                             `).join('')}
                         </ul>
@@ -36,13 +35,11 @@ export function initSidebarModule() {
                             this.classList.add('selected');
                             const studykey = this.dataset.studykey;
                             const serieskey = this.dataset.serieskey;
-                            const imagekey = this.dataset.imagekey;
                             const event = new CustomEvent('imageSelected',
                                 {
                                     detail: {
                                         "studykey": studykey,
                                         "serieskey": serieskey,
-                                        "imagekey": imagekey
                                     }
                                 });
                             document.dispatchEvent(event);

@@ -4,16 +4,18 @@ import {
     addTool,
     PanTool,
     LengthTool,
-    SegmentationIntersectionTool, AnnotationTool, CircleROITool, RectangleROITool
+    CircleROITool,
+    RectangleROITool,
+    StackScrollTool,
+    LabelTool, ArrowAnnotateTool
 } from '@cornerstonejs/tools';
 import * as csToolsEnums from "@cornerstonejs/tools/enums";
 
 const toolMap = {
     'zoom': ZoomTool.toolName,
     'windowLevel': WindowLevelTool.toolName,
-    'annotation': AnnotationTool.toolName,
+    'annotation': ArrowAnnotateTool.toolName,
     'length': LengthTool.toolName,
-    'segmentation': SegmentationIntersectionTool.toolName,
     'circle': CircleROITool.toolName,
     'rectangle': RectangleROITool.toolName
 };
@@ -22,20 +24,22 @@ export function initializeTools(state) {
     addTool(PanTool);
     addTool(ZoomTool);
     addTool(WindowLevelTool);
-    addTool(AnnotationTool);
+    addTool(ArrowAnnotateTool);
     addTool(LengthTool);
-    addTool(SegmentationIntersectionTool);
+    addTool(LabelTool);
     addTool(CircleROITool);
     addTool(RectangleROITool);
+    addTool(StackScrollTool);
 
     state.toolGroup.addTool(PanTool.toolName);
     state.toolGroup.addTool(ZoomTool.toolName);
     state.toolGroup.addTool(WindowLevelTool.toolName);
-    state.toolGroup.addTool(AnnotationTool.toolName);
+    state.toolGroup.addTool(ArrowAnnotateTool.toolName);
     state.toolGroup.addTool(LengthTool.toolName);
-    state.toolGroup.addTool(SegmentationIntersectionTool.toolName);
+    state.toolGroup.addTool(LabelTool.toolName);
     state.toolGroup.addTool(CircleROITool.toolName);
     state.toolGroup.addTool(RectangleROITool.toolName);
+    state.toolGroup.addTool(StackScrollTool.toolName);
 
     state.toolGroup.setToolActive(ZoomTool.toolName, {
         bindings: [{mouseButton: csToolsEnums.MouseBindings.Primary}],
@@ -45,11 +49,13 @@ export function initializeTools(state) {
         bindings: [{mouseButton: csToolsEnums.MouseBindings.Secondary}],
     });
 
+    state.toolGroup.setToolActive(StackScrollTool.toolName, {
+        bindings: [{mouseButton: csToolsEnums.MouseBindings.Wheel}],
+    });
+
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => {
-        const viewport = state.renderingEngine.getViewport(screen.id);
         state.toolGroup.addViewport(screen.id);
-        viewport.render();
     })
 
     // 초기 상태 설정
@@ -63,8 +69,8 @@ export function initializeTools(state) {
     const tools = document.querySelectorAll('.tool');
     tools.forEach(tool => {
         tool.addEventListener('click', () => {
-            const toolId = tool.id;
-            setActiveTool(state, toolId);
+            if (tool.id !== "rotate" && tool.id !== "reset")
+                setActiveTool(state, tool.id);
         });
     });
 
@@ -85,7 +91,7 @@ function setActiveTool(state, toolId) {
     }
 }
 
-function changeLeftButton(state, tool){
+function changeLeftButton(state, tool) {
     state.toolGroup.setToolDisabled(toolMap[state.bindingTool]);
 
     state.toolGroup.setToolActive(toolMap[tool], {

@@ -2,6 +2,7 @@
 
 <div id="sidebar">
     <div id="sidebar-control">
+        <span>Studies</span>
         <button id="sidebar-toggle" class="icon-button">
             <i class="icon"></i>
         </button>

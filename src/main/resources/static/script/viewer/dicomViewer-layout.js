@@ -78,9 +78,14 @@ function updateGridLayout(state, rows, cols) {
     state.savedLayout = { rows, cols };
     state.isFullscreen = false;
 
-    state.screens.forEach(viewportId => {
+    state.screens.forEach((viewportId, index) => {
         const viewport = document.getElementById(viewportId);
-        if (viewport) viewport.style.display = 'block';
+        if (rows === 1 && cols === 1)
+            viewport.style.display = index === 0 ? "flex" : "none";
+        else if (rows === 1 && cols === 2)
+            viewport.style.display = index < 2 ? "flex" : "none";
+        else if (rows === 2 && cols === 2)
+            viewport.style.display = "flex";
     });
 }
 
@@ -88,7 +93,7 @@ function updateGridLayout(state, rows, cols) {
 function handleViewportSelection(state, viewportList, selectedViewport) {
     viewportList.forEach(viewport => {
         if (viewport !== selectedViewport) {
-            viewport.style.borderColor = "red";
+            viewport.style.borderColor = "#890000";
             viewport.style.borderWidth = "1px";
         } else {
             viewport.style.borderColor = "#039752";

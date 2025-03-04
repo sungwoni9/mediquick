@@ -15,10 +15,22 @@
     gap: 10px;
 }
 
-.tool {
+#tools .tool {
+    width: 40px;
+    height: 40px;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
 }
 
-.tool.active {
-    color: red;
+#tools .tool:hover{
+    background-color: #0F3A6B;
+}
+
+#tools .tool.active {
+    color: #7ebefa;
+    background-color: #0F3A6B;
 }

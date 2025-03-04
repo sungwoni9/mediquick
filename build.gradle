@@ -22,6 +22,9 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://www.dcm4che.org/maven2/")
+    }
 }
 
 dependencies {
@@ -50,8 +53,11 @@ dependencies {
     // 메일서비스
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.4.3'
 
-    // https://mvnrepository.com/artifact/eu.agno3.jcifs/jcifs-ng
-    implementation 'eu.agno3.jcifs:jcifs-ng:2.1.7'
+    // jcifs-ng 라이브러리: SMB(서버 메시지 블록) 프로토콜을 통해 파일 공유 및 네트워크 작업을 지원
+    implementation 'eu.agno3.jcifs:jcifs-ng:2.1.10'
+
+    // dcm4che-core 라이브러리: 의료 영상 데이터(DICOM 형식)를 처리하기 위한 기능 제공
+    implementation 'org.dcm4che:dcm4che-core:5.31.2'
 }
 
 tasks.named('test') {
