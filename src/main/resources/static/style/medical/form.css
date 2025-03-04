@@ -1,116 +1,108 @@
-/* 전체 컨테이너 스타일 */
 .medical-form {
-    max-width: 500px; /* 기존 max-width(1440px)보다 작게 설정 */
-    margin: 20px auto; /* 중앙 정렬 및 여백 */
-    padding: 20px; /* 내부 여백 */
-    background: #f4f4f4; /* 기존 검색 폼 배경과 동일 */
-    border-radius: 10px; /* 둥근 모서리 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ddebf6;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 폼 스타일 */
 #medicalRecordForm {
     display: flex;
-    flex-direction: column; /* 세로 배치 */
-    gap: 15px; /* 요소 간 간격 */
-    font-family: Arial, sans-serif; /* 기존 리스트와 동일한 폰트 */
+    flex-direction: column;
+    gap: 15px;
+    font-family: Arial, sans-serif;
 }
 
-/* 진료의 및 환자 이름 스타일 */
 #medicalRecordForm > div {
-    font-size: 14px; /* 기존 폰트 크기와 동일 */
-    color: #333; /* 기존 텍스트 색상 */
+    font-size: 14px;
+    color: #333;
     display: flex;
-    gap: 5px; /* 텍스트 간 간격 */
+    gap: 5px;
 }
 
 #medicalRecordForm > div span {
-    font-weight: bold; /* 강조 */
-    color: #007bff; /* 파란색으로 구분 */
+    font-weight: bold;
+    color: #007bff;
 }
 
-/* 라벨 스타일 */
 #medicalRecordForm label {
-    font-size: 14px; /* 기존 폰트 크기 */
-    color: #333; /* 어두운 회색 */
-    font-weight: bold; /* 굵게 */
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
 }
 
-/* 텍스트 영역 스타일 */
 #medicalRecordForm textarea {
-    width: 100%; /* 전체 너비 */
-    padding: 8px; /* 기존 입력 필드와 동일 */
-    border: 1px solid #ccc; /* 연한 회색 테두리 */
-    background-color: #e8edf4; /* 기존 입력 배경과 동일 */
-    border-radius: 4px; /* 둥근 모서리 */
-    font-size: 14px; /* 기존 폰트 크기 */
-    resize: vertical; /* 세로 크기 조절만 허용 */
-    box-sizing: border-box; /* 패딩과 테두리 포함 */
-}
-
-/* 텍스트 영역 포커스 스타일 */
-#medicalRecordForm textarea:focus {
-    border-color: #007bff; /* 기존 포커스 색상 */
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* 기존 포커스 효과 */
-}
-
-/* 날짜 입력 스타일 */
-#medicalRecordForm input[type="datetime-local"] {
-    width: 100%; /* 전체 너비 */
-    padding: 8px; /* 기존 입력 필드와 동일 */
-    border: 1px solid #ccc; /* 연한 회색 테두리 */
-    background-color: #e8edf4; /* 기존 입력 배경과 동일 */
-    border-radius: 4px; /* 둥근 모서리 */
-    font-size: 14px; /* 기존 폰트 크기 */
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #e8edf4;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
     box-sizing: border-box;
 }
 
-/* 날짜 입력 포커스 스타일 */
+#medicalRecordForm textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#medicalRecordForm input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #e8edf4;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
 #medicalRecordForm input[type="datetime-local"]:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-/* 버튼 컨테이너 */
+
 #medicalRecordForm button {
-    padding: 8px 20px; /* 기존 버튼과 동일 */
-    border: none; /* 테두리 제거 */
-    border-radius: 4px; /* 둥근 모서리 */
-    font-size: 14px; /* 기존 폰트 크기 */
-    cursor: pointer; /* 클릭 가능 커서 */
-    transition: background-color 0.3s; /* 기존 전환 효과 */
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* 저장 버튼 스타일 */
+
 #medicalRecordForm button[type="submit"] {
-    background-color: #007bff; /* 기존 제출 버튼 색상 */
-    color: white; /* 흰색 텍스트 */
+    background-color: #007bff;
+    color: white;
 }
 
-/* 저장 버튼 호버 효과 */
+
 #medicalRecordForm button[type="submit"]:hover {
-    background-color: #0056b3; /* 기존 호버 색상 */
+    background-color: #0056b3;
 }
 
-/* 취소 버튼 스타일 */
+
 #medicalRecordForm button[type="button"] {
-    background-color: #6c757d; /* 기존 리셋 버튼 색상 */
-    color: white; /* 흰색 텍스트 */
-    margin-left: 10px; /* 버튼 간 간격 */
+    background-color: #6c757d;
+    color: white;
+    margin-left: 10px;
 }
 
-/* 취소 버튼 호버 효과 */
+
 #medicalRecordForm button[type="button"]:hover {
-    background-color: #5a6268; /* 기존 호버 색상 */
+    background-color: #5a6268;
 }
 
-/* 반응형 디자인 */
+
 @media (max-width: 600px) {
     .medical-form {
-        padding: 15px; /* 작은 화면에서 여백 축소 */
-        margin: 10px; /* 상하 여백 축소 */
+        padding: 15px;
+        margin: 10px;
     }
 
     #medicalRecordForm > div,
@@ -118,10 +110,10 @@
     #medicalRecordForm textarea,
     #medicalRecordForm input,
     #medicalRecordForm button {
-        font-size: 12px; /* 작은 화면에서 글꼴 크기 축소 */
+        font-size: 12px;
     }
 
     #medicalRecordForm button {
-        padding: 6px 15px; /* 버튼 크기 축소 */
+        padding: 6px 15px;
     }
 }
