@@ -25,8 +25,7 @@ public class AuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
     private final List<String> PERMIT_ALL_PATHS = Arrays.asList(
-            "", "/", "/error",
-            "/user/valid/**", "/user/login", "/user/register"
+            "", "/", "/error"
             );
     private final List<String> PROTECTED_PATHS = Arrays.asList(
             "/user/**", "/doctor/**", "/radiologist/**", "/management", "/logList", "/checkLog", "/userList", "/logs/**" );
