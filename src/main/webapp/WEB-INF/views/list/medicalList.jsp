@@ -61,5 +61,4 @@
     </div>
 </div>
 </body>
-<script src="/script/list/medicalList.js"></script>
 </html>

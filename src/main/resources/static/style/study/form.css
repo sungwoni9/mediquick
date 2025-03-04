@@ -122,7 +122,7 @@
     text-align: center;
 }
 
-.patients-name, .study-time, .study-desc, .modality, .body-part {
+.patient-name, .study-time, .study-desc, .modality, .body-part {
     text-align: left;
 }
 
