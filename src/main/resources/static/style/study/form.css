@@ -100,7 +100,7 @@
 
 .list-element {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr 2fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr;
     padding: 10px;
     border-bottom: 1px solid #eee;
     background-color: #f9f9f9;
@@ -118,17 +118,17 @@
     cursor: pointer;
 }
 
-.study-key,.modality,  .series-count, .image-count, .pacs-button{
+.modality, .series-count, .image-count {
     text-align: center;
 }
 
-.patient-name, .study-time, .study-desc,  .body-part {
+.study-key, .patient-name, .study-time, .study-desc, .body-part {
     text-align: left;
 }
 
 .pacs-button {
     grid-column: 9;
-   text-align: right;
+    text-align: right;
     background-size: 24px 24px;
     background-repeat: no-repeat;
     background-position: center;
