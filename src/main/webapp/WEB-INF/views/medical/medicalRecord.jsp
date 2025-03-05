@@ -7,12 +7,12 @@
             Doctor: <span
                 id="doctorName"><%= session.getAttribute("username") != null ? session.getAttribute("username") : "Unknown" %></span>
         </div>
+        <div class="patient-name">
+            Patient name: <span id="patientName"></span>
+        </div>
         <div class="study-key">
             <label>Study Key</label>
             <textarea id="studykey" name="studykey" rows="3"></textarea>
-        </div>
-        <div class="patient-name">
-            Patient name: <span id="patientName"></span>
         </div>
         <div class="pid">
             <input type="hidden" id="pid" name="pid">
