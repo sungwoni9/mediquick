@@ -1,6 +1,7 @@
 :root {
     --navbar-width: 300px;
     --navbar-width-min: 50px;
+    --viewer-width-min: 800px;
 }
 
 body {
@@ -10,6 +11,7 @@ body {
 
 #root {
     display: flex;
+    min-width: var(--viewer-width-min);
     height: calc(100% - 50px); /* 100% - 헤더 높이 */
 }
 
@@ -58,48 +60,26 @@ body {
     height: 100%;
     box-sizing: border-box;
     border-radius: 5px;
+    position: relative;
+}
+
+#dcm-viewer canvas{
+    width: 100vmin; /* 뷰포트의 가로와 세로 중 작은 값을 기준으로 설정 */
+    height: 100vmin; /* 정사각형을 유지 */
+    max-width: 100%; /* 부모(.screen)의 가로를 넘지 않음 */
+    max-height: 100%;
 }
 
 #dcm-viewer .loader {
-    width: 40px;
+    width: 15px;
     aspect-ratio: 1;
-    display: grid;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
 }
 
-#dcm-viewer .loader::before,
-#dcm-viewer .loader::after {
-    content: "";
-    grid-area: 1/1;
-    --c:no-repeat linear-gradient(#FFFFFF 0 0);
-    background:
-            var(--c) 0 0,
-            var(--c) 100% 0,
-            var(--c) 100% 100%,
-            var(--c) 0 100%;
-    animation:
-            l10-1 2s infinite linear,
-            l10-2 2s infinite linear;
-}
-
-#dcm-viewer .loader::after {
-    margin: 25%;
-    transform: scale(-1);
-}
-
-@keyframes l10-1 {
-    0%   {background-size: 0    4px,4px 0   ,0    4px,4px 0   }
-    12.5%{background-size: 100% 4px,4px 0   ,0    4px,4px 0   }
-    25%  {background-size: 100% 4px,4px 100%,0    4px,4px 0   }
-    37.5%{background-size: 100% 4px,4px 100%,100% 4px,4px 0   }
-    45%,
-    55%  {background-size: 100% 4px,4px 100%,100% 4px,4px 100%}
-    62.5%{background-size: 0    4px,4px 100%,100% 4px,4px 100%}
-    75%  {background-size: 0    4px,4px 0   ,100% 4px,4px 100%}
-    87.5%{background-size: 0    4px,4px 0   ,0    4px,4px 100%}
-    100% {background-size: 0    4px,4px 0   ,0    4px,4px 0   }
-}
-
-@keyframes l10-2 {
-    0%,49.9%{background-position: 0 0   ,100% 0   ,100% 100%,0 100%}
-    50%,100%{background-position: 100% 0,100% 100%,0    100%,0 0   }
+@keyframes l5 {
+    0%  {box-shadow: 20px 0 #FFF, -20px 0 #FFF2;background: #FFF }
+    33% {box-shadow: 20px 0 #FFF, -20px 0 #FFF2;background: #FFF2}
+    66% {box-shadow: 20px 0 #FFF2,-20px 0 #FFF; background: #FFF2}
+    100%{box-shadow: 20px 0 #FFF2,-20px 0 #FFF; background: #FFF }
 }
