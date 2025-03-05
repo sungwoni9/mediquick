@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", e=> {
                 // JWT 저장
                 localStorage.setItem("jwtToken", data.token);
                 alert("로그인 성공!");
-                location.href = '/user/profile';
+                location.href = '/dashboard';
             } else {
                 // 로그인 실패 시 토큰 삭제
                 localStorage.removeItem("jwtToken");
