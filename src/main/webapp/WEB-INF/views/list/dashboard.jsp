@@ -17,6 +17,6 @@
 </nav>
 <div id="content-area" class="content-area">
 </div>
-<c:import url="/footer"/>
 </body>
+<c:import url="/footer"/>
 </html>
