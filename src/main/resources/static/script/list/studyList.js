@@ -110,7 +110,7 @@ function filterStudies() {
     const studies = document.getElementsByClassName('list-element');
     for (let i = 1; i < studies.length; i++) {
         const study = studies[i];
-        const pName = study.querySelector('.patients-name')?.textContent.toLowerCase() || '';
+        const pName = study.querySelector('.patient-name')?.textContent.toLowerCase() || '';
         const sTime = study.querySelector('.study-time')?.textContent.toLowerCase() || '';
         const mod = study.querySelector('.modality')?.textContent.toLowerCase() || '';
         const bPart = study.querySelector('.body-part')?.textContent.toLowerCase() || '';
