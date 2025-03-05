@@ -1,0 +1,24 @@
+footer {
+    bottom: 0;
+    width: 100%;
+    height: 130px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-links p {
+    margin: 0 10px;
+    color: #333;
+}
+
+.contact-info, .team-info, .copyright {
+    margin: 10px 0;
+}
+
+address {
+    font-style: normal;
+    margin-bottom: 15px;
+}

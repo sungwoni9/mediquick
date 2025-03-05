@@ -65,19 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // 페이지별 초기화 함수 호출
             switch (page) {
                 case 'study':
-                    if (typeof initializeStudyContent === 'function') {
+                    if (typeof initializeStudyContent === 'function')
                         initializeStudyContent();
-                    }
                     break;
                 case 'patient':
-                    if (typeof initializePatientContent === 'function') {
+                    if (typeof initializePatientContent === 'function')
                         initializePatientContent();
-                    }
+
                     break;
                 case 'medical':
-                    if (typeof initializePatientContent === 'function') {
+                    if (typeof initializePatientContent === 'function')
                         initializePatientContent();
-                    }
                     break;
             }
         };

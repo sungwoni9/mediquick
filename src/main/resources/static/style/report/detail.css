@@ -1,9 +1,16 @@
 #recode {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1440px;
     width: 100%;
     height: 250px;
-    position: absolute;
-    bottom: 0;
     background-color: #E8EDF4;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 #top {
@@ -24,24 +31,28 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    width: 800px;
+    width: 100%;
 }
 
 .medi-grid {
     display: grid;
-    gap:50px;
+    gap:20px;
     grid-template-columns: repeat(2, 1fr);
+    width: 100%;
 }
+
 .grid-item {
     display: flex;
     align-items: center;
     gap:10px;
 }
+
 .label {
     font-weight: bold;
     white-space: nowrap;
     font-size: 14px;
 }
+
 .value {
     font-size: 12px;
     overflow: hidden;

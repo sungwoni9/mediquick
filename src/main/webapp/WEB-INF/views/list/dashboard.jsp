@@ -3,6 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/style/dashboard/form.css">
+    <script src="/script/dashboard.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
@@ -16,6 +17,6 @@
 </nav>
 <div id="content-area" class="content-area">
 </div>
-<script src="/script/dashboard.js"></script>
+<c:import url="/footer"/>
 </body>
 </html>

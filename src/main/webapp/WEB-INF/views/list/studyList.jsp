@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit">Search</button>
-                    <button type="button" onclick="resetForm()">Reset</button>
+                    <button type="button">Reset</button>
                 </div>
             </form>
         </div>
@@ -61,7 +61,6 @@
                 <div class="body-part">${study.bodypart}</div>
                 <div class="series-count">${study.seriescnt}</div>
                 <div class="image-count">${study.imagecnt}</div>
-
                 <img class="pacs-button" src="/icons/pacs-icon.png" alt="PACS Icon"/>
             </div>
         </c:forEach>

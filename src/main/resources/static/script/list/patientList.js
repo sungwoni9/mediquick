@@ -1,5 +1,5 @@
 function initializePatientContent() {
-
+    // 검색 폼 이벤트
     const searchForm = document.querySelector('#searchForm');
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
@@ -32,7 +32,6 @@ function filterPatients() {
     const patientSex = document.querySelector('#patientSex')?.value.toLowerCase() || '';
     const patientBirth = document.querySelector('#patientBirth')?.value.toLowerCase() || '';
 
-    console.log('필터 조건:', { patientCode, patientName, patientSex, patientBirth }); // 디버깅용
     const patients = document.getElementsByClassName('list-element');
     for (let i = 1; i < patients.length; i++) {
         const patient = patients[i];
@@ -54,19 +53,17 @@ function showMedicalForm(selectedPid) {
     let medicalForm = document.getElementById('medical-form');
     const patientElement = document.getElementById(`patient-${selectedPid}`);
 
-    if (!patientElement) {
+    if (!patientElement)
         return;
-    }
 
-    if (medicalForm) {
+    if (medicalForm)
         medicalForm.remove();
-    }
+
 
     fetch('/medical/form', { credentials: 'include' })
         .then(response => {
-            if (!response.ok) {
+            if (!response.ok)
                 throw new Error(`HTTP error! status: ${response.status}`);
-            }
             return response.text();
         })
         .then(html => {
@@ -80,9 +77,8 @@ function showMedicalForm(selectedPid) {
                 document.getElementById('medicalDate').value = new Date().toISOString().slice(0, 16);
 
                 const patientNameElement = document.getElementById('patientName');
-                if (patientNameElement) {
+                if (patientNameElement)
                     patientNameElement.textContent = patientName || 'Unknown';
-                }
 
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
@@ -96,33 +92,16 @@ function showMedicalForm(selectedPid) {
         });
 }
 
-function toggleMedicalForm() {
-    const form = document.getElementById('medicalRecordForm');
-    const toggleIcon = document.querySelector('.toggle-icon');
-    if (!form || !toggleIcon) {
-        return;
-    }
-    if (form.style.display === 'block' || form.style.display === '') {
-        form.style.display = 'none';
-        toggleIcon.classList.remove('open');
-    } else {
-        form.style.display = 'block';
-        toggleIcon.classList.add('open');
-    }
-}
-
 function closeMedicalForm() {
     const medicalForm = document.getElementById('medical-form');
     if (medicalForm)
         medicalForm.remove();
-
 }
 
 function saveMedicalRecord() {
     const form = document.getElementById('medicalRecordForm');
     if (!form)
         return;
-
 
     const formData = new FormData(form);
     const medicalRecord = {
@@ -133,7 +112,6 @@ function saveMedicalRecord() {
         orderDesc: formData.get('orderDesc'),
         medicalDate: formData.get('medicalDate')
     };
-
 
     if (!medicalRecord.studykey) {
         alert('검사 번호를 입력하세요.');
@@ -183,7 +161,6 @@ function resetForm() {
     const form = document.getElementById('searchForm');
     if (!form)
         return;
-
     form.reset();
     filterPatients();
 }
@@ -191,7 +168,6 @@ function resetForm() {
 // 전역 함수 노출
 window.initializePatientContent = initializePatientContent;
 window.showMedicalForm = showMedicalForm;
-window.toggleMedicalForm = toggleMedicalForm;
 window.closeMedicalForm = closeMedicalForm;
 window.saveMedicalRecord = saveMedicalRecord;
 window.filterPatients = filterPatients;
