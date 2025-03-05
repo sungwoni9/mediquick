@@ -3,6 +3,14 @@ a {
     color: black;
 }
 
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 #login-form input {
     min-width: 260px;
 }
@@ -30,9 +38,8 @@ form {
     gap: 8px;
 }
 
-
 #content-container {
-    height: calc(100vh - 50px - 130px); /* 헤더 50px, 푸터 130px 가정 */
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;

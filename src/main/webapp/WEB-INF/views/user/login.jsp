@@ -21,8 +21,8 @@
             <p id="acc-txt">Don't have an account?</p>
             <input type="button" id="register-btn" value="Create new account" onclick="location.href='register';">
         </div>
-
     </form>
 </div>
+<c:import url="/footer"/>
 </body>
 </html>
