@@ -4,9 +4,8 @@
     <title>mediquick</title>
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/global.css">
-    <link rel="stylesheet" href="/style/user/header.css">
+    <link rel="stylesheet" href="/style/layout/header.css">
     <script src="/script/user/header.js"></script>
-
     <script type="module" src="/script/block-screenshot.js"></script>
 </head>
 <body>
