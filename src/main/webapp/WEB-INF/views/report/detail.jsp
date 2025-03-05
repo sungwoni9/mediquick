@@ -6,7 +6,6 @@
     <script src="/script/report/detail.js"></script>
     <title>진료/판독 조회</title>
 </head>
-<c:import url="/header"/>
 <body>
 <div id="recode">
     <div id="top">
