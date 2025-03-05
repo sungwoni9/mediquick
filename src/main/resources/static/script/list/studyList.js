@@ -87,7 +87,7 @@ function showReportDetail(studyKey) {
         })
         .then(html => {
             console.log('받은 HTML:', html);
-            listElement.insertAdjacentHTML('afterend', html);
+            document.body.insertAdjacentHTML('beforeend', html);
             recodeDiv = document.getElementById('recode');
             if (recodeDiv)
                 recodeDiv.style.display = 'block';
