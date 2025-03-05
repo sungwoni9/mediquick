@@ -1,12 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <html>
 <head>
     <title>mediquick</title>
-    <link rel="stylesheet" href="/style/reset.css">
-    <link rel="stylesheet" href="/style/global.css">
-    <link rel="stylesheet" href="/style/layout/header.css">
-    <script src="/script/user/header.js"></script>
-    <script type="module" src="/script/block-screenshot.js"></script>
+    <link rel="stylesheet" href="<c:url value="/style/reset.css"/>">
+    <link rel="stylesheet" href="<c:url value="/style/global.css"/>">
+    <link rel="stylesheet" href="<c:url value="/style/user/header.css"/>">
+
+    <%--<script src="<c:url value="/script/user/header.js"/>"></script>--%>
+    <%--<script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>--%>
 </head>
 <body>
 <header>

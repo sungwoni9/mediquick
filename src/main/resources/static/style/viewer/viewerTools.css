@@ -15,7 +15,7 @@
     gap: 10px;
 }
 
-#tools .tool {
+#tools .tool, #report-btn{
     width: 40px;
     height: 40px;
     color: white;

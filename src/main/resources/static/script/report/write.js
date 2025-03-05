@@ -1,50 +1,35 @@
-document.addEventListener("DOMContentLoaded", async e => {
-    const form = document.querySelector("form");
-    const studykey = 1;
+let isReportOpen = false;
+const reportButton = document.querySelector('#report-btn');
+const closeButton = document.querySelector('#report-root #close');
+
+
+closeButton.addEventListener("click",()=>{
+    const root = document.querySelector("#report-root");
+    root.style.display = 'none';
+    isReportOpen = false;
+})
+
+reportButton.addEventListener("click", async () => {
+    const root = document.querySelector("#report-root");
+
+    if (isReportOpen) {
+        root.style.display = 'none';
+        isReportOpen = false;
+        return;
+    }
+
+    isReportOpen = true;
+    root.style.display = 'flex';
+
+    const form = document.querySelector("#report-root form");
+    const urlParams = new URLSearchParams(window.location.search);
+    const studykey = urlParams.get('studyKey');
     let hasExistingReport = false;
 
     await fetchPatientData(studykey);
     hasExistingReport = await fetchFindingData(studykey);
 
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        const data = {
-            code: hasExistingReport.code,
-            radiologistName: document.querySelector('input[name="radiologistName"]').value,
-            institutionName: document.querySelector('input[name="institutionName"]').value,
-            urgencyLevel: document.querySelector('input[name="urgencyLevel"]:checked')?.value,
-            reportStatus: document.querySelector('input[name="reportStatus"]:checked')?.value,
-            comparisonStudies: document.querySelector('#previous').value,
-            possibleDiagnosis: document.querySelector('input[name="possibleDiagnosis"]').value,
-            clinicalSignificance: document.querySelector('input[name="clinicalSignificance"]').value,
-            morphology: document.querySelector('input[name="morphology"]').value,
-            lesionCount: document.querySelector('input[name="lesionCount"]').value,
-            lesionSize: document.querySelector('input[name="lesionSize"]').value,
-            lesionLocation: document.querySelector('input[name="lesionLocation"]').value,
-            normal: document.querySelector('input[name="normal"]:checked')?.value,
-            recommendedStudies: document.querySelector('input[name="recommendedStudies"]:checked')?.value,
-            additionalFindings: document.querySelector('#findings').value,
-            additionalComment: document.querySelector('#opinion').value,
-            additionalNotes: document.querySelector('input[name="additionalNotes"]').value
-        };
-
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const requestOptions = {
-            method: hasExistingReport.code !== null ? "PUT" : "POST",
-            headers: myHeaders,
-            body: JSON.stringify(data)
-        };
-
-        const url = hasExistingReport ? `/report` : `/report/write`;
-        const response = await fetch(url, requestOptions);
-
-        if(response.ok) {
-            alert(`판독 소견서가 ${hasExistingReport ? "수정" : "저장"}되었습니다.`);
-        }
-    });
+    form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport));
 });
 
 function formatDate(dateString) {
@@ -110,5 +95,45 @@ async function fetchFindingData(studykey) {
     } catch (error) {
         console.log(error.message);
         return false;
+    }
+}
+
+async function submitForm(event, hasExistingReport) {
+    event.preventDefault();
+
+    const data = {
+        code: hasExistingReport.code,
+        radiologistName: document.querySelector('input[name="radiologistName"]').value,
+        institutionName: document.querySelector('input[name="institutionName"]').value,
+        urgencyLevel: document.querySelector('input[name="urgencyLevel"]:checked')?.value,
+        reportStatus: document.querySelector('input[name="reportStatus"]:checked')?.value,
+        comparisonStudies: document.querySelector('#previous').value,
+        possibleDiagnosis: document.querySelector('input[name="possibleDiagnosis"]').value,
+        clinicalSignificance: document.querySelector('input[name="clinicalSignificance"]').value,
+        morphology: document.querySelector('input[name="morphology"]').value,
+        lesionCount: document.querySelector('input[name="lesionCount"]').value,
+        lesionSize: document.querySelector('input[name="lesionSize"]').value,
+        lesionLocation: document.querySelector('input[name="lesionLocation"]').value,
+        normal: document.querySelector('input[name="normal"]:checked')?.value,
+        recommendedStudies: document.querySelector('input[name="recommendedStudies"]:checked')?.value,
+        additionalFindings: document.querySelector('#findings').value,
+        additionalComment: document.querySelector('#opinion').value,
+        additionalNotes: document.querySelector('input[name="additionalNotes"]').value
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+        method: hasExistingReport.code !== null ? "PUT" : "POST",
+        headers: myHeaders,
+        body: JSON.stringify(data)
+    };
+
+    const url = hasExistingReport ? `/report` : `/report/write`;
+    const response = await fetch(url, requestOptions);
+
+    if (response.ok) {
+        alert(`판독 소견서가 ${hasExistingReport ? "수정" : "저장"}되었습니다.`);
     }
 }
