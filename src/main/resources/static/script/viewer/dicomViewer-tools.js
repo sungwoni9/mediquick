@@ -71,6 +71,8 @@ export function initializeTools(state) {
         tool.addEventListener('click', () => {
             if (tool.id !== "rotate" && tool.id !== "reset")
                 setActiveTool(state, tool.id);
+            else(tool.id === "reset")
+                reset(state);
         });
     });
 
@@ -97,5 +99,10 @@ function changeLeftButton(state, tool) {
     state.toolGroup.setToolActive(toolMap[tool], {
         bindings: [{mouseButton: csToolsEnums.MouseBindings.Primary}],
     });
+}
+
+function reset(state){
+    const viewport = state.renderingEngine.getViewport(state.currentViewport.id);
+    viewport.reset();
 }
 

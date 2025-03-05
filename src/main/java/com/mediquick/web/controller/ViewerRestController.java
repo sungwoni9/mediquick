@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
 
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -45,7 +46,7 @@ public class ViewerRestController {
 
     // 지정된 studykey 에 속한 시리즈별 이미지 메타데이터를 반환
     @GetMapping("/dicom/{studykey}")
-    public ResponseEntity<List<SeriesImages>> getDicomMetadataBySeries(@PathVariable int studykey) {
+    public ResponseEntity<List<SeriesImages>> getDicomMetadataBySeries(@PathVariable("studykey") int studykey) {
         List<Image> images = imageService.getImagesByStudyKey(studykey);
 
         if (images == null || images.isEmpty()) {
@@ -88,7 +89,7 @@ public class ViewerRestController {
 
     // 지정된 studykey 와 serieskey 에 해당하는 이미지 정보를 반환
     @GetMapping("/dicom/{studykey}/{serieskey}")
-    public ResponseEntity<List<ImageInfo>> getSeriesImages(@PathVariable int studykey, @PathVariable int serieskey) {
+    public ResponseEntity<List<ImageInfo>> getSeriesImages(@PathVariable("studykey") int studykey, @PathVariable("serieskey") int serieskey) {
 
         if (serieskey < 0) {
             return ResponseEntity.badRequest().build();

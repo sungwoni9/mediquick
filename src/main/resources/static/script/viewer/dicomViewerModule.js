@@ -1,4 +1,4 @@
-import {Enums, init as coreInit, RenderingEngine} from '@cornerstonejs/core';
+import {init as coreInit, RenderingEngine} from '@cornerstonejs/core';
 import {init as dicomImageLoaderInit} from '@cornerstonejs/dicom-image-loader';
 import {init as cornerstoneToolsInit, ToolGroupManager} from '@cornerstonejs/tools';
 import {initializeLayout} from "./dicomViewer-layout";
