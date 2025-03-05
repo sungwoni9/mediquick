@@ -3,6 +3,7 @@
 
 <div class="medical-form" id="medical-form" style="display: none;">
     <form id="medicalRecordForm" style="display: none;">
+        <h2>Medical Certicicate</h2>
         <div class="doctor-name">
             Doctor: <span
                 id="doctorName"><%= session.getAttribute("username") != null ? session.getAttribute("username") : "Unknown" %></span>
