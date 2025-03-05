@@ -1,16 +1,18 @@
 .medical-form {
-    margin: 20px auto;
-    padding: 25px;
-    background: #f5f9fc;
-    border-radius: 12px;
-    border: 1px solid #e8e8e8;
+    margin: 30px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e0e6ed;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 1000px;
 }
 
 #medicalRecordForm {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    gap: 25px;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
 
 #medicalRecordForm > div {
@@ -18,95 +20,82 @@
     color: #2c3e50;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin: 0 15px;
+    gap: 10px;
+    margin: 20px 20px;
 }
 
 .doctor-name, .patient-name {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    font-weight: 500;
 }
 
 #medicalRecordForm > div span {
     font-weight: 600;
-    color: #0056b3;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 #medicalRecordForm label {
     font-size: 14px;
-    color: #34495e;
+    color: #37474f;
     font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#medicalRecordForm textarea,
+#medicalRecordForm input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cfd8dc;
+    background-color: #fbfcfe;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #medicalRecordForm textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d0d7de;
-    background-color: #fafbfc;
-    border-radius: 6px;
-    font-size: 14px;
-    resize: vertical;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease-in-out;
+    height: 100px;
+    resize: none;
 }
 
-#medicalRecordForm textarea:focus {
-    border-color: #0056b3;
-    outline: none;
-    box-shadow: 0 0 6px rgba(0, 86, 179, 0.2);
-}
-
-#medicalRecordForm input[type="datetime-local"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d0d7de;
-    background-color: #fafbfc;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease-in-out;
-}
-
+#medicalRecordForm textarea:focus,
 #medicalRecordForm input[type="datetime-local"]:focus {
-    border-color: #0056b3;
+    border-color: #1e88e5;
     outline: none;
-    box-shadow: 0 0 6px rgba(0, 86, 179, 0.2);
+    box-shadow: 0 0 8px rgba(30, 136, 229, 0.2);
+}
+
+#study-key, #patient-name {
+    width: auto;
 }
 
 #medicalRecordForm .button-container {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin: 0 15px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 20px 0;
 }
 
 #medicalRecordForm button {
-    padding: 10px 25px;
+    padding: 12px 30px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 15px;
-    width: 100px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
 }
 
 #medicalRecordForm button[type="submit"] {
-    background-color: #0056b3;
+    background-color: #0F3A6B;
+    width: 30%;
     color: white;
-}
-
-#medicalRecordForm button[type="submit"]:hover {
-    background-color: #003d82;
-    transform: translateY(-1px);
 }
 
 #medicalRecordForm button[type="button"] {
-    background-color: #6c757d;
+    background-color: #78909c;
+    width: 30%;
     color: white;
-}
-
-#medicalRecordForm button[type="button"]:hover {
-    background-color: #5a6268;
-    transform: translateY(-1px);
 }
