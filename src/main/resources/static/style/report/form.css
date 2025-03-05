@@ -1,44 +1,44 @@
-input, textarea {
+#report-root input,#report-root textarea {
     outline: none;
     border: none;
 }
 
-input[type="text"] {
+#report-root input[type="text"] {
     padding: 5px 20px;
     font-size: 12px;
     width: 100%;
 }
-textarea {
+#report-root textarea {
     resize: none;
 }
 
-form {
+#report-root form {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-#root {
+#report-root {
     background-color: #F6F6F9;
     width: 350px;
     height:calc(100% - 50px);
     font-size: 12px;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
-.f-tit > p {
+#report-root .f-tit > p {
     padding-left: 20px;
     font-size: 12px;
     font-weight: bold;
 }
 
-#btn-group {
+#report-root #btn-group {
     display: flex;
     justify-content: space-between;
 }
 
-#btn-group button, input[type="submit"] {
+#report-root #btn-group button,#report-root input[type="submit"] {
     border: none;
     background-color:#154D92;
     cursor: pointer;
@@ -47,85 +47,85 @@ form {
     color: white;
 }
 
-#btn-group button {
+#report-root #btn-group button {
     color: black;
     background-color:#e0e0e0;
 }
 
-.grid-table {
+#report-root .grid-table {
     display: grid;
     grid-template-columns: 3fr 7fr;
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
 }
-.grid-table div:nth-child(odd) {
+#report-root .grid-table div:nth-child(odd) {
     background-color: #f0f0f0;
     font-weight: bold;
 }
-.grid-table div {
+#report-root .grid-table div {
     padding: 10px;
     text-align: center;
 }
 
-.f-tit {
+#report-root .f-tit {
     background-color: #E8EDF4;
     padding: 10px 0;
 }
 
-#previous {
+#report-root #previous {
     height: 50px;
 }
 
-#findings {
+#report-root #findings {
     flex:1;
     min-height: 50px;
 }
-#opinion {
+#report-root #opinion {
     height: 37px;
 }
 
-#previous,
-#findings,
-#opinion{
+#report-root #previous,
+#report-root #findings,
+#report-root #opinion{
     width: 100%;
     font-size: 12px;
     padding: 5px 20px;
 }
 
-#lesion-grid {
+#report-root #lesion-grid {
     display: grid;
     background-color: #E8EDF4;
     grid-template-columns: repeat(3, 1fr);
 }
 
-#lesion-grid p {
+#report-root #lesion-grid p {
     border-right: 1px solid #e0e0e0;
     padding: 10px;
     text-align: center;
     font-weight: bold;
 }
 
-#lesion-grid p:not(:last-child) {
+#report-root #lesion-grid p:not(:last-child) {
     border-right: none;
 }
 
-#lesion-grid input {
+#report-root #lesion-grid input {
     border-right: 1px solid #e0e0e0;
 }
 
-#lesion-grid input:last-child {
+#report-root #lesion-grid input:last-child {
     border-right: none;
 }
 
-#lesion-grid input {
+#report-root #lesion-grid input {
     text-align: center;
 }
-#radio-grid, #report-grid, #radiologist-grid {
+#report-root #radio-grid,#report-root #report-grid,#report-root #radiologist-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
-#radio-grid p, #report-grid p, #radiologist-grid p {
+#report-root #radio-grid p,#report-root #report-grid p,#report-root #radiologist-grid p {
     background-color: #E8EDF4;
     border-right: 1px solid #e0e0e0;
     padding: 10px;
@@ -133,7 +133,7 @@ form {
     font-weight: bold;
 }
 
-#radio-grid > div {
+#report-root #radio-grid > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,18 +141,18 @@ form {
     padding: 10px 0
 }
 
-#radio-grid > div:first-of-type,
-#report-grid > div:first-of-type,
-input[name="radiologistName"] {
+#report-root #radio-grid > div:first-of-type,
+#report-root #report-grid > div:first-of-type,
+#report-root input[name="radiologistName"] {
     border-right:1px solid #e0e0e0;
 }
 
-#radio-grid > div > div, #report-grid > div  {
+#report-root #radio-grid > div > div,#report-root #report-grid > div  {
     display: flex;
     align-items: center;
 }
 
-#report-grid > div {
+#report-root #report-grid > div {
     padding: 10px 0;
     text-align: center;
     display: flex;
