@@ -28,5 +28,8 @@
         <div id="reset" class="tool">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" class="w-[28px] h-[28px] fill-current"><g fill="none" fill-rule="evenodd"><path d="M0 0h28v28H0z"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.788 10.923h6.923V4"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22.185 10.923a9.23 9.23 0 1 0-1.49 8.834"></path></g></svg>
         </div>
+        <div id="report-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" class="h-[28px] w-[28px]"><g fill="none" fill-rule="evenodd"><path d="M0 0h28v28H0z"></path><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(4 5.5)"><circle cx="1.739" cy="1.739" r="1.739"></circle><path d="M6.957 1.739H20"></path><circle cx="1.739" cy="8.696" r="1.739"></circle><path d="M6.957 8.696H20"></path><circle cx="1.739" cy="15.652" r="1.739"></circle><path d="M6.957 15.652H20"></path></g></g></svg>
+        </div>
     </div>
 </div>
