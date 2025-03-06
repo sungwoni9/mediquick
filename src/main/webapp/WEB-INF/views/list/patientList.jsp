@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-    <link rel="stylesheet" href="/style/study/form.css">
+    <link rel="stylesheet" href="/style/list/form.css">
     <title>환자 리스트</title>
 </head>
 <body>

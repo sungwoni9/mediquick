@@ -124,7 +124,6 @@ function filterStudies() {
     }
 }
 
-
 function resetForm() {
     const form = document.getElementById('searchForm');
     if (!form)
