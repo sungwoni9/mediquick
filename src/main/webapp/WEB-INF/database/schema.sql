@@ -45,6 +45,7 @@ CREATE TABLE consultation (
 CREATE TABLE medical_records (
                                  code INT PRIMARY KEY AUTO_INCREMENT,
                                  username VARCHAR(20),
+                                 studykey INT NOT NULL,
                                  pid VARCHAR(64) NOT NULL,
                                  patient_symptoms VARCHAR(255),
                                  order_desc VARCHAR(255),

@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'patient':
                     if (typeof initializePatientContent === 'function')
                         initializePatientContent();
-
                     break;
                 case 'medical':
                     if (typeof initializePatientContent === 'function')
