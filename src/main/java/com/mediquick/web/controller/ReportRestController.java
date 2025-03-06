@@ -27,13 +27,11 @@ public class ReportRestController {
     private final StudyRepository studyRepository;
 
     // 판독 소견서 작성
-    @PostMapping("/write")
-    public ResponseEntity<ResponseDto> write(@RequestBody FindingRequestDto findingDto, HttpSession session) {
+    @PostMapping("/write/{studykey}")
+    public ResponseEntity<ResponseDto> write(@PathVariable("studykey")int studykey,@RequestBody FindingRequestDto findingDto, HttpSession session) {
 
         String token = (String) session.getAttribute("jwtToken");
         String username = jwtUtil.extractUsername(token);
-
-        int studykey = 1;
 
         Interpretation interpretation = new Interpretation(username, studykey);
         interpretationService.createInterpretation(interpretation);

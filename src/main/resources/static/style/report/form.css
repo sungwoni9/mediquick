@@ -20,11 +20,17 @@
 
 #report-root {
     background-color: #F6F6F9;
-    width: 350px;
-    height:calc(100% - 50px);
-    font-size: 12px;
     display: none;
     flex-direction: column;
+    font-size: 12px;
+    width: 350px;
+    overflow-y: auto;
+    max-height: 100%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+#report-root::-webkit-scrollbar {
+    display: none;
 }
 
 #report-root .f-tit > p {
@@ -38,18 +44,19 @@
     justify-content: space-between;
 }
 
-#report-root #btn-group button,#report-root input[type="submit"] {
+#report-root #btn-group > input {
     border: none;
     background-color:#154D92;
     cursor: pointer;
     width: 50%;
-    padding: 5px 0;
+    padding: 10px 0;
     color: white;
 }
 
-#report-root #btn-group button {
+#report-root #btn-group input[type=button] {
     color: black;
     background-color:#e0e0e0;
+    text-align: center;
 }
 
 #report-root .grid-table {
@@ -73,15 +80,14 @@
 }
 
 #report-root #previous {
-    height: 50px;
+    height: 150px;
 }
 
 #report-root #findings {
-    flex:1;
-    min-height: 50px;
+    height: 150px;
 }
 #report-root #opinion {
-    height: 37px;
+    height: 100px;
 }
 
 #report-root #previous,
