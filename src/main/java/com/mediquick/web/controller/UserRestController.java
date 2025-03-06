@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -338,9 +339,12 @@ public class UserRestController {
     }
 
     @PostMapping("/deleteByManager")
-    public String deleteByManager(@RequestParam("username") String username) {
+    public String deleteByManager(@RequestParam("username") String username, RedirectAttributes redirectAttributes) {
         userService.deleteUser(username);
-        return "userList";
+
+        // 삭제 후 사용자 목록 페이지로 이동
+        redirectAttributes.addFlashAttribute("message", "사용자가 삭제되었습니다.");
+        return "redirect:/userList";
     }
 
     @GetMapping("/token-expiry")
