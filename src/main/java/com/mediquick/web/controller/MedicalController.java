@@ -10,8 +10,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MedicalController {
 
     @GetMapping("/form")
-    public String showMedicalForm() {
-        System.out.println("Accessing /medical/form");
-        return "medical/medicalRecord";
-    }
+    public String showMedicalForm() {return "medical/medicalRecord";}
 }
