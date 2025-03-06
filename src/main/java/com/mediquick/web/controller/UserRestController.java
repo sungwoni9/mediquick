@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -294,6 +295,7 @@ public class UserRestController {
         String username = jwtUtil.extractUsername(token);
         System.out.println("Username : " + username);
 
+
         session.removeAttribute("jwtToken");
         session.invalidate();
 
@@ -335,12 +337,6 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Deletion failed"));
         }
-    }
-
-    @PostMapping("/deleteByManager")
-    public String deleteByManager(@RequestParam("username") String username) {
-        userService.deleteUser(username);
-        return "userList";
     }
 
     @GetMapping("/token-expiry")

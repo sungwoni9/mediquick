@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -60,5 +62,14 @@ public class AdminController {
 
         model.addAttribute("userList", users);
         return "userList";
+    }
+
+    @PostMapping("/deleteByManager")
+    public String deleteByManager(@RequestParam("username") String username, RedirectAttributes redirectAttributes) {
+        userService.deleteUser(username);
+
+        // 삭제 후 사용자 목록 페이지로 이동
+        redirectAttributes.addFlashAttribute("message", "사용자가 삭제되었습니다.");
+        return "redirect:/userList";
     }
 }
