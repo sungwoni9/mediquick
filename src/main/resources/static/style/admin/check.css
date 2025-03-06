@@ -57,3 +57,35 @@
 .user-table tr:hover {
     background-color: #f1f1f1;
 }
+
+button {
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: rgba(21, 77, 146, 0.8);
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#page-info {
+    font-size: 16px;
+}

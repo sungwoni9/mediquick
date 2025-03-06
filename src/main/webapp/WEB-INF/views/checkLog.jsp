@@ -12,6 +12,7 @@
 <head>
     <title>로그 조회</title>
     <link rel="stylesheet" href="/style/admin/check.css">
+    <script type="module" src="/script/userPaging.js"></script>
 </head>
 <c:import url="/header"/>
 <body>
@@ -33,7 +34,7 @@
                 <th>수정 일시</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="user-table-body">
             <c:choose>
                 <c:when test="${empty users}">
                     <p>사용자 목록이 없습니다.</p>
@@ -57,6 +58,11 @@
             </c:choose>
             </tbody>
         </table>
+    </div>
+    <div id="pagination">
+        <button id="prev-btn">이전</button>
+        <span id="page-info">1/1</span>
+        <button id="next-btn">다음</button>
     </div>
 </div>
 </body>

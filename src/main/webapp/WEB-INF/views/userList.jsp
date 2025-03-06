@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>사용자 목록</title>
     <link rel="stylesheet" href="/style/admin/check.css">
+    <script type="module" src="/script/userPaging.js"></script>
 </head>
 <c:import url="/header"/>
 <body>

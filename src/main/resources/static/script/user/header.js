@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async e => {
         userMenu.classList.remove('show');
         setTimeout(() => {
             userMenu.style.display = 'none';
-        }, 200);
+        }, 500);
     })
 
     const response = await fetch('/user/valid/info');
