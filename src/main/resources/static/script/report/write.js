@@ -29,7 +29,7 @@ reportButton.addEventListener("click", async () => {
     await fetchPatientData(studykey);
     hasExistingReport = await fetchFindingData(studykey);
 
-    form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport));
+    form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport ,studykey));
 });
 
 function formatDate(dateString) {
@@ -98,8 +98,9 @@ async function fetchFindingData(studykey) {
     }
 }
 
-async function submitForm(event, hasExistingReport) {
+async function submitForm(event, hasExistingReport, studykey) {
     event.preventDefault();
+    console.log("hasreport::"+hasExistingReport)
 
     const data = {
         code: hasExistingReport.code,
@@ -130,7 +131,7 @@ async function submitForm(event, hasExistingReport) {
         body: JSON.stringify(data)
     };
 
-    const url = hasExistingReport ? `/report` : `/report/write`;
+    const url = hasExistingReport ? `/report` : `/report/write/${studykey}`;
     const response = await fetch(url, requestOptions);
 
     if (response.ok) {

@@ -15,10 +15,6 @@
     </div>
     <%--  소견 작성 폼 --%>
     <form method="POST" action="<c:url value="/report/write"/>">
-        <div id="btn-group">
-            <input type="submit" value="save">
-            <button id="close">close</button>
-        </div>
 
         <div id="radiologist-grid">
             <p>Radiologist name</p>
@@ -132,6 +128,10 @@
             <p>Additional notes</p>
         </div>
         <input type="text" name="additionalNotes">
+        <div id="btn-group">
+            <input type="submit" value="SAVE">
+            <input type="button" id="close" value="CLOSE">
+        </div>
     </form>
 </div>
 
