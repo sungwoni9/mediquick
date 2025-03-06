@@ -22,16 +22,15 @@ public class MedicalRestController {
     @PostMapping
     public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord medicalRecord, HttpSession session) {
         String token = (String) session.getAttribute("jwtToken");
-        if (token == null) {
+        if (token == null)
             throw new RuntimeException("로그인이 필요합니다.");
-        }
+
         String username = jwtUtil.extractUsername(token);
-        System.out.println("Username from JWT: " + username);
 
         // MedicalRecord에 username 설정
         medicalRecord.setUsername(username);
 
-        if (medicalRecord.getStudykey() == null) { // studykey가 null인지 확인
+        if (medicalRecord.getStudykey() == null) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(null);
