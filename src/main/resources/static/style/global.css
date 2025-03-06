@@ -23,6 +23,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    max-width: 1200px;
 }
 
 #header-cont > h2 {
@@ -33,6 +34,7 @@ header {
 }
 
 #user-info {
+    margin-left: auto;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -73,7 +75,7 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(0);
     transition: opacity 0.2s ease, transform 0.2s ease;
     flex-direction: column;
 }
@@ -114,6 +116,7 @@ header {
 }
 
 #btn-extend {
+    margin-left: 10px;
     background-color: var(--secondary-color);
     color: var(--primary-color);
     border: none;

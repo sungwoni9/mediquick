@@ -7,22 +7,35 @@ document.addEventListener("DOMContentLoaded", async e => {
     const registerLogoutButton = document.getElementById('register-logout-button');
     const managerButton = document.getElementById('manager-button');
     const tokenTimer = document.getElementById("token-timer");
-    const extendButton = document.querySelector("button[onclick='extendToken()']");
+    const extendButton = document.getElementById("btn-extend");
 
+    userInfo.addEventListener("click", (e) => {
+        if (!userMenu.classList.contains("show")) {
+            userMenu.style.display = "flex";
+            setTimeout(() => {
+                userMenu.classList.add("show");
+            }, 1);
+        } else {
+            userMenu.classList.remove("show");
+            setTimeout(() => {
+                userMenu.style.display = "none";
+            }, 300);
+        }
+    });
 
-    userInfo.addEventListener("click", e => {
-        userMenu.style.display = 'flex';
-        setTimeout(() => {
-            userMenu.classList.add('show');
-        }, 1);
-    })
+    document.addEventListener("click", (e) => {
+        if (!userInfo.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.classList.remove("show");
+            setTimeout(() => {
+                userMenu.style.display = "none";
+            }, 300);
+        }
+    });
 
-    userInfo.addEventListener("mouseleave", e => {
-        userMenu.classList.remove('show');
-        setTimeout(() => {
-            userMenu.style.display = 'none';
-        }, 500);
-    })
+    extendButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        extendToken();
+    });
 
     const response = await fetch('/user/valid/info');
     if (!response.ok) {

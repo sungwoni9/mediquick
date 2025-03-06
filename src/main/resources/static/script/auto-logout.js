@@ -72,6 +72,6 @@ if (isLogin()) {
 // 1초마다 남은 시간 업데이트
     setInterval(updateTokenExpiry, 1000);
 // 전역에서 `extendToken()`을 호출할 수 있도록 등록
-//     window.extendToken = extendToken;
+    window.extendToken = extendToken;
 }
 

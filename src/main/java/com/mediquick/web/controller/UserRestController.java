@@ -295,6 +295,7 @@ public class UserRestController {
         String username = jwtUtil.extractUsername(token);
         System.out.println("Username : " + username);
 
+
         session.removeAttribute("jwtToken");
         session.invalidate();
 
