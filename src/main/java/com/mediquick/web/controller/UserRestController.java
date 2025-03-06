@@ -338,15 +338,6 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/deleteByManager")
-    public String deleteByManager(@RequestParam("username") String username, RedirectAttributes redirectAttributes) {
-        userService.deleteUser(username);
-
-        // 삭제 후 사용자 목록 페이지로 이동
-        redirectAttributes.addFlashAttribute("message", "사용자가 삭제되었습니다.");
-        return "redirect:/userList";
-    }
-
     @GetMapping("/token-expiry")
     public ResponseEntity<Map<String, Object>> getTokenExpiry(@RequestHeader("Authorization") String authHeader) {
         Map<String, Object> response = new HashMap<>();

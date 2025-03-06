@@ -9,7 +9,8 @@
 <%--    <link rel="stylesheet" href="<c:url value="/style/layout/header.css"/>">--%>
 
     <script src="<c:url value="/script/user/header.js"/>"></script>
-    <%--<script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>--%>
+    <script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>
+    <script type="module" src="<c:url value="/script/auto-logout.js"/>"></script>
 </head>
 <body>
 <header>

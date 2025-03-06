@@ -29,7 +29,7 @@
                 <th>버튼</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="user-table-body">
             <c:if test="${not empty userList}">
                 <c:forEach var="user" items="${userList}">
                     <tr>
@@ -56,7 +56,7 @@
                         <td><fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td><fmt:formatDate value="${user.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>
-                            <form action="/user/deleteByManager" method="POST">
+                            <form action="/deleteByManager" method="POST">
                                 <input type="hidden" name="username" value="${user.username}">
                                 <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
                             </form>
@@ -66,6 +66,11 @@
             </c:if>
             </tbody>
         </table>
+    </div>
+    <div id="pagination">
+        <button id="prev-btn">이전</button>
+        <span id="page-info">1/1</span>
+        <button id="next-btn">다음</button>
     </div>
 </div>
 </body>
