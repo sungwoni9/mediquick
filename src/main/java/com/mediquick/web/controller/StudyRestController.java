@@ -26,9 +26,8 @@ public class StudyRestController {
 
         Study study = studyService.findStudyByStudykey(studyKey);
 
-        if(study == null){
+        if(study == null)
             return ResponseEntity.notFound().build();
-        }
 
         return ResponseEntity.ok(study);
     }
