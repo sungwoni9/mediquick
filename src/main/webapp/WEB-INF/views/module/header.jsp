@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<c:url value="/style/global.css"/>">
     <link rel="stylesheet" href="<c:url value="/style/layout/header.css"/>">
 
-    <%--<script src="<c:url value="/script/user/header.js"/>"></script>--%>
+    <script src="<c:url value="/script/user/header.js"/>"></script>
     <%--<script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>--%>
 </head>
 <body>
@@ -21,6 +21,7 @@
             <div id="user-profile-image">
             </div>
             <div id="user-menu">
+                <button id="manager-button"></button>
                 <button id="login-profile-button"></button>
                 <button id="register-logout-button"></button>
             </div>
