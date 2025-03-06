@@ -6,6 +6,8 @@ import com.mediquick.web.primary.finding.domain.FindingResponseDto;
 import com.mediquick.web.primary.finding.service.FindingService;
 import com.mediquick.web.primary.interpretation.domain.Interpretation;
 import com.mediquick.web.primary.interpretation.service.InterpretationService;
+import com.mediquick.web.primary.logs.domain.Log;
+import com.mediquick.web.primary.logs.service.LogService;
 import com.mediquick.web.secondary.study.domain.Study;
 import com.mediquick.web.secondary.study.domain.StudyRepository;
 import com.mediquick.web.secondary.study.domain.StudyResponseDto;
@@ -15,6 +17,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -25,6 +29,7 @@ public class ReportRestController {
     private final InterpretationService interpretationService;
     private final JwtUtil jwtUtil;
     private final StudyRepository studyRepository;
+    private final LogService logService;
 
     // 판독 소견서 작성
     @PostMapping("/write")
@@ -74,7 +79,8 @@ public class ReportRestController {
 
     // 판독 소견서 조회
     @GetMapping("/{studykey}")
-    public ResponseEntity<ResponseDto> getFindingByStudykey(@PathVariable int studykey) {
+    public ResponseEntity<ResponseDto> getFindingByStudykey(@PathVariable int studykey,
+                                                            @AuthenticationPrincipal UserDetails userDetails) {
         Integer interpretationCode = interpretationService.findInterpretationCodeByStudykey(studykey);
 
         if (interpretationCode == null) {
@@ -90,7 +96,13 @@ public class ReportRestController {
         }
 
         FindingResponseDto findingDto = new FindingResponseDto(finding);
+
+        String username = (userDetails != null) ? userDetails.getUsername() : "anonymous";
+
+        logService.saveLog(username, Log.ActivityType.VIEW_RECORD, String.valueOf(studykey));
+
         return ResponseEntity.ok(findingDto);
     }
+
 
 }
