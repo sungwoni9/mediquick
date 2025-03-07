@@ -6,11 +6,11 @@
     <title>mediquick</title>
     <link rel="stylesheet" href="<c:url value="/style/reset.css"/>">
     <link rel="stylesheet" href="<c:url value="/style/global.css"/>">
-<%--    <link rel="stylesheet" href="<c:url value="/style/layout/header.css"/>--%>
+<%--    <link rel="stylesheet" href="<c:url value="/style/layout/header.css"/>">--%>
 
-    <script src="<c:url value="/script/user/header.js"/>"></script>
-    <script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>
-    <script type="module" src="<c:url value="/script/auto-logout.js"/>"></script>
+<%--    <script src="<c:url value="/script/user/header.js"/>"></script>--%>
+<%--    <script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>--%>
+<%--    <script type="module" src="<c:url value="/script/auto-logout.js"/>"></script>--%>
 </head>
 <body>
 <header>
@@ -25,8 +25,8 @@
                 <button id="register-logout-button"></button>
             </div>
         </div>
-        <div id="token-timer">남은 시간:</div>
-        <button id="btn-extend">시간 연장</button>
+<%--        <div id="token-timer">남은 시간:</div>--%>
+<%--        <button id="btn-extend">시간 연장</button>--%>
     </div>
 </header>
 

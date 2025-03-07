@@ -1,4 +1,7 @@
+let toggleRecord = false;
+
 function initializeStudyContent() {
+
     // 검색 폼 이벤트
     const searchForm = document.querySelector('#searchForm');
     if (searchForm) {
@@ -57,48 +60,131 @@ function initializeStudyContent() {
     // 환자 이름 클릭 이벤트 추가
     const patientNames = document.querySelectorAll('.patient-name');
     patientNames.forEach(nameElement => {
-        nameElement.addEventListener('click', () => {
+        nameElement.addEventListener('click', async () => {
             const listElement = nameElement.closest('.list-element');
-            const studyKey = listElement.querySelector('.study-key').textContent;
-            showReportDetail(studyKey);
+            const studykey = listElement.querySelector('.study-key').textContent;
+            const recodeForm = document.querySelector('#recode');
+
+            if (toggleRecord) {
+                recodeForm.style.display = "none";
+                toggleRecord = false;
+            } else {
+                await fetchPatientData(studykey);
+                await fetchFindingData(studykey);
+
+                function formatDate(dateString) {
+                    return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
+                }
+
+                async function fetchPatientData(studykey) {
+                    try {
+                        const response = await fetch(`/report/patient/${studykey}`);
+                        if (!response.ok) {
+                            console.log("환자정보를 찾을 수 없습니다.");
+                            return;
+                        }
+                        const data = await response.json();
+                        document.getElementById("chartNo").innerText = data.pid + " / ";
+                        document.getElementById("patientName").innerText = data.pname + " / ";
+                        document.getElementById("patientBirth").innerText = formatDate(data.pbirthdatetime) + " / ";
+                        document.getElementById("patientGender").innerText = data.psex;
+                    } catch (error) {
+                        console.error("오류 발생:", error.message);
+                    }
+                }
+
+                async function fetchFindingData(studykey) {
+                    const response = await fetch(`/report/${studykey}`);
+                    if (!response.ok) {
+                        alert("판독 소견서가 존재하지 않습니다.");
+                        return false;
+                    }
+
+                    recodeForm.style.display = "block";
+                    toggleRecord = true;
+
+                    const data = await response.json();
+                    // 판독 레벨
+                    let urgencyText = '';
+                    let textColor = '';
+                    if (data.urgencyLevel === 1) {
+                        urgencyText = '일반';
+                        textColor = 'green';
+                    } else if (data.urgencyLevel === 2) {
+                        urgencyText = '중요';
+                        textColor = 'orange';
+                    } else if (data.urgencyLevel === 3) {
+                        urgencyText = '긴급';
+                        textColor = 'red';
+                    }
+                    // 보고서 상태
+                    let reportStatus = '';
+                    if (data.reportStatus === 1) {
+                        reportStatus = '초안';
+                    } else if (data.reportStatus === 2) {
+                        reportStatus = '수정 필요';
+                    } else if (data.reportStatus === 3) {
+                        reportStatus = '판독 완료';
+                    }
+                    // 보고서 날짜
+                    const formattedDate = new Date(data.regDate).toISOString().split('T')[0];
+                    document.getElementById("reader").textContent = data.radiologistName;
+                    document.getElementById("hospital").textContent = data.institutionName;
+                    document.getElementById("report-level").textContent = urgencyText;
+                    const urgencyTextEl = document.getElementById("report-level");
+                    urgencyTextEl.textContent = urgencyText;
+                    urgencyTextEl.style.color = textColor;
+                    document.getElementById("normal-status").textContent = data.normal ? "정상" : "비정상";
+                    document.getElementById("additional-exam-needed").textContent = data.recommendedStudies ? "필요" : "불필요";
+                    document.getElementById("lesion-location").textContent = data.lesionLocation;
+                    document.getElementById("lesion-size").textContent = data.lesionSize;
+                    document.getElementById("lesion-count").textContent = data.lesionCount;
+                    document.getElementById("morphological-features").textContent = data.morphology;
+                    document.getElementById("special-findings").textContent = data.additionalFindings;
+                    document.getElementById("suspected-diagnosis").textContent = data.possibleDiagnosis;
+                    document.getElementById("clinical-significance").textContent = data.clinicalSignificance;
+                    document.getElementById("past-exam-reference").textContent = data.comparisonStudies;
+                    document.getElementById("additional-comments").textContent = data.additionalComment;
+                    document.getElementById("notes").textContent = data.additionalNotes;
+                    document.getElementById("report-status").textContent = reportStatus;
+                    document.getElementById("report-date").textContent = formattedDate;
+                }
+            }
         });
     });
 }
 
 function showReportDetail(studyKey) {
-    console.log('showReportDetail 호출, studyKey:', studyKey);
-    const listElement = document.getElementById(`study-${studyKey}`);
-    if (!listElement) {
-        console.error(`study-${studyKey} 요소를 찾을 수 없습니다.`);
-        return;
-    }
-
-    let recodeDiv = document.getElementById('recode');
-    if (recodeDiv)
-        recodeDiv.remove();
-
-    fetch(`/report/detail/${studyKey}`, { credentials: 'include' })
-        .then(response => {
-            console.log('Response status:', response.status);
-            if (!response.ok)
-                throw new Error(`HTTP error! status: ${response.status}`);
-
-            return response.text();
-        })
-        .then(html => {
-            console.log('받은 HTML:', html);
-            document.body.insertAdjacentHTML('beforeend', html);
-            recodeDiv = document.getElementById('recode');
-            if (recodeDiv)
-                recodeDiv.style.display = 'block';
-             else
-                console.error('#recode 요소를 찾을 수 없습니다.');
-
-        })
-        .catch(error => {
-            console.error('Error loading report detail:', error);
-            alert('보고서 세부 정보를 로드하는 데 실패했습니다: ' + error.message);
-        });
+    // const listElement = document.getElementById(`study-${studyKey}`);
+    // if (!listElement) {
+    //     console.error(`study-${studyKey} 요소를 찾을 수 없습니다.`);
+    //     return;
+    // }
+    //
+    // let recodeDiv = document.getElementById('recode');
+    // if (recodeDiv)
+    //     recodeDiv.remove();
+    //
+    // fetch(`/report/detail/${studyKey}`, { credentials: 'include' })
+    //     .then(response => {
+    //         if (!response.ok)
+    //             throw new Error(`HTTP error! status: ${response.status}`);
+    //
+    //         return response.text();
+    //     })
+    //     .then(html => {
+    //         document.body.insertAdjacentHTML('beforeend', html);
+    //         recodeDiv = document.getElementById('recode');
+    //         if (recodeDiv)
+    //             recodeDiv.style.display = 'block';
+    //          else
+    //             console.error('#recode 요소를 찾을 수 없습니다.');
+    //
+    //     })
+    //     .catch(error => {
+    //         console.error('Error loading report detail:', error);
+    //         alert('보고서 세부 정보를 로드하는 데 실패했습니다: ' + error.message);
+    //     });
 }
 
 function filterStudies() {

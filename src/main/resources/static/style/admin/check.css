@@ -99,3 +99,13 @@ button:hover {
 #page-info {
     font-size: 16px;
 }
+
+.deleted-user {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.deleted-user button {
+    background-color: gray !important;
+    cursor: not-allowed;
+}
