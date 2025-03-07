@@ -58,6 +58,16 @@
     background-color: #f1f1f1;
 }
 
+.deleted-user {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.deleted-user button {
+    background-color: gray !important;
+    cursor: not-allowed;
+}
+
 button {
     padding: 10px 15px;
     margin: 10px 0;
