@@ -32,7 +32,7 @@
             <tbody id="user-table-body">
             <c:if test="${not empty userList}">
                 <c:forEach var="user" items="${userList}">
-                    <tr>
+                    <tr class="${not empty user.deleteTime ? 'deleted-user' : ''}">
                         <td>${user.username}</td>
                         <td>${user.name}</td>
                         <td>${user.phone}</td>
@@ -58,7 +58,10 @@
                         <td>
                             <form action="/deleteByManager" method="POST">
                                 <input type="hidden" name="username" value="${user.username}">
-                                <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                                <button type="submit"
+                                    ${not empty user.deleteTime ? 'disabled' : ''}
+                                        onclick="return confirm('정말 삭제하시겠습니까?');">
+                                    삭제</button>
                             </form>
                         </td>
                     </tr>
