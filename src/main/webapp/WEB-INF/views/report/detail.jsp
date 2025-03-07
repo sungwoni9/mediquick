@@ -1,12 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-<html>
-<head>
-    <link rel="stylesheet" href="/style/report/detail.css">
-    <script src="/script/report/detail.js"></script>
-    <title>진료/판독 조회</title>
-</head>
-<body>
+
 <div id="recode">
     <div id="top">
         <p>Chart No :</p>
@@ -22,11 +16,11 @@
     <div id="wrap">
         <%-- 진료기록 --%>
         <div class="medi-grid">
-            <div class="grid-item"><p class="label">진료의 :</p><p class="value" id="test1">test</p></div>
-            <div class="grid-item"><p class="label">병원/기관명 :</p><p class="value" id="test2">test</p></div>
-            <div class="grid-item"><p class="label">소속 부서 :</p><p class="value" id="test3">test</p></div>
-            <div class="grid-item"><p class="label">처방전 :</p><p class="value" id="test4">test</p></div>
-            <div class="grid-item"><p class="label">진료일 :</p><p class="value" id="test5">test</p></div>
+            <div class="grid-item"><p class="label">진료의 :</p><p class="value" id="test1">NULL</p></div>
+            <div class="grid-item"><p class="label">병원/기관명 :</p><p class="value" id="test2">NULL</p></div>
+            <div class="grid-item"><p class="label">소속 부서 :</p><p class="value" id="test3">NULL</p></div>
+            <div class="grid-item"><p class="label">처방전 :</p><p class="value" id="test4">NULL</p></div>
+            <div class="grid-item"><p class="label">진료일 :</p><p class="value" id="test5">NULL</p></div>
         </div>
         <%-- 판독--%>
         <div class="grid">
@@ -50,5 +44,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>

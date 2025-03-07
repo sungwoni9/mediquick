@@ -13,7 +13,7 @@
     <script type="module" src="<c:url value="/dist/viewer.bundle.js"/>"></script>
 </head>
 <body>
-<c:import url="/header"/>
+<c:import url="/headerViewer"/>
 <c:import url="/viewer/viewer-tools"/>
 <div id="root">
     <c:import url="/viewer/sidebar"/>

@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         script.defer = true;
         script.src = `/script/list/${page}List.js`;
         script.onload = () => {
-            console.log(`${page} 스크립트 불러오기 성공`);
             // 페이지별 초기화 함수 호출
             switch (page) {
                 case 'study':

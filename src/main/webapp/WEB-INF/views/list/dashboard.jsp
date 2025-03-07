@@ -3,6 +3,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="/style/dashboard/form.css">
+    <link rel="stylesheet" href="/style/report/detail.css">
+<%--    <script src="/script/report/detail.js"></script>--%>
     <script src="/script/dashboard.js"></script>
     <title>Dashboard</title>
 </head>
@@ -15,8 +17,8 @@
         <li class="nav-item" data-page="medical">Medical List</li>
     </ul>
 </nav>
-<div id="content-area" class="content-area">
-</div>
+<div id="content-area" class="content-area"></div>
+<c:import url="/report/detail/1"/>
 </body>
 <c:import url="/footer"/>
 </html>

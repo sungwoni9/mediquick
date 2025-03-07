@@ -10,7 +10,7 @@
 
 header {
     width: 100vw;
-    height: 65px;
+    height: 50px;
     background-color: var(--primary-color);
     display: flex;
     justify-content: center;
@@ -26,11 +26,12 @@ header {
     max-width: 1200px;
 }
 
-#header-cont > h2 {
+#header-cont a {
     font-size: 22px;
     color: var(--secondary-color);
     font-weight: bold;
     margin: 0;
+    text-decoration: none;
 }
 
 #user-info {
@@ -40,7 +41,7 @@ header {
     gap: 15px;
     position: relative;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 0 10px;
     border-radius: 6px;
     transition: background 0.2s ease-in-out;
 }
@@ -106,8 +107,6 @@ header {
 #user-menu button:active {
     background-color: var(--menu-active-color);
 }
-
-
 
 #token-timer {
     color: var(--secondary-color);

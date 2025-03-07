@@ -16,6 +16,11 @@ public class HomeController {
         return "module/header";
     }
 
+    @GetMapping("/headerViewer")
+    public String header1(){
+        return "headerViewer";
+    }
+
     @GetMapping("/footer")
     public String footer(){
         return "module/footer";

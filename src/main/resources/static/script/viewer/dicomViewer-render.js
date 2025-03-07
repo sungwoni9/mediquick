@@ -1,6 +1,5 @@
 import {Enums} from "@cornerstonejs/core";
 
-const API_BASE_URL = 'http://localhost:8080';
 
 export function initRender(state) {
     handleImageSelection(state);
@@ -50,7 +49,7 @@ async function assignImageToViewport(state, studykey, serieskey) {
 
     try {
         const response = await fetch(
-            `${API_BASE_URL}/api/wado?requestType=WADO&studykey=${studykey}&serieskey=${serieskey}`
+            `/api/wado?requestType=WADO&studykey=${studykey}&serieskey=${serieskey}`
         );
 
         if (!response.ok) {
@@ -81,7 +80,7 @@ async function assignImageToViewport(state, studykey, serieskey) {
 }
 
 async function getOverlayElement(studykey, serieskey) {
-    const response = await fetch(`${API_BASE_URL}/api/dicom/${studykey}/${serieskey}`);
+    const response = await fetch(`/api/dicom/${studykey}/${serieskey}`);
     const metadata = await response.json();
 
     // 공통 스타일 객체

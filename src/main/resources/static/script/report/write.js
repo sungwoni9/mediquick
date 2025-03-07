@@ -27,6 +27,7 @@ reportButton.addEventListener("click", async () => {
     let hasExistingReport = false;
 
     await fetchPatientData(studykey);
+    console.log("fetchFindingData 반환값:", await fetchFindingData(studykey));
     hasExistingReport = await fetchFindingData(studykey);
 
     form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport ,studykey));
@@ -100,7 +101,7 @@ async function fetchFindingData(studykey) {
 
 async function submitForm(event, hasExistingReport, studykey) {
     event.preventDefault();
-    console.log("hasreport::"+hasExistingReport)
+    console.log("hasreport::"+hasExistingReport.code);
 
     const data = {
         code: hasExistingReport.code,
@@ -126,7 +127,7 @@ async function submitForm(event, hasExistingReport, studykey) {
     myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
-        method: hasExistingReport.code !== null ? "PUT" : "POST",
+        method: hasExistingReport.code !== undefined ? "PUT" : "POST",
         headers: myHeaders,
         body: JSON.stringify(data)
     };
