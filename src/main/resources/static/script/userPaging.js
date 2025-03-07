@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        filteredRows.forEach(row => TableBody.appendChild(row));
+
+        totalPages = Math.ceil(filteredRows.length / logsPerPage);
+
         document.getElementById("prev-btn").style.display = page === 1 ? 'none' : 'inline-block';
         document.getElementById("next-btn").style.display = page === totalPages ? 'none' : 'inline-block';
 
@@ -39,5 +43,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    showPage(1);
+    showPage(currentPage);
 });
