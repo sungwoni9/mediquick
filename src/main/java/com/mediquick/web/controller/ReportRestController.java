@@ -77,7 +77,7 @@ public class ReportRestController {
 
     // 판독 소견서 조회
     @GetMapping("/{studykey}")
-    public ResponseEntity<ResponseDto> getFindingByStudykey(@PathVariable int studykey,
+    public ResponseEntity<ResponseDto> getFindingByStudykey(@PathVariable("studykey")int studykey,
                                                             @AuthenticationPrincipal UserDetails userDetails) {
         Integer interpretationCode = interpretationService.findInterpretationCodeByStudykey(studykey);
 
@@ -95,12 +95,9 @@ public class ReportRestController {
 
         FindingResponseDto findingDto = new FindingResponseDto(finding);
 
-        String username = (userDetails != null) ? userDetails.getUsername() : "anonymous";
-
-        logService.saveLog(username, Log.ActivityType.VIEW_RECORD, String.valueOf(studykey));
+//        String username = (userDetails != null) ? userDetails.getUsername() : "anonymous";
+//        logService.saveLog(username, Log.ActivityType.VIEW_RECORD, String.valueOf(studykey));
 
         return ResponseEntity.ok(findingDto);
     }
-
-
 }
