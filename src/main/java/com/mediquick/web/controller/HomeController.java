@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping("/headerViewer")
     public String header1(){
-        return "headerViewer";
+        return "module/headerViewer";
     }
 
     @GetMapping("/footer")
