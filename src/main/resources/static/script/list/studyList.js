@@ -62,23 +62,45 @@ function initializeStudyContent() {
     patientNames.forEach(nameElement => {
         nameElement.addEventListener('click', async () => {
             const listElement = nameElement.closest('.list-element');
-            const studykey = listElement.querySelector('.study-key').textContent;
+            const studyKey = listElement.querySelector('.study-key').textContent;
             const recodeForm = document.querySelector('#recode');
+            const token = localStorage.getItem("jwtToken");
 
             if (toggleRecord) {
                 recodeForm.style.display = "none";
                 toggleRecord = false;
             } else {
-                await fetchPatientData(studykey);
-                await fetchFindingData(studykey);
+                await fetchPatientData(studyKey);
+                await fetchFindingData(studyKey);
+
+                // 진료 기록 조회 로그 저장 요청
+                try {
+                    const response = await fetch("/logs/view-record", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({studyKey})
+                    });
+
+                    if (!response.ok) {
+                        console.error("로그 저장 실패:", response.statusText);
+                    } else {
+                        console.log("진료 기록 조회 로그 저장 완료");
+                    }
+                } catch (error) {
+                    console.error("로그 저장 요청 중 오류 발생:", error);
+                }
 
                 function formatDate(dateString) {
                     return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
                 }
 
-                async function fetchPatientData(studykey) {
+                async function fetchPatientData(studyKey) {
                     try {
-                        const response = await fetch(`/report/patient/${studykey}`);
+                        const response = await fetch(`/report/patient/${studyKey}`);
                         if (!response.ok) {
                             console.log("환자정보를 찾을 수 없습니다.");
                             return;
@@ -93,8 +115,8 @@ function initializeStudyContent() {
                     }
                 }
 
-                async function fetchFindingData(studykey) {
-                    const response = await fetch(`/report/${studykey}`);
+                async function fetchFindingData(studyKey) {
+                    const response = await fetch(`/report/${studyKey}`);
                     if (!response.ok) {
                         alert("판독 소견서가 존재하지 않습니다.");
                         return false;
