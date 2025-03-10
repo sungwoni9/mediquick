@@ -55,7 +55,9 @@
                                 <fmt:formatDate value="${log.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             </td>
                             <td id="logType">${log.activityType}</td>
-                            <td><a href="<c:url value="/viewer?studyKey=${log.studykey}"/>"> ${log.studykey}</a></td>
+                            <td class="log-code" data-log-type="${log.activityType}" data-study-key="${log.studykey}">
+                                    ${log.studykey}
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>
