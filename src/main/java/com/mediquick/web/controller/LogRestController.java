@@ -74,13 +74,44 @@ public class LogRestController {
     }
 
 
-
-
-
-
     // 진료 기록 조회 로그 저장
     @PostMapping("/view-record")
-    public void logViewRecord(@RequestParam String username) {
-        logService.saveLog(username, Log.ActivityType.VIEW_RECORD);
+    public ResponseEntity<String> logViewRecord(@RequestHeader("Authorization") String authHeader,
+                                                @RequestBody LogRequestDto request) {
+        System.out.println("요청 수신: /view-record, studyKey : " + request.getStudyKey());
+        System.out.println("Authorization 헤더 값: " + authHeader);
+
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                System.out.println("Authorization 헤더가 올바르지 않음!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization header missing or invalid format");
+            }
+
+            String token = authHeader.replace("Bearer ", "");
+            System.out.println("추출된 JWT 토큰: " + token);
+
+            // JWT에서 username 추출
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("추출된 username: " + username);
+
+            if (username == null || username.isEmpty()) {
+                System.out.println("JWT 검증 실패: 유효하지 않은 토큰");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+            }
+
+            logService.saveLog(username, Log.ActivityType.VIEW_RECORD, request.getStudyKey());
+            return ResponseEntity.ok("진료 기록 조회 로그 저장 완료");
+
+        } catch (ExpiredJwtException e) {
+            System.out.println("JWT 토큰이 만료되었습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT 토큰이 만료되었습니다.");
+        } catch (MalformedJwtException e) {
+            System.out.println("JWT 형식이 올바르지 않습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT 형식이 올바르지 않습니다.");
+        } catch (Exception e) {
+            System.out.println("JWT 검증 실패: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT 검증 실패: " + e.getMessage());
+        }
     }
+
 }
