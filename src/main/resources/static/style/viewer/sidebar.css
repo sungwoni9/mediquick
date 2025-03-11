@@ -10,6 +10,7 @@ button {
 }
 
 #sidebar {
+    user-select: none;
     width: var(--navbar-width);
     background-color: #232323;
     display: flex;
@@ -96,4 +97,8 @@ button {
     overflow-x: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+}
+
+.image-list li:hover{
+    background-color: #131313;
 }
