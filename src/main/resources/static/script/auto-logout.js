@@ -1,3 +1,6 @@
+const CHECK_INTERVAL = 10000;
+let intervalId;
+
 class TokenService {
     static getToken() {
         return localStorage.getItem("jwtToken");
@@ -75,18 +78,34 @@ class AuthService {
         alert("시간이 만료되었습니다. 다시 로그인해주세요.");
         fetch('/user/logout');
         TokenService.removeToken();
+        clearInterval(intervalId);
         window.location.href = "/user/login";
     }
 
     static updateTokenTimer(remainingTime) {
+        const timerElement = document.getElementById("token-timer");
+
+        if (!timerElement) return;
+
         const minutes = Math.floor(remainingTime / 1000 / 60);
         const seconds = Math.floor((remainingTime / 1000) % 60);
-        document.getElementById("token-timer").innerText = `남은 시간: ${minutes}분 ${seconds}초`;
+        timerElement.innerText = `남은 시간: ${minutes}분 ${seconds}초`;
     }
 }
 
-// 로그인 상태일 때만 실행
+function startTokenCheck() {
+    if (!TokenService.isLoggedIn()) return;
+
+    intervalId = setInterval(() => {
+        if (!TokenService.isLoggedIn()) {
+            clearInterval(intervalId);
+        } else {
+            AuthService.checkTokenExpiry();
+        }
+    }, CHECK_INTERVAL);
+}
+
 if (TokenService.isLoggedIn()) {
-    setInterval(() => AuthService.checkTokenExpiry(), 1000);
+    startTokenCheck();
     window.extendToken = () => AuthService.extendToken();
 }
