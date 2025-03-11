@@ -84,7 +84,7 @@ patientNamesPatient.forEach(nameElement => {
                 document.getElementById('pid').value = selectedPid;
                 document.getElementById('medicalDate').value = new Date().toISOString().slice(0, 16);
                 document.getElementById('patientName').textContent = patientNameText || 'Unknown';
-                document.getElementById('doctorName').textContent = doctorName; // 오타였던 '-' 제거
+                document.getElementById('doctorName').textContent = doctorName;
 
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
