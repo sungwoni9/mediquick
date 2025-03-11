@@ -1,6 +1,5 @@
-package com.mediquick.web.security;
+package com.mediquick.web.util;
 
-import com.mediquick.web.util.ResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
