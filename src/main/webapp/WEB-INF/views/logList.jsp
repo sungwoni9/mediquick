@@ -5,6 +5,7 @@
 <head>
     <title>로그 리스트</title>
     <link rel="stylesheet" href="/style/admin/log.css">
+    <link rel="stylesheet" href="/style/report/detail.css">
     <script type="module" src="/script/logList.js"></script>
 </head>
 <c:import url="/header"/>
@@ -72,5 +73,6 @@
     </div>
 </div>
 </body>
+<c:import url="/report/detail/1}"/>
 <c:import url="/footer"/>
 </html>
