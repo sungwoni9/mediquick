@@ -1,77 +1,139 @@
-function isLogin() {
-    const token = localStorage.getItem("jwtToken");
-    return token !== null;
+const CHECK_INTERVAL = 60000;
+const CHECK_SECONDS = 1000;
+let intervalId;
+let check = true;
+
+class TokenService {
+    static getToken() {
+        return localStorage.getItem("jwtToken");
+    }
+
+    static setToken(token) {
+        localStorage.setItem("jwtToken", token);
+    }
+
+    static removeToken() {
+        localStorage.removeItem("jwtToken");
+    }
+
+    static isLoggedIn() {
+        return this.getToken() !== null;
+    }
 }
 
-async function updateTokenExpiry() {
-    const token = localStorage.getItem("jwtToken");
-//  console.log("저장된 JWT:", token);
+class AuthService {
+    static async checkTokenExpiry() {
+        const token = TokenService.getToken();
+        if (!token) return;
 
-    if (!token) return;
+        try {
+            const response = await fetch("/user/token-expiry", {
+                method: "GET",
+                headers: {"Authorization": `Bearer ${token}`}
+            });
 
-    try {
-        const response = await fetch("/user/token-expiry", {
-            method: "GET",
-            headers: {"Authorization": `Bearer ${token}`}
-        });
+            if (!response.ok) {
+                this.handleSessionExpired();
+                return;
+            }
 
-        if (!response.ok) {
-            alert("시간이 만료되었습니다. 다시 로그인해주세요.");
-            await fetch('/user/logout');
-            localStorage.removeItem("jwtToken");
+            const data = await response.json();
+            if (data.remainingTime !== undefined) {
+                this.updateTokenTimer(data.remainingTime);
+            } else {
+                console.error("remainingTime이 undefined입니다.");
+            }
+        } catch (error) {
+            console.error("토큰 만료 시간 조회 실패:", error);
+        }
+    }
+
+    static async extendToken() {
+        const token = TokenService.getToken();
+        if (!token) {
+            alert("연장할 수 있는 토큰이 없습니다. 다시 로그인해주세요.");
             window.location.href = "/user/login";
             return;
         }
 
-        const data = await response.json();
-        const remainingTime = data.remainingTime / 1000; // 초 단위 변환
+        try {
+            const response = await fetch("/user/extend-token", {
+                method: "POST",
+                headers: {"Authorization": `Bearer ${token}`}
+            });
 
-        // 남은 시간 표시 (분:초 형식)
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = Math.floor(remainingTime % 60);
-        document.getElementById("token-timer").innerText = `남은 시간: ${minutes}분 ${seconds}초`;
-    } catch (error) {
-        console.error("토큰 만료 시간 조회 실패:", error);
+            if (!response.ok) {
+                this.handleSessionExpired();
+                return;
+            }
+
+            const data = await response.json();
+            if (data.newToken) {
+                TokenService.setToken(data.newToken);
+                alert("시간이 연장되었습니다!");
+                this.checkTokenExpiry();
+            } else {
+                alert("토큰 연장에 실패했습니다. 다시 로그인해주세요.");
+            }
+        } catch (error) {
+            console.error("토큰 연장 실패:", error);
+        }
     }
-}
 
-async function extendToken() {
-    const token = localStorage.getItem("jwtToken");
-    if (!token) {
-        alert("연장할 수 있는 토큰이 없습니다. 다시 로그인해주세요.");
+    static handleSessionExpired() {
+        alert("시간이 만료되었습니다. 다시 로그인해주세요.");
+        fetch('/user/logout');
+        TokenService.removeToken();
+        clearInterval(intervalId);
         window.location.href = "/user/login";
-        return;
     }
 
-    try {
-        const response = await fetch("/user/extend-token", {
-            method: "POST",
-            headers: {"Authorization": `Bearer ${token}`}
-        });
+    static updateTokenTimer(remainingTime) {
+        const timerElement = document.getElementById("token-timer");
 
-        if (!response.ok) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "/user/login";
+        if (!timerElement) {
+            console.error("token-timer 요소가 없습니다!");
             return;
         }
 
-        const data = await response.json();
-        if (data.newToken) {
-            localStorage.setItem("jwtToken", data.newToken); // 새로운 JWT 저장
-            alert("시간이 연장되었습니다!");
-            updateTokenExpiry(); // 남은 시간 업데이트
+        const minutes = Math.floor(remainingTime / 1000 / 60);
+        const seconds = Math.floor((remainingTime / 1000) % 60);
+
+        if (minutes > 0) {
+            timerElement.innerText = `남은 시간: ${minutes}분`;
+            if (!check) {
+                check = true;
+                restartTokenCheck();
+            }
         } else {
-            alert("토큰 연장에 실패했습니다. 다시 로그인해주세요.");
+            timerElement.innerText = `남은 시간: ${seconds}초`;
+            if (check) {
+                check = false;
+                restartTokenCheck();
+            }
         }
-    } catch (error) {
-        console.error("토큰 연장 실패:", error);
     }
 }
 
-if (isLogin()) {
-// 1초마다 남은 시간 업데이트
-    setInterval(updateTokenExpiry, 1000);
-// 전역에서 `extendToken()`을 호출할 수 있도록 등록
-    window.extendToken = extendToken;
+function restartTokenCheck() {
+    clearInterval(intervalId);
+    startTokenCheck();
 }
 
+function startTokenCheck() {
+    if (!TokenService.isLoggedIn()) return;
+
+    intervalId = setInterval(() => {
+        if (!TokenService.isLoggedIn()) {
+            clearInterval(intervalId);
+        } else {
+            AuthService.checkTokenExpiry();
+        }
+    }, check ? CHECK_INTERVAL : CHECK_SECONDS);
+}
+
+if (TokenService.isLoggedIn()) {
+    AuthService.checkTokenExpiry();
+    startTokenCheck();
+    window.extendToken = () => AuthService.extendToken();
+}

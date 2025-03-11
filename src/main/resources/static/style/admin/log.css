@@ -94,6 +94,10 @@ button:hover {
     background-color: #f1f1f1;
 }
 
+.log-code:hover {
+    cursor: pointer;
+}
+
 #pagination {
     display: flex;
     align-items: center;
