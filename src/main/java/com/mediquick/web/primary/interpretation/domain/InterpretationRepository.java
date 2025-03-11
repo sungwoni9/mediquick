@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface InterpretationRepository extends JpaRepository<Interpretation, Integer> {
-    Interpretation findByStudykey(int studykey);
+    Interpretation findTopByStudykeyOrderByRegDateDesc(int studykey);
 }

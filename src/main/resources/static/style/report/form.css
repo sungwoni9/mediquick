@@ -48,15 +48,24 @@
     border: none;
     background-color:#154D92;
     cursor: pointer;
-    width: 50%;
+    width: 20%;
     padding: 10px 0;
     color: white;
+}
+
+#report-root #btn-group input[type=submit] {
+    width: 60%;
 }
 
 #report-root #btn-group input[type=button] {
     color: black;
     background-color:#e0e0e0;
     text-align: center;
+}
+
+#report-root #btn-group > #reset {
+    background-color: #dd5741;
+    color: white;
 }
 
 #report-root .grid-table {

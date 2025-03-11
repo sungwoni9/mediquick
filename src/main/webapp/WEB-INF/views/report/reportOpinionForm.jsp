@@ -130,6 +130,7 @@
         <input type="text" name="additionalNotes">
         <div id="btn-group">
             <input type="submit" value="SAVE">
+            <input type="button" id="reset" value="RESET">
             <input type="button" id="close" value="CLOSE">
         </div>
     </form>
