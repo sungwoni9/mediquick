@@ -3,16 +3,13 @@ package com.mediquick.web.controller;
 import com.mediquick.web.primary.logs.domain.Log;
 import com.mediquick.web.primary.logs.domain.LogRequestDto;
 import com.mediquick.web.primary.logs.service.LogService;
-import com.mediquick.web.security.JwtUtil;
+import com.mediquick.web.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.security.SignatureException;
 
 @RequiredArgsConstructor
 @RestController
