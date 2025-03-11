@@ -1,80 +1,119 @@
-export function initSidebarModule() {
-    document.addEventListener("DOMContentLoaded", async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const studyKey = urlParams.get('studyKey');
-        const content = document.getElementById("nav-content");
-        const sidebar = document.getElementById('sidebar');
+/**
+ * DICOM 이미지 메타데이터 객체
+ * @typedef {Object} DicomImageInfo
+ * @property {string} studykey - 검사 키
+ * @property {string} serieskey - 시리즈 키
+ * @property {number} imageCount - 이미지 개수
+ * @property {string} modality - 모달리티
+ * @property {string} bodyPart - 신체 부위
+ */
 
-        document.getElementById('sidebar-toggle').addEventListener('click', function () {
-            sidebar.classList.toggle('sidebar-closed');
-            content.classList.toggle('sidebar-closed');
-        });
-
-        if (studyKey) {
-            try {
-                const imageInfoList = await getDicomMetadata(studyKey);
-
-                // 리스트 HTML 생성
-                if (imageInfoList.length > 0) {
-                    content.innerHTML = `
-                        <ul class="image-list">
-                            ${imageInfoList.map(data => `
-                                <li data-studykey="${data.studykey}" 
-                                    data-serieskey="${data.serieskey}">
-                                    Study:${data.studykey} / Series:${data.serieskey} (images ${data.imageCount}) ${data.modality} ${data.bodyPart}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    `;
-
-                    // 리스트 아이템에 클릭 이벤트 추가
-                    const listItems = content.querySelectorAll('.image-list li');
-                    listItems.forEach(item => {
-                        item.addEventListener('click', function () {
-                            listItems.forEach(li => li.classList.remove('selected'));
-                            this.classList.add('selected');
-                            const studykey = this.dataset.studykey;
-                            const serieskey = this.dataset.serieskey;
-                            const event = new CustomEvent('imageSelected',
-                                {
-                                    detail: {
-                                        "studykey": studykey,
-                                        "serieskey": serieskey,
-                                    }
-                                });
-                            document.dispatchEvent(event);
-                        });
-                    });
-                } else {
-                    content.innerHTML = '<p>이미지를 찾지 못했습니다.</p>';
-                }
-            } catch (error) {
-                content.innerHTML = '<p>검사 이미지 로딩에 실패했습니다.</p>';
-            }
-        } else {
-            content.innerHTML = '<p>검사 키가 누락되었습니다.</p>';
-        }
-    });
-}
-
-async function getDicomMetadata(studyKey) {
-    try {
+class DicomMetadataService {
+    /**
+     * @param {string} studyKey - 검사 키
+     * @returns {Promise<DicomImageInfo[]>} DICOM 메타데이터 배열
+     * @throws {Error} 메타데이터 가져오기 실패 시 에러
+     */
+    async fetchDicomMetadata(studyKey) {
         const response = await fetch(`/api/dicom/${studyKey}`, {
-            method: 'GET', headers: {'Content-Type': 'application/json'}
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         });
 
         if (!response.ok) {
-            if (response.status === 204) return [];
-            if (response.status === 500) return [];
+            if (response.status === 204 || response.status === 500) return [];
+            throw new Error(`HTTP 오류: ${response.status}`);
         }
         return await response.json();
-    } catch (error) {
-        console.error(
-            'DICOM 메타데이터 가져오기 실패:', {
-                message: error.message,
-                studyKey,
-                stack: error.stack
-            });
-        throw error;
     }
+}
+
+class SidebarInitializer {
+    #sidebar;
+    #content;
+    #dicomService;
+
+    constructor() {
+        this.#sidebar = document.getElementById('sidebar');
+        this.#content = document.getElementById('nav-content');
+        this.#dicomService = new DicomMetadataService();
+    }
+
+    initialize() {
+        document.addEventListener("DOMContentLoaded", () => this.#setupSidebar());
+    }
+
+    async #setupSidebar() {
+        this.#addToggleListener();
+        await this.#loadSidebarContent();
+    }
+
+    async #loadSidebarContent() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const studyKey = urlParams.get('studyKey');
+
+        if (!studyKey) {
+            this.#content.innerHTML = '<p>검사 키가 누락되었습니다.</p>';
+            return;
+        }
+
+        try {
+            const imageInfoList = await this.#dicomService.fetchDicomMetadata(studyKey);
+            this.#renderImageList(imageInfoList);
+        } catch (error) {
+            this.#content.innerHTML = '<p>검사 이미지 로딩에 실패했습니다.</p>';
+            console.error('사이드바 콘텐츠 로딩 실패:', error);
+        }
+    }
+
+    /** @param {DicomImageInfo[]} imageInfoList - DICOM 이미지 정보 배열 */
+    #renderImageList(imageInfoList) {
+        if (imageInfoList.length === 0) {
+            this.#content.innerHTML = '<p>이미지를 찾지 못했습니다.</p>';
+            return;
+        }
+
+        this.#content.innerHTML = `
+            <ul class="image-list">
+                ${imageInfoList.map(data => `
+                    <li data-studykey="${data.studykey}" 
+                        data-serieskey="${data.serieskey}">
+                        Study:${data.studykey} / Series:${data.serieskey} (images ${data.imageCount}) ${data.modality} ${data.bodyPart}
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+
+        this.#addListItemListeners();
+    }
+
+    #addListItemListeners() {
+        const listItems = this.#content.querySelectorAll('.image-list li');
+        listItems.forEach(item => {
+            item.addEventListener('click', () => {
+                listItems.forEach(li => li.classList.remove('selected'));
+                item.classList.add('selected');
+                this.#dispatchImageSelectedEvent(item.dataset.studykey, item.dataset.serieskey);
+            });
+        });
+    }
+
+    #dispatchImageSelectedEvent(studyKey, seriesKey) {
+        const event = new CustomEvent('imageSelected', {
+            detail: { studykey: studyKey, serieskey: seriesKey }
+        });
+        document.dispatchEvent(event);
+    }
+
+    #addToggleListener() {
+        document.getElementById('sidebar-toggle').addEventListener('click', () => {
+            this.#sidebar.classList.toggle('sidebar-closed');
+            this.#content.classList.toggle('sidebar-closed');
+        });
+    }
+}
+
+export function initSidebarModule() {
+    const sidebarInitializer = new SidebarInitializer();
+    sidebarInitializer.initialize();
 }

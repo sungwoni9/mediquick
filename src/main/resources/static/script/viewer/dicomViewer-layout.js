@@ -1,104 +1,186 @@
-// 전체 레이아웃을 초기화하고 이벤트 리스너를 설정
+/** @param {Object} state - 뷰어 상태 객체 */
 export function initializeLayout(state) {
     setupViewports(state);
     setupLayoutControls(state);
 }
 
-// viewport 요소들을 설정하고 이벤트 리스너를 추가
+/** @param {Object} state - 뷰어 상태 객체 */
 function setupViewports(state) {
-    const viewportContainer = document.getElementById('render');
-    viewportContainer.oncontextmenu = (e) => e.preventDefault();
+    const viewportContainer = getViewportContainer();
+    disableContextMenu(viewportContainer);
 
-    const viewportList = document.querySelectorAll('.screen');
+    const viewportList = getViewportElements();
     viewportList.forEach(viewport => {
         const viewportId = viewport.id;
-        viewport.addEventListener('dblclick', () => toggleFullscreenMode(state, viewportId));
-        viewport.addEventListener('click', () => handleViewportSelection(state, viewportList, viewport));
+        addViewportEventListeners(state, viewport, viewportId, viewportList);
     });
 }
 
-// 레이아웃 변경 버튼들을 설정
+/** @returns {HTMLElement} 뷰포트 컨테이너 DOM 요소 */
+function getViewportContainer() {
+    return document.getElementById('render');
+}
+
+/** @returns {NodeList} 뷰포트 DOM 요소 리스트 */
+function getViewportElements() {
+    return document.querySelectorAll('.screen');
+}
+
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {HTMLElement} viewport - 뷰포트 DOM 요소
+ * @param {string} viewportId - 뷰포트 ID
+ * @param {NodeList} viewportList - 모든 뷰포트 요소 리스트
+ */
+function addViewportEventListeners(state, viewport, viewportId, viewportList) {
+    viewport.addEventListener('dblclick', () => toggleFullscreenMode(state, viewportId));
+    viewport.addEventListener('click', () => handleViewportSelection(state, viewportList, viewport));
+}
+
+/** @param {HTMLElement} element - 대상 DOM 요소 */
+function disableContextMenu(element) {
+    element.oncontextmenu = (e) => e.preventDefault();
+}
+
+/** @param {Object} state - 뷰어 상태 객체 */
 function setupLayoutControls(state) {
     const layoutButtons = document.querySelectorAll(".layout-button");
     layoutButtons.forEach(button => {
         button.addEventListener("click", async () => {
-            setActiveButton(state, button);
+            setActiveButton(button);
             const layout = extractLayoutFromButton(button);
             await updateGridLayout(state, layout.rows, layout.cols);
         });
     });
 }
 
-// 단일 viewport를 전체 화면으로 전환하거나 원래 레이아웃으로 복원
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {string} viewportId - 대상 뷰포트 ID
+ */
 function toggleFullscreenMode(state, viewportId) {
-    const viewportContainer = document.getElementById("render");
+    const viewportContainer = getViewportContainer();
     const targetViewport = document.getElementById(viewportId);
 
     if (!state.isSingleViewport) {
-        state.screens.forEach(id => {
-            const viewport = document.getElementById(id);
-            if (id !== viewportId) {
-                viewport.style.display = 'none';
-            }
-        });
-
-        viewportContainer.style.gridTemplateColumns = '1fr';
-        viewportContainer.style.gridTemplateRows = '1fr';
-        targetViewport.style.width = '100%';
-        targetViewport.style.height = '100%';
-        state.isSingleViewport = true;
+        enterFullscreenMode(state, viewportContainer, targetViewport, viewportId);
     } else {
-        if (state.savedLayout) {
-            updateGridLayout(state, state.savedLayout.rows, state.savedLayout.cols);
-        }
-        state.isSingleViewport = false;
+        exitFullscreenMode(state);
     }
 }
 
-// 선택된 버튼에 active 클래스를 적용
-function setActiveButton(state, activeButton) {
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {HTMLElement} container - 뷰포트 컨테이너
+ * @param {HTMLElement} targetViewport - 대상 뷰포트
+ * @param {string} viewportId - 대상 뷰포트 ID
+ */
+function enterFullscreenMode(state, container, targetViewport, viewportId) {
+    state.screens.forEach(id => {
+        const viewport = document.getElementById(id);
+        viewport.style.display = id === viewportId ? 'flex' : 'none';
+    });
+    applyGridLayout(container, 1, 1);
+    targetViewport.style.width = '100%';
+    targetViewport.style.height = '100%';
+    state.isSingleViewport = true;
+}
+
+/** @param {Object} state - 뷰어 상태 객체 */
+function exitFullscreenMode(state) {
+    if (state.savedLayout) {
+        updateGridLayout(state, state.savedLayout.rows, state.savedLayout.cols);
+    }
+    state.isSingleViewport = false;
+}
+
+/** @param {HTMLElement} activeButton - 활성화할 버튼 요소 */
+function setActiveButton(activeButton) {
     const layoutButtons = document.querySelectorAll(".layout-button-group .layout-button");
     layoutButtons.forEach(btn => btn.classList.remove("active"));
     activeButton.classList.add("active");
 }
 
-// 버튼의 클래스 이름에서 레이아웃 정보를 추출
+/**
+ * @param {HTMLElement} button - 레이아웃 버튼 요소
+ * @returns {{rows: number, cols: number}} 행과 열 정보 객체
+ */
 function extractLayoutFromButton(button) {
-    if (button.classList.contains("btn-1x1")) return { rows: 1, cols: 1 };
-    if (button.classList.contains("btn-1x2")) return { rows: 1, cols: 2 };
-    if (button.classList.contains("btn-2x2")) return { rows: 2, cols: 2 };
+    const layoutMap = {
+        "btn-1x1": { rows: 1, cols: 1 },
+        "btn-1x2": { rows: 1, cols: 2 },
+        "btn-2x2": { rows: 2, cols: 2 }
+    };
+    for (const [className, layout] of Object.entries(layoutMap)) {
+        if (button.classList.contains(className)) return layout;
+    }
+    return { rows: 1, cols: 1 }; // 기본값
 }
 
-// 그리드 레이아웃을 주어진 행과 열로 재구성
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {number} rows - 행 수 (정수형)
+ * @param {number} cols - 열 수 (정수형)
+ */
 function updateGridLayout(state, rows, cols) {
-    const viewportContainer = document.getElementById("render");
-    viewportContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-    viewportContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    const viewportContainer = getViewportContainer();
+    applyGridLayout(viewportContainer, rows, cols);
+    resetViewportState(state, rows, cols);
+    updateViewportVisibility(state, rows, cols);
+}
+
+/**
+ * @param {HTMLElement} container - 뷰포트 컨테이너
+ * @param {number} rows - 행 수
+ * @param {number} cols - 열 수
+ */
+function applyGridLayout(container, rows, cols) {
+    container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+}
+
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {number} rows - 행 수
+ * @param {number} cols - 열 수
+ */
+function resetViewportState(state, rows, cols) {
     state.currentViewport = null;
     state.savedLayout = { rows, cols };
     state.isFullscreen = false;
+}
 
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {number} rows - 행 수
+ * @param {number} cols - 열 수
+ */
+function updateViewportVisibility(state, rows, cols) {
+    const maxVisible = rows * cols;
     state.screens.forEach((viewportId, index) => {
         const viewport = document.getElementById(viewportId);
-        if (rows === 1 && cols === 1)
-            viewport.style.display = index === 0 ? "flex" : "none";
-        else if (rows === 1 && cols === 2)
-            viewport.style.display = index < 2 ? "flex" : "none";
-        else if (rows === 2 && cols === 2)
-            viewport.style.display = "flex";
+        viewport.style.display = index < maxVisible ? "flex" : "none";
     });
 }
 
-// 클릭된 viewport를 강조 표시하고 현재 선택된 viewport를 업데이트
+/**
+ * @param {Object} state - 뷰어 상태 객체
+ * @param {NodeList} viewportList - 모든 뷰포트 요소 리스트
+ * @param {HTMLElement} selectedViewport - 선택된 뷰포트 요소
+ */
 function handleViewportSelection(state, viewportList, selectedViewport) {
     viewportList.forEach(viewport => {
-        if (viewport !== selectedViewport) {
-            viewport.style.borderColor = "#890000";
-            viewport.style.borderWidth = "1px";
-        } else {
-            viewport.style.borderColor = "#039752";
-            viewport.style.borderWidth = "2px";
-            state.currentViewport = viewport;
-        }
+        const isSelected = viewport === selectedViewport;
+        applyViewportStyle(viewport, isSelected);
+        if (isSelected) state.currentViewport = viewport;
     });
+}
+
+/**
+ * @param {HTMLElement} viewport - 뷰포트 DOM 요소
+ * @param {boolean} isSelected - 선택 여부
+ */
+function applyViewportStyle(viewport, isSelected) {
+    viewport.style.borderColor = isSelected ? "#039752" : "#890000";
+    viewport.style.borderWidth = isSelected ? "2px" : "1px";
 }
