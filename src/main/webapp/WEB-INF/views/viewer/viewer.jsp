@@ -14,10 +14,10 @@
 </head>
 <body>
 <c:import url="/headerViewer"/>
-<c:import url="/viewer/viewer-tools"/>
+<c:import url="/viewer/dcm-tool"/>
 <div id="root">
-    <c:import url="/viewer/sidebar"/>
-    <c:import url="/viewer/dcm-viewer"/>
+    <c:import url="/viewer/dcm-sidebar"/>
+    <c:import url="/viewer/dcm-render"/>
     <c:import url="/report"/>
 </div>
 </body>
