@@ -15,11 +15,7 @@ public class StudyService {
 
     public List<Study> findStudyAll(){return studyRepository.findAll(Sort.by(Sort.Direction.ASC,"studykey"));}
 
-    public List<Study> findStudiesByPid(String pid) {
-        return studyRepository.findByPid(pid);
-    }
+    public List<Study> findStudiesByPid(String pid) {return studyRepository.findByPid(pid);}
 
-    public Study findStudyByStudykey(int studykey) {
-        return studyRepository.findStudyByStudykey(studykey);
-    }
+    public Study findStudyByStudykey(int studykey) {return studyRepository.findStudyByStudykey(studykey);}
 }

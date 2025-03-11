@@ -2,14 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-item');
     const contentArea = document.getElementById('content-area');
 
-    // 초기 로드 시 'study' 페이지를 기본으로 표시
     loadContent('study');
 
-    // 네비게이션 항목에 클릭 이벤트 추가
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            // 클릭된 항목의 data-page 속성 값 가져오기 (study, patient, medical)
             const page = item.getAttribute('data-page');
 
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 url = '/list/studyList';
         }
 
-        // 서버에서 해당 페이지의 HTML을 가져옴
         fetch(url, {method: 'GET'})
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // 페이지별 전용 스크립트를 동적으로 로드하는 함수
     function loadPageScript(page) {
         const existingScript = document.querySelector(`script[data-page-script="${page}"]`);
         if (existingScript) existingScript.remove();
