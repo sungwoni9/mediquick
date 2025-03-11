@@ -14,8 +14,8 @@ import com.mediquick.web.primary.userinfo.service.UserInfoService;
 import com.mediquick.web.primary.userrole.domain.UserRole;
 import com.mediquick.web.primary.userrole.domain.UserRoleRequestDto;
 import com.mediquick.web.primary.userrole.service.UserRoleService;
-import com.mediquick.web.security.EmailService;
-import com.mediquick.web.security.JwtUtil;
+import com.mediquick.web.util.EmailService;
+import com.mediquick.web.util.JwtUtil;
 import com.mediquick.web.util.ResponseDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -50,4 +50,15 @@ public class  MedicalRecordService {
         }
 
         return records;
-    }}
+    }
+
+    public MedicalRecord findByStudyKey(Integer studyKey) {
+        return medicalRecordRepository.findByStudykey(studyKey).orElse(null);
+    }
+}
+
+
+
+
+
+

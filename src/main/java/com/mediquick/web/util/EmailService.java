@@ -1,4 +1,4 @@
-package com.mediquick.web.security;
+package com.mediquick.web.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

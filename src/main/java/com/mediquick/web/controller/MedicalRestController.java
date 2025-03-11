@@ -3,7 +3,7 @@ package com.mediquick.web.controller;
 
 import com.mediquick.web.primary.medicalrecord.domain.MedicalRecord;
 import com.mediquick.web.primary.medicalrecord.service.MedicalRecordService;
-import com.mediquick.web.security.JwtUtil;
+import com.mediquick.web.util.JwtUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -82,5 +82,14 @@ public class MedicalRestController {
         updatedRecord.setCode(code);
         MedicalRecord saveRecord = medicalRecordService.save(updatedRecord);
         return ResponseEntity.ok(saveRecord);
+    }
+
+    @GetMapping("/detail/{studyKey}")
+    public ResponseEntity<Object> getRecordByStudyKey(@PathVariable Integer studyKey) {
+        MedicalRecord medicalRecord = medicalRecordService.findByStudyKey(studyKey);
+        if (medicalRecord == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 StudyKey의 진료 기록이 없습니다.");
+        }
+        return ResponseEntity.ok(medicalRecord);
     }
 }
