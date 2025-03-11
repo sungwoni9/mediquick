@@ -58,33 +58,27 @@ if (pacsButtons.length > 0) {
                 return;
             }
 
-            const response = await fetch("/logs/view-video", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                credentials: "include",
-                body: JSON.stringify({studyKey})
-            });
+            try {
+                const response = await fetch("/logs/view-video", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({studyKey})
+                });
 
-            if (!response.ok) {
-                if (response.status === 401)
-                    alert("인증 실패: 로그인 정보를 다시 확인하세요.");
-                 else
-                    alert(`오류 발생: ${response.status}`);
-
-            } else {
-
-                console.log("로그 저장 완료", studyKey);
-                const viewerResponse = await fetch(`/viewer?studyKey=${studyKey}`, {method: 'GET'});
-                if (!viewerResponse.ok) {
-                    contentArea.innerHTML = '<p>뷰어를 불러오는 데 실패했습니다.</p>';
-                } else {
-                    const viewerHtml = await viewerResponse.text();
-                    contentArea.innerHTML = viewerHtml;
-                    console.log('뷰어 표시 완료');
+                if (!response.ok) {
+                    if (response.status === 401)
+                        alert("인증 실패: 로그인 정보를 다시 확인하세요.");
+                    else
+                        alert(`오류 발생: ${response.status}`);
                 }
+                window.location.href = `/viewer?studyKey=${studyKey}`;
+            } catch (error) {
+                console.error("PACS 버튼 처리 중 오류:", error.message);
+                alert(`작업 실패: ${error.message}`);
             }
         });
     });
