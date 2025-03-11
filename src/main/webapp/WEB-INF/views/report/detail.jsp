@@ -20,6 +20,7 @@
             <div class="grid-item"><p class="label">환자 증상 :</p><p class="value" id="patient-symptoms">NULL</p></div>
             <div class="grid-item"><p class="label">의사 처방 :</p><p class="value" id="order-description">NULL</p></div>
             <div class="grid-item"><p class="label">진료일 :</p><p class="value" id="medical-date">NULL</p></div>
+            <button id="close-recode">x</button>
         </div>
         <%-- 판독--%>
         <div class="grid">
