@@ -14,16 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(html => {
             contentArea.innerHTML = html;
-            const existingScript = document.querySelector('script[data-page-script="study"]');
-            if (existingScript) existingScript.remove();
+            const existingScriptStudy = document.querySelector('script[data-page-script="study"]');
+            if (existingScriptStudy) existingScriptStudy.remove();
+            const scriptStudy = document.createElement('script');
+            scriptStudy.setAttribute('data-page-script', 'study');
+            scriptStudy.defer = true;
+            scriptStudy.src = '/script/list/studyList.js';
+            scriptStudy.onload = () => console.log('studyList.js 로드 완료');
+            scriptStudy.onerror = () => console.error('studyList 스크립트 불러오기 실패');
+            document.body.appendChild(scriptStudy);
 
-            const script = document.createElement('script');
-            script.setAttribute('data-page-script', 'study');
-            script.defer = true;
-            script.src = '/script/list/studyList.js';
-            script.onload = () => console.log('studyList.js 로드 완료');
-            script.onerror = () => console.error('study 스크립트 불러오기 실패');
-            document.body.appendChild(script);
+            const existingScriptLoader = document.querySelector('script[data-page-script="medicalReportLoader"]');
+            if (existingScriptLoader) existingScriptLoader.remove();
+            const scriptLoader = document.createElement('script');
+            scriptLoader.setAttribute('data-page-script', 'medicalReportLoader');
+            scriptLoader.defer = true;
+            scriptLoader.src = '/script/list/medicalReportLoader.js';
+            scriptLoader.onload = () => console.log('medicalReportLoader.js 로드 완료');
+            scriptLoader.onerror = () => console.error('medicalReportLoader 스크립트 불러오기 실패');
+            document.body.appendChild(scriptLoader);
         })
         .catch(error => {
             console.error('Error loading study content:', error);
