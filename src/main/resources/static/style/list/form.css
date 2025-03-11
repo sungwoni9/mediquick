@@ -96,11 +96,54 @@
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
 }
 
-.list-element {
+.study-list-container .list-element {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(10, 1fr);
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.patient-list-container {
+    font-family: Arial, sans-serif;
+    max-width: 1440px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.patient-list-container .list-element {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.medical-list-container {
+    font-family: Arial, sans-serif;
+    max-width: 1440px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.medical-list-container .list-element {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     padding: 10px;
     border-bottom: 1px solid #eee;
     background-color: #f9f9f9;
@@ -118,16 +161,19 @@
     cursor: pointer;
 }
 
-.modality, .series-count, .image-count {
+.modality, .series-count, .image-count , .pacs-button{
     text-align: center;
 }
 
-.study-key, .patient-name, .study-time, .study-desc, .body-part {
+.study-key, patient-id, .patient-name, .study-time, .study-desc, .body-part, .patient-symptoms, .order-desc, .patient-name{
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pacs-button {
-    grid-column: 9;
+    grid-column: 10;
     text-align: right;
     background-size: 24px 24px;
     background-repeat: no-repeat;
