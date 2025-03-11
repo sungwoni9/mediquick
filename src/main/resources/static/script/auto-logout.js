@@ -1,5 +1,7 @@
-const CHECK_INTERVAL = 10000;
+const CHECK_INTERVAL = 60000;
+const CHECK_SECONDS = 1000;
 let intervalId;
+let check = true;
 
 class TokenService {
     static getToken() {
@@ -27,7 +29,7 @@ class AuthService {
         try {
             const response = await fetch("/user/token-expiry", {
                 method: "GET",
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: {"Authorization": `Bearer ${token}`}
             });
 
             if (!response.ok) {
@@ -36,7 +38,11 @@ class AuthService {
             }
 
             const data = await response.json();
-            this.updateTokenTimer(data.remainingTime);
+            if (data.remainingTime !== undefined) {
+                this.updateTokenTimer(data.remainingTime);
+            } else {
+                console.error("remainingTime이 undefined입니다.");
+            }
         } catch (error) {
             console.error("토큰 만료 시간 조회 실패:", error);
         }
@@ -53,7 +59,7 @@ class AuthService {
         try {
             const response = await fetch("/user/extend-token", {
                 method: "POST",
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: {"Authorization": `Bearer ${token}`}
             });
 
             if (!response.ok) {
@@ -85,12 +91,33 @@ class AuthService {
     static updateTokenTimer(remainingTime) {
         const timerElement = document.getElementById("token-timer");
 
-        if (!timerElement) return;
+        if (!timerElement) {
+            console.error("token-timer 요소가 없습니다!");
+            return;
+        }
 
         const minutes = Math.floor(remainingTime / 1000 / 60);
         const seconds = Math.floor((remainingTime / 1000) % 60);
-        timerElement.innerText = `남은 시간: ${minutes}분 ${seconds}초`;
+
+        if (minutes > 0) {
+            timerElement.innerText = `남은 시간: ${minutes}분`;
+            if (!check) {
+                check = true;
+                restartTokenCheck();
+            }
+        } else {
+            timerElement.innerText = `남은 시간: ${seconds}초`;
+            if (check) {
+                check = false;
+                restartTokenCheck();
+            }
+        }
     }
+}
+
+function restartTokenCheck() {
+    clearInterval(intervalId);
+    startTokenCheck();
 }
 
 function startTokenCheck() {
@@ -102,10 +129,11 @@ function startTokenCheck() {
         } else {
             AuthService.checkTokenExpiry();
         }
-    }, CHECK_INTERVAL);
+    }, check ? CHECK_INTERVAL : CHECK_SECONDS);
 }
 
 if (TokenService.isLoggedIn()) {
+    AuthService.checkTokenExpiry();
     startTokenCheck();
     window.extendToken = () => AuthService.extendToken();
 }
