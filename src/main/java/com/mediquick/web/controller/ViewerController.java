@@ -10,22 +10,22 @@ public class ViewerController {
 
     @GetMapping(value = {"", "/"})
     public String viewer() {
-        return "study_viewer/viewer";
+        return "viewer/viewer";
     }
 
-    @GetMapping("/sidebar")
+    @GetMapping("/dcm-sidebar")
     public String sidebar() {
-        return "study_viewer/sidebar";
+        return "viewer/viewerSidebar";
     }
 
-    @GetMapping("/dcm-viewer")
+    @GetMapping("/dcm-render")
     public String dcmViewer() {
-        return "study_viewer/dcmViewer";
+        return "viewer/viewerRender";
     }
 
-    @GetMapping("/viewer-tools")
+    @GetMapping("/dcm-tool")
     public String viewerTools(){
-        return "study_viewer/viewerTools";
+        return "viewer/viewerTools";
     }
 
 }
