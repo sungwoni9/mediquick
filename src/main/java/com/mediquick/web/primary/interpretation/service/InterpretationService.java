@@ -16,7 +16,11 @@ public class InterpretationService {
     }
 
     public Integer findInterpretationCodeByStudykey(int studykey) {
-        Interpretation interpretation = interpretationRepository.findByStudykey(studykey);
+        Interpretation interpretation = interpretationRepository.findTopByStudykeyOrderByRegDateDesc(studykey);
         return interpretation != null ? interpretation.getCode() : null;
+    }
+
+    public Interpretation findByStudykey(int studyKey) {
+        return interpretationRepository.findTopByStudykeyOrderByRegDateDesc(studyKey);
     }
 }

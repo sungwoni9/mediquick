@@ -8,6 +8,9 @@ import com.mediquick.web.primary.interpretation.domain.Interpretation;
 import com.mediquick.web.primary.interpretation.service.InterpretationService;
 import com.mediquick.web.primary.logs.domain.Log;
 import com.mediquick.web.primary.logs.service.LogService;
+import com.mediquick.web.secondary.report.domain.Report;
+import com.mediquick.web.secondary.report.domain.ReportRepository;
+import com.mediquick.web.secondary.report.domain.ReportResponseDto;
 import com.mediquick.web.secondary.study.domain.Study;
 import com.mediquick.web.secondary.study.domain.StudyRepository;
 import com.mediquick.web.secondary.study.domain.StudyResponseDto;
@@ -29,6 +32,7 @@ public class ReportRestController {
     private final InterpretationService interpretationService;
     private final JwtUtil jwtUtil;
     private final StudyRepository studyRepository;
+    private final ReportRepository reportRepository;
     private final LogService logService;
 
     // 판독 소견서 작성
@@ -38,7 +42,14 @@ public class ReportRestController {
         String token = (String) session.getAttribute("jwtToken");
         String username = jwtUtil.extractUsername(token);
 
-        Interpretation interpretation = new Interpretation(username, studykey);
+        Interpretation interpretation = interpretationService.findByStudykey(studykey);
+
+        if(interpretation != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(new ResponseDto(HttpStatus.CONFLICT.value(),
+                    "이미 생성된 소견서입니다."));
+        }
+
+        interpretation = new Interpretation(username, studykey);
         interpretationService.createInterpretation(interpretation);
 
         Integer interpretationCode = interpretation.getCode();
@@ -54,7 +65,7 @@ public class ReportRestController {
         boolean isSuccess = findingService.updateFinding(findingDto);
         if(!isSuccess)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
-                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 정보입니다."));
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.value(), "소견서를 찾을 수 없습니다."));
         return ResponseEntity.ok(new ResponseDto(HttpStatus.OK.value(), "소견서 수정이 완료되었습니다."));
     }
 
@@ -75,6 +86,22 @@ public class ReportRestController {
                 ));
     }
 
+    @GetMapping("/tab/{studykey}")
+    public ResponseEntity<ResponseDto> getReportByStudykey(@PathVariable("studykey")int studykey){
+        Report report = reportRepository.findTopByStudykeyOrderByReadingdateDesc(studykey);
+        if(report == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
+                    .body(new ResponseDto(HttpStatus.NOT_FOUND.value(),"소견 기록을 찾을 수 없습니다."));
+
+        return ResponseEntity.ok(new ReportResponseDto(
+                report.getStudykey(),
+                report.getReadingdrid(),
+                report.getReadingdate(),
+                report.getStudydesc(),
+                report.getModality()
+        ));
+    }
+
     // 판독 소견서 조회
     @GetMapping("/{studykey}")
     public ResponseEntity<ResponseDto> getFindingByStudykey(@PathVariable("studykey")int studykey) {
@@ -82,7 +109,7 @@ public class ReportRestController {
 
         if (interpretationCode == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
-                    .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "해당 studykey에 대한 소견서를 찾을 수 없습니다."));
+                    .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "해당 studykey에 대한 소견이 존재하지 않습니다."));
         }
 
         Finding finding = findingService.findFindingByCode(interpretationCode);
@@ -93,7 +120,6 @@ public class ReportRestController {
         }
 
         FindingResponseDto findingDto = new FindingResponseDto(finding);
-
         return ResponseEntity.ok(findingDto);
     }
 }

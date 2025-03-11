@@ -1,7 +1,34 @@
 let isReportOpen = false;
 const reportButton = document.querySelector('#report-btn');
 const closeButton = document.querySelector('#report-root #close');
+const resetButton = document.querySelector('#report-root #reset');
 
+// 필드 전체 reset
+resetButton.addEventListener("click", () => {
+    document.querySelector('input[name="radiologistName"]').value = '';
+    document.querySelector('input[name="institutionName"]').value = '';
+    document.querySelector('input[name="possibleDiagnosis"]').value = '';
+    document.querySelector('input[name="clinicalSignificance"]').value = '';
+    document.querySelector('input[name="morphology"]').value = '';
+    document.querySelector('input[name="lesionCount"]').value = '';
+    document.querySelector('input[name="lesionSize"]').value = '';
+    document.querySelector('input[name="lesionLocation"]').value = '';
+    document.querySelector('input[name="additionalNotes"]').value = '';
+    document.querySelector('#previous').value = '';
+    document.querySelector('#findings').value = '';
+    document.querySelector('#opinion').value = '';
+
+    function setFirstRadioChecked(name) {
+        const radioButtons = document.getElementsByName(name);
+        if (radioButtons.length > 0) {
+            radioButtons[0].checked = true;
+        }
+    }
+    setFirstRadioChecked('urgencyLevel');
+    setFirstRadioChecked('reportStatus');
+    setFirstRadioChecked('normal');
+    setFirstRadioChecked('recommendedStudies');
+});
 
 closeButton.addEventListener("click",()=>{
     const root = document.querySelector("#report-root");
@@ -27,7 +54,6 @@ reportButton.addEventListener("click", async () => {
     let hasExistingReport = false;
 
     await fetchPatientData(studykey);
-    console.log("fetchFindingData 반환값:", await fetchFindingData(studykey));
     hasExistingReport = await fetchFindingData(studykey);
 
     form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport ,studykey));
@@ -52,24 +78,27 @@ async function fetchPatientData(studykey) {
         document.getElementById("patientGender").innerText = data.psex;
         document.getElementById("patientBirth").innerText = formatDate(data.pbirthdatetime);
     } catch (error) {
-        console.error("오류 발생:", error.message);
+        console.error("error:", error.message);
     }
 }
 
 // 소견서 정보 로드 메서드
 async function fetchFindingData(studykey) {
     try {
-        const response = await fetch(`/report/${studykey}`);
-        if (!response.ok) {
-            console.log("판독 소견서를 불러오지 못했습니다.");
-            return false;
+        let response = await fetch(`/report/${studykey}`);
+
+        if(response.status === 404) {
+            response = await fetch(`/report/tab/${studykey}`);
         }
 
+        if (!response.ok) {
+            return false;
+        }
         const data = await response.json();
 
-        document.querySelector('input[name="radiologistName"]').value = data.radiologistName || '';
+        document.querySelector('input[name="radiologistName"]').value = data.radiologistName || data.readingerid || '';
         document.querySelector('input[name="institutionName"]').value = data.institutionName || '';
-        document.querySelector('input[name="possibleDiagnosis"]').value = data.possibleDiagnosis || '';
+        document.querySelector('input[name="possibleDiagnosis"]').value = data.possibleDiagnosis ||data.studydesc || '';
         document.querySelector('input[name="clinicalSignificance"]').value = data.clinicalSignificance || '';
         document.querySelector('#previous').value = data.comparisonStudies || '';
         document.querySelector('input[name="morphology"]').value = data.morphology || '';
@@ -101,10 +130,9 @@ async function fetchFindingData(studykey) {
 
 async function submitForm(event, hasExistingReport, studykey) {
     event.preventDefault();
-    console.log("hasreport::"+hasExistingReport.code);
 
     const data = {
-        code: hasExistingReport.code,
+        code: hasExistingReport?.code,
         radiologistName: document.querySelector('input[name="radiologistName"]').value,
         institutionName: document.querySelector('input[name="institutionName"]').value,
         urgencyLevel: document.querySelector('input[name="urgencyLevel"]:checked')?.value,
@@ -133,7 +161,11 @@ async function submitForm(event, hasExistingReport, studykey) {
     };
 
     const url = hasExistingReport ? `/report` : `/report/write/${studykey}`;
-    const response = await fetch(url, requestOptions);
+    let response = await fetch(url, requestOptions);
+
+    if(response.status === 409) {
+        location.reload();
+    }
 
     if (response.ok) {
         alert(`판독 소견서가 ${hasExistingReport ? "수정" : "저장"}되었습니다.`);
