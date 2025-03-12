@@ -37,10 +37,11 @@ document.addEventListener("DOMContentLoaded", async e => {
         extendToken();
     });
 
+    const token = localStorage.getItem("jwtToken");
     const response = await fetch('/user/valid/info', {
         method: "GET",
-        headers: {"Authorization": `Bearer ${localStorage.getItem("jwtToken")}`},
-        credentials: "include"
+        headers: {'Authorization': `Bearer ${token}`},
+        credentials: 'include'
     });
     if (!response.ok) {
         console.log("showGuestMenu");

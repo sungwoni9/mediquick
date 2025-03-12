@@ -17,6 +17,7 @@ import com.mediquick.web.primary.userrole.service.UserRoleService;
 import com.mediquick.web.util.EmailService;
 import com.mediquick.web.util.JwtUtil;
 import com.mediquick.web.util.ResponseDto;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,31 +115,42 @@ public class UserRestController {
     }
 
     @GetMapping("/valid/info")
-    public ResponseEntity<ResponseDto> userInfo(HttpSession session) {
-        String token = (String) session.getAttribute("jwtToken");
-        if (token == null) {
-            System.out.println("null");
+    public ResponseEntity<ResponseDto> userInfo(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorized"));
         }
+        String token = authHeader.substring(7);
+
         try {
             String username = jwtUtil.extractUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
             if (!jwtUtil.validateToken(token, userDetails)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
             }
+
             UserInfoDto userInfoDto = userService.findUserInfoByUsername(username);
             if (userInfoDto == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User info not found"));
             }
+
             return ResponseEntity.ok(userInfoDto);
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid token"));
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), "Token expired"));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseDto(HttpStatus.NOT_FOUND.value(), "User not found"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server error"));
         }
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> register(@RequestBody UserRegisterDto userDto) {
