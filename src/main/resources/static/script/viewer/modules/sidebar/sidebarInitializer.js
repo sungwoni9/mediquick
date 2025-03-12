@@ -37,6 +37,10 @@ export class SidebarInitializer {
         document.getElementById('sidebar-toggle').addEventListener('click', () => {
             this.#sidebar.classList.toggle('sidebar-closed');
             this.#content.classList.toggle('sidebar-closed');
+
+            setTimeout(() => {
+                document.dispatchEvent(new CustomEvent('layoutChanged'));
+            }, 300);
         });
     }
 }
