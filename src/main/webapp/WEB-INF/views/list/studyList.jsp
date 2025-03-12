@@ -28,6 +28,16 @@
                         BodyPart
                         <input id="bodyPart" name="bodyPart" type="text" placeholder="Enter body part">
                     </div>
+                    <div class="form-group">
+                        Report Status
+                        <select id="urgencyLevel" name="urgencyLevel">
+                            <option value="">All</option>
+                            <option value="none">None</option>
+                            <option value="bad">Bad</option>
+                            <option value="normal">Normal</option>
+                            <option value="good">Good</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-actions">
                     <button type="submit">Search</button>
@@ -49,6 +59,7 @@
             <div class="body-part">BodyPart</div>
             <div class="series-count">Series Count</div>
             <div class="image-count">Image Count</div>
+            <div class="urgency-level">Urgency Level</div>
             <div class="pacs-viewer">Pacs Viewer</div>
         </div>
 
