@@ -9,7 +9,6 @@
 }
 
 header {
-    width: 100vw;
     height: 50px;
     background-color: var(--primary-color);
     display: flex;
