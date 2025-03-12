@@ -15,6 +15,38 @@
     font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
 
+#medicalRecordForm > h2 {
+    font-size: 30px;
+    color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    gap: 10px;
+    margin: 20px 20px;
+}
+
+.information {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.doctor-name, .patient-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.separator {
+    color: #78909c;
+    font-weight: bold;
+}
+
 #medicalRecordForm > div {
     font-size: 15px;
     color: #2c3e50;
@@ -22,12 +54,6 @@
     flex-direction: column;
     gap: 10px;
     margin: 20px 20px;
-}
-
-.doctor-name, .patient-name {
-    display: flex;
-    gap: 12px;
-    font-weight: 500;
 }
 
 #medicalRecordForm > div span {
@@ -65,10 +91,6 @@
     border-color: #1e88e5;
     outline: none;
     box-shadow: 0 0 8px rgba(30, 136, 229, 0.2);
-}
-
-#study-key, #patient-name {
-    width: auto;
 }
 
 #medicalRecordForm .button-container {
