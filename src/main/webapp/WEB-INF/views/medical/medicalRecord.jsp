@@ -4,15 +4,20 @@
 <div class="medical-form" id="medical-form" style="display: none;">
     <form id="medicalRecordForm" style="display: none;">
         <h2>처방전</h2>
-        <div class="doctor-name">
-            진료의: <span id="doctorName">Unknown</span>
-        </div>
-        <div class="patient-name">
-            환자 성명: <span id="patientName"></span>
+        <div class="information">
+            <div class="doctor-name">
+                진료의: <span id="doctorName">Unknown</span>
+            </div>
+            <span class="separator">|</span>
+            <div class="patient-name">
+                환자 성명: <span id="patientName">Unknown</span>
+            </div>
         </div>
         <div class="study-key">
-            <label>검사 번호</label>
-            <textarea id="studykey" name="studykey" rows="3"></textarea>
+            <label for="studykey">검사 번호</label>
+            <select id="studykey" name="studykey">
+                <option value="">검사를 선택하세요</option>
+            </select>
         </div>
         <div class="pid">
             <input type="hidden" id="pid" name="pid">
