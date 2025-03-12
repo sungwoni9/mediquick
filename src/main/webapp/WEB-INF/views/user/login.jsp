@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-    <link rel="stylesheet" href="/style/user/login.css">
     <script src="/script/user/login.js"></script>
     <link rel="stylesheet" href="/style/user/form.css">
     <title>Log in</title>

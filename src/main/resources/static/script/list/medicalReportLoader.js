@@ -102,6 +102,27 @@ patientNames.forEach(nameElement => {
                 recode.style.display = "block";
                 window.toggleRecord = true;
 
+                // 진료 기록 조회 로그 저장 요청
+                try {
+                    const response = await fetch("/logs/view-record", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({studyKey})
+                    });
+
+                    if (!response.ok) {
+                        console.error("로그 저장 실패:", response.statusText);
+                    } else {
+                        console.log("진료 기록 조회 로그 저장 완료");
+                    }
+                } catch (error) {
+                    console.error("로그 저장 요청 중 오류 발생:", error);
+                }
+
                 const closeButton = document.querySelector('#close-recode');
                 closeButton.onclick = null; // 기존 이벤트 제거
                 closeButton.addEventListener('click', () => {
