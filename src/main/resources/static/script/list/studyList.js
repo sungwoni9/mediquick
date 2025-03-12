@@ -2,8 +2,6 @@ if (typeof window.toggleRecord === 'undefined') {
     window.toggleRecord = false;
 }
 
-console.log('studyList.js 스크립트 시작');
-
 const contentArea = document.getElementById('content-area');
 
 // 검색 폼 이벤트
@@ -15,6 +13,7 @@ if (searchFormStudy) {
         const studyTime = document.querySelector('#studyTime')?.value.toLowerCase() || '';
         const modality = document.querySelector('#modality')?.value.toLowerCase() || '';
         const bodyPart = document.querySelector('#bodyPart')?.value.toLowerCase() || '';
+
 
         const studies = document.getElementsByClassName('list-element');
         for (let i = 1; i < studies.length; i++) {
