@@ -21,7 +21,7 @@ public class ReportController {
         return "report/reportOpinionForm";
     }
 
-    @GetMapping("detail/{studykey}")
+    @GetMapping("detail")
     public String reportDetails() {
         return "report/detail";
     }

@@ -4,7 +4,6 @@
 <head>
     <link rel="stylesheet" href="/style/dashboard/form.css">
     <link rel="stylesheet" href="/style/report/detail.css">
-<%--    <script src="/script/report/detail.js"></script>--%>
     <script src="/script/dashboard.js"></script>
     <title>Dashboard</title>
 </head>
@@ -18,7 +17,7 @@
     </ul>
 </nav>
 <div id="content-area" class="content-area"></div>
-<c:import url="/report/detail/1"/>
+<c:import url="/report/detail"/>
 </body>
 <c:import url="/footer"/>
 </html>

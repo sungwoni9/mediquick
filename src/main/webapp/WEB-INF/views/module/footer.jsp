@@ -8,22 +8,32 @@
 </head>
 <body>
 <footer>
-    <address>
-        서울특별시 강남구 강남대로 78길 8 (한국빌딩) 4층, 8층<br>
-        더조은컴퓨터아카데미
-    </address>
+    <div id="footer-wrap">
+        <div>
+            <div id="f-tit">MEDIQUICK</div>
+            <div id="f-desc">
+                <div>더조은 컴퓨터 아카데미 ☏ 02-556-5611</div>
+                <div>서울 강남구 강남대로 78길 8 한국빌딩 4층,8층</div>
+            </div>
 
-    <div class="contact-info">
-        <p>전화번호: 02-1234-5678</p>
-        <p>이메일: contact@thejoeun.com</p>
-    </div>
+        </div>
 
-    <div class="footer-links">
-        <p>개인정보 처리 방침 | 사이트 이용 약관 | 쿠키 정책</p>
-    </div>
+        <div id="f-line"></div>
 
-    <div class="team-info">
-        <p>개발 팀: 허성원(팀장), 이선구(서기), 오세린(팀원), 이동현(팀원)</p>
+        <div>
+            <div id="team-wrap">
+                <div class="team-info">
+                    팀장 | 허성원 010 - 4725 - 6405 | PART : STUDY | Github :
+                    <a href="https://github.com/sungwoni9/mediquick.git" target="_blank" rel="noopener noreferrer">
+                        https://github.com/sungwoni9/mediquick.git
+                    </a>
+                </div>
+                <div class="team-info">팀원 | 이동현 010 - 3160 - 8167 | PART : LOG</div>
+                <div class="team-info">팀원 | 이선구 010 - 5143 - 4640 | PART : VIEWER</div>
+                <div class="team-info">팀원 | 오세린 010 - 3217 - 9706 | PART : REPORT</div>
+                <div class="team-info">팀원 | 한중수 010 - 4140 - 6444 | PART : USER</div>
+            </div>
+        </div>
     </div>
 </footer>
 </body>

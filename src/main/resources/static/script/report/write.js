@@ -18,16 +18,7 @@ resetButton.addEventListener("click", () => {
     document.querySelector('#findings').value = '';
     document.querySelector('#opinion').value = '';
 
-    function setFirstRadioChecked(name) {
-        const radioButtons = document.getElementsByName(name);
-        if (radioButtons.length > 0) {
-            radioButtons[0].checked = true;
-        }
-    }
-    setFirstRadioChecked('urgencyLevel');
-    setFirstRadioChecked('reportStatus');
-    setFirstRadioChecked('normal');
-    setFirstRadioChecked('recommendedStudies');
+    setDefaultRadioButtons();
 });
 
 closeButton.addEventListener("click",()=>{
@@ -58,6 +49,10 @@ reportButton.addEventListener("click", async () => {
     await fetchPatientData(studykey);
     hasExistingReport = await fetchFindingData(studykey);
 
+    if(!hasExistingReport) {
+        setDefaultRadioButtons();
+    }
+
     form.addEventListener("submit", async (e) =>  await submitForm(e, hasExistingReport ,studykey));
 });
 
@@ -84,6 +79,8 @@ async function fetchPatientData(studykey) {
     }
 }
 
+
+
 // 소견서 정보 로드 메서드
 async function fetchFindingData(studykey) {
     try {
@@ -101,7 +98,7 @@ async function fetchFindingData(studykey) {
         document.querySelector('input[name="radiologistName"]').value = data.radiologistName || data.readingerid || '';
         document.querySelector('input[name="institutionName"]').value = data.institutionName || '';
         document.querySelector('input[name="possibleDiagnosis"]').value = data.possibleDiagnosis ||data.studydesc || '';
-        document.querySelector('input[name="clinicalSignificance"]').value = data.clinicalSignificance || '';
+        document.querySelector('input[name="clinicalSignificance"]').value = data.clinicalSignificance || data.modality || '';
         document.querySelector('#previous').value = data.comparisonStudies || '';
         document.querySelector('input[name="morphology"]').value = data.morphology || '';
         document.querySelector('input[name="lesionCount"]').value = data.lesionCount || '';
@@ -123,7 +120,7 @@ async function fetchFindingData(studykey) {
         setRadioButtonValue('normal', data.normal);
         setRadioButtonValue('recommendedStudies', data.recommendedStudies);
 
-        return data;
+        return data.code !== undefined ? data : false;
     } catch (error) {
         console.log(error.message);
         return false;
@@ -174,8 +171,14 @@ async function submitForm(event, hasExistingReport, studykey) {
     }
 }
 
-const changeRatioEvent = () => {
-    setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('layoutChanged'));
-    }, 100);
+
+function setDefaultRadioButtons() {
+    const radioGroups = ['urgencyLevel', 'reportStatus', 'normal', 'recommendedStudies'];
+
+    radioGroups.forEach(name => {
+        const radioButtons = document.getElementsByName(name);
+        if (radioButtons.length > 0) {
+            radioButtons[0].checked = true;
+        }
+    });
 }
