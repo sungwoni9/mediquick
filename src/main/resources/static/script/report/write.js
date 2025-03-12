@@ -171,6 +171,11 @@ async function submitForm(event, hasExistingReport, studykey) {
     }
 }
 
+const changeRatioEvent = () => {
+    setTimeout(() => {
+        document.dispatchEvent(new CustomEvent('layoutChanged'));
+    }, 100);
+}
 
 function setDefaultRadioButtons() {
     const radioGroups = ['urgencyLevel', 'reportStatus', 'normal', 'recommendedStudies'];
