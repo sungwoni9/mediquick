@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping("studies")
 @RestController
@@ -30,5 +32,16 @@ public class StudyRestController {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(study);
+    }
+
+    @GetMapping("/patient/{pid}")
+    public ResponseEntity<List<Study>> getStudiesByPatient(@PathVariable("pid") String pid) {
+        List<Study> studies = studyService.findStudiesByPid(pid);
+
+        if (studies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(studies);
     }
 }

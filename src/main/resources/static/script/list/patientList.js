@@ -1,12 +1,8 @@
-console.log('patientList.js 스크립트 시작');
-
 const contentAreaPatient = document.getElementById('content-area');
 
-// 검색 폼 이벤트
 const searchFormPatient = document.querySelector('#searchForm');
 
 if (searchFormPatient) {
-    console.log('검색 폼 발견됨 (patient)');
     searchFormPatient.addEventListener('submit', (e) => {
         e.preventDefault();
         const patientCode = document.querySelector('#patientCode')?.value.toLowerCase() || '';
@@ -58,22 +54,16 @@ patientNamesPatient.forEach(nameElement => {
 
         if (medicalForm) medicalForm.remove();
 
-        const userResponse = await fetch('/user/valid/info', {credentials: 'include'});
-        let doctorName = "Unknown";
-        if (userResponse.ok) {
-            const userData = await userResponse.json();
-            doctorName = userData.name || "Unknown";
-        } else {
-            console.error('Failed to fetch user info:', userResponse.status);
-        }
+        try {
+            const userResponse = await fetch('/user/valid/info', {credentials: 'include'});
+            const doctorName = userResponse.ok ? (await userResponse.json()).name || 'Unknown' : 'Unknown';
 
-        const formResponse = await fetch('/medical/form', {credentials: 'include'});
-        if (!formResponse.ok) {
-            console.error('진료 폼 로드 실패:', formResponse.status);
-            contentAreaPatient.innerHTML = '<p>진료 폼을 불러오는 데 실패했습니다.</p>';
-        } else {
+            const formResponse = await fetch('/medical/form', {credentials: 'include'});
+            if (!formResponse.ok) throw new Error('진료 폼 로드 실패');
+
             const html = await formResponse.text();
             patientElement.insertAdjacentHTML('afterend', html);
+
             const medicalFormDiv = document.getElementById('medical-form');
             const form = document.getElementById('medicalRecordForm');
 
@@ -86,8 +76,30 @@ patientNamesPatient.forEach(nameElement => {
                 document.getElementById('patientName').textContent = patientNameText || 'Unknown';
                 document.getElementById('doctorName').textContent = doctorName;
 
-                form.addEventListener('submit', (e) => {
+                const studySelect = document.getElementById('studykey');
+                studySelect.innerHTML = '';
+
+                const studyResponse = await fetch(`/studies/patient/${selectedPid}`, {credentials: 'include'});
+                if (studyResponse.ok) {
+                    const studies = await studyResponse.json();
+                    if (studies.length > 0) {
+                        studies.forEach(study => {
+                            const option = document.createElement('option');
+                            option.value = study.studykey;
+                            option.textContent = `${study.studykey}`;
+                            studySelect.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement('option');
+                        option.textContent = '해당 환자의 검사 정보 없음';
+                        option.disabled = true;
+                        studySelect.appendChild(option);
+                    }
+                }
+
+                form.addEventListener('submit', async (e) => {
                     e.preventDefault();
+
                     const formData = new FormData(form);
                     const medicalRecord = {
                         username: document.getElementById('doctorName').textContent,
@@ -98,48 +110,36 @@ patientNamesPatient.forEach(nameElement => {
                         medicalDate: formData.get('medicalDate')
                     };
 
-                    if (!medicalRecord.studykey) {
-                        alert('검사 번호를 입력하세요.');
-                        return;
-                    }
-                    if (!medicalRecord.patientSymptoms) {
-                        alert('환자 증상을 입력하세요.');
-                        return;
-                    }
-                    if (!medicalRecord.orderDesc) {
-                        alert('의사 처방을 입력하세요.');
-                        return;
-                    }
-                    if (!medicalRecord.medicalDate) {
-                        alert('진료 날짜를 입력해주세요.');
+                    if (!medicalRecord.studykey || !medicalRecord.patientSymptoms || !medicalRecord.orderDesc || !medicalRecord.medicalDate) {
+                        alert('모든 필드를 입력하세요.');
                         return;
                     }
 
-                    fetch('/medical', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(medicalRecord),
-                        credentials: 'include'
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                return response.text().then(text => {
-                                    throw new Error(text || '저장 실패');
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert('저장 완료');
-                            const medicalFormToRemove = document.getElementById('medical-form');
-                            if (medicalFormToRemove) medicalFormToRemove.remove();
-                        })
-                        .catch(error => {
-                            console.error('Error saving medical record:', error);
-                            alert(`저장 실패: ${error.message}`);
+                    try {
+                        const response = await fetch('/medical', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(medicalRecord),
+                            credentials: 'include'
                         });
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            throw new Error(errorText || '저장 실패');
+                        }
+
+                        alert('저장 완료');
+                        document.getElementById('medical-form')?.remove();
+                    } catch (error) {
+                        console.error('Error saving medical record:', error);
+                        alert(`저장 실패: ${error.message}`);
+                    }
                 });
             }
+        } catch (error) {
+            console.error(error);
+            contentAreaPatient.innerHTML = '<p>진료 폼을 불러오는 데 실패했습니다.</p>';
         }
     });
 });
+

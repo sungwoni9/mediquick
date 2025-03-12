@@ -1,5 +1,3 @@
-console.log('medicalList.js 스크립트 시작');
-
 // 검색 폼 이벤트
 const searchFormMedical = document.querySelector('#searchForm');
 if (searchFormMedical) {
