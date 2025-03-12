@@ -53,7 +53,7 @@ export class ToolInitializer {
                     this.#toolActivator.setSelectableToolActive(toolId);
                     this.#state.bindingTool = toolId;
                 } else if (toolId === "reset") {
-                    this.#viewportManipulator.resetViewport(viewport);
+                    this.#viewportManipulator.resetViewport(viewport, this.#state.renderingEngine.getViewport);
                 } else if (toolId === "rotate") {
                     this.#viewportManipulator.rotateViewport(viewport);
                 }
@@ -66,4 +66,5 @@ export class ToolInitializer {
             this.#state.toolGroup.addViewport(screen.id)
         );
     }
+
 }

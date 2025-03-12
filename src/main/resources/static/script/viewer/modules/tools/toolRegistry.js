@@ -6,16 +6,16 @@ import {
     RectangleROITool,
     StackScrollTool,
     LabelTool,
-    ArrowAnnotateTool,
     EllipticalROITool,
 } from '@cornerstonejs/tools';
 import * as csToolsEnums from "@cornerstonejs/tools/enums";
+import {CustomArrowAnnotateTool} from "./customArrowAnnotateTool";
 
 export class ToolRegistry {
     static #tools = {
         zoom: { tool: ZoomTool, toolName: ZoomTool.toolName },
         windowLevel: { tool: WindowLevelTool, toolName: WindowLevelTool.toolName },
-        annotation: { tool: ArrowAnnotateTool, toolName: ArrowAnnotateTool.toolName },
+        annotation: { tool: CustomArrowAnnotateTool, toolName: CustomArrowAnnotateTool.toolName },
         length: { tool: LengthTool, toolName: LengthTool.toolName },
         circle: { tool: EllipticalROITool, toolName: EllipticalROITool.toolName },
         rectangle: { tool: RectangleROITool, toolName: RectangleROITool.toolName },
@@ -47,4 +47,5 @@ export class ToolRegistry {
     static getFixedTools() {
         return ToolRegistry.fixedTools;
     }
+
 }

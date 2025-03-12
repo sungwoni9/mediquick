@@ -13,8 +13,8 @@ export class ToolActivator {
         if (toolId === currentBindingTool) return;
 
         if (currentBindingTool) {
-            // const previousToolName = ToolRegistry.getTool(currentBindingTool).toolName;
-            // this.#state.toolGroup.setToolDisabled(previousToolName);
+            const previousToolName = ToolRegistry.getTool(currentBindingTool).toolName;
+            this.#state.toolGroup.setToolPassive(previousToolName);
             this.#updateButtonState(currentBindingTool, false);
         }
 
@@ -32,4 +32,5 @@ export class ToolActivator {
             button.classList.toggle('active', isActive);
         }
     }
+
 }
