@@ -34,11 +34,13 @@ closeButton.addEventListener("click",()=>{
     const root = document.querySelector("#report-root");
     root.style.display = 'none';
     isReportOpen = false;
+    changeRatioEvent();
 })
 
 reportButton.addEventListener("click", async () => {
     const root = document.querySelector("#report-root");
 
+    changeRatioEvent();
     if (isReportOpen) {
         root.style.display = 'none';
         isReportOpen = false;
@@ -170,4 +172,10 @@ async function submitForm(event, hasExistingReport, studykey) {
     if (response.ok) {
         alert(`판독 소견서가 ${hasExistingReport ? "수정" : "저장"}되었습니다.`);
     }
+}
+
+const changeRatioEvent = () => {
+    setTimeout(() => {
+        document.dispatchEvent(new CustomEvent('layoutChanged'));
+    }, 100);
 }
