@@ -5,15 +5,16 @@ export class LayoutManager {
         this.#state = state;
     }
 
-    toggleFullscreenMode(viewportId) {
+    async toggleFullscreenMode(viewportId) {
         const viewportContainer = document.getElementById('render');
         const targetViewport = document.getElementById(viewportId);
 
         if (!this.#state.isSingleViewport) {
             this.#enterFullscreenMode(viewportContainer, targetViewport, viewportId);
         } else {
-            this.#exitFullscreenMode();
+            await this.#exitFullscreenMode();
         }
+        document.dispatchEvent(new CustomEvent('layoutChanged'));
     }
 
     #enterFullscreenMode(container, targetViewport, viewportId) {
@@ -27,10 +28,8 @@ export class LayoutManager {
         this.#state.isSingleViewport = true;
     }
 
-    #exitFullscreenMode() {
-        if (this.#state.savedLayout) {
-            this.updateGridLayout(this.#state.savedLayout.rows, this.#state.savedLayout.cols);
-        }
+    async #exitFullscreenMode() {
+        await this.updateGridLayout(this.#state.savedLayout.rows, this.#state.savedLayout.cols);
         this.#state.isSingleViewport = false;
     }
 
@@ -42,14 +41,14 @@ export class LayoutManager {
 
     extractLayoutFromButton(button) {
         const layoutMap = {
-            "btn-1x1": { rows: 1, cols: 1 },
-            "btn-1x2": { rows: 1, cols: 2 },
-            "btn-2x2": { rows: 2, cols: 2 }
+            "btn-1x1": {rows: 1, cols: 1},
+            "btn-1x2": {rows: 1, cols: 2},
+            "btn-2x2": {rows: 2, cols: 2}
         };
         for (const [className, layout] of Object.entries(layoutMap)) {
             if (button.classList.contains(className)) return layout;
         }
-        return { rows: 1, cols: 1 };
+        return {rows: 2, cols: 2};
     }
 
     async updateGridLayout(rows, cols) {
@@ -57,6 +56,7 @@ export class LayoutManager {
         this.#applyGridLayout(viewportContainer, rows, cols);
         this.#resetViewportState(rows, cols);
         this.#updateViewportVisibility(rows, cols);
+        document.dispatchEvent(new CustomEvent('layoutChanged'));
     }
 
     #applyGridLayout(container, rows, cols) {
@@ -66,7 +66,7 @@ export class LayoutManager {
 
     #resetViewportState(rows, cols) {
         this.#state.currentViewport = null;
-        this.#state.savedLayout = { rows, cols };
+        this.#state.savedLayout = {rows, cols};
         this.#state.isFullscreen = false;
     }
 
