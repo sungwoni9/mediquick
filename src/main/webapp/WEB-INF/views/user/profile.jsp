@@ -69,5 +69,6 @@
         </div>
     </form>
 </div>
+<c:import url="/footer"/>
 </body>
 </html>
