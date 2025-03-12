@@ -16,6 +16,17 @@ export class RenderManager {
             const {studykey, serieskey} = e.detail;
             await this.#assignImageToViewport(studykey, serieskey);
         });
+
+        document.addEventListener('layoutChanged', () => {
+            this.resizeViewports();
+        });
+    }
+
+    resizeViewports() {
+        console.log("resize!");
+        if (this.#state.renderingEngine) {
+            this.#state.renderingEngine.resize(true, true); // 비율 유지하며 리사이즈
+        }
     }
 
     async #assignImageToViewport(studykey, serieskey) {
@@ -32,10 +43,7 @@ export class RenderManager {
             const overlayElements = await this.#getOverlayElements(studykey, serieskey);
             this.#renderViewport(viewport, imageIds, overlayElements);
         } catch (error) {
-            console.error('DICOM 이미지 로드 중 오류 발생:', error);
             alert('DICOM 이미지 로드 중 오류 발생');
-        } finally {
-            element.removeChild(loadingElement);
         }
     }
 
@@ -60,6 +68,9 @@ export class RenderManager {
     }
 
     #renderViewport(viewport, imageIds, overlayElements) {
+        const existingOverlays = viewport.element.querySelectorAll('div[style*="position: absolute"]');
+        existingOverlays.forEach(overlay => overlay.remove());
+
         overlayElements.forEach(overlay => viewport.element.appendChild(overlay));
         viewport.setStack(imageIds, 0);
         viewport.render();
@@ -67,6 +78,18 @@ export class RenderManager {
 
     async #getOverlayElements(studykey, serieskey) {
         const metadata = await this.#dicomService.fetchDicomOverlayMetadata(studykey, serieskey);
+
+        const safeMetadata = {
+            patientName: metadata.patientName || 'Unknown',
+            patientID: metadata.patientID || 'N/A',
+            studyDate: metadata.studyDate || 'N/A',
+            studyDescription: metadata.studyDescription || 'No Description',
+            seriesNumber: metadata.seriesNumber || 'N/A',
+            bodyPart: metadata.bodyPart || 'Unknown',
+            modality: metadata.modality || 'N/A',
+            sliceThickness: metadata.sliceThickness || 'N/A',
+            institutionName: metadata.institutionName || 'Unknown'
+        };
 
         const baseStyle = {
             position: 'absolute',
@@ -78,12 +101,12 @@ export class RenderManager {
         };
 
         return [
-            this.#createOverlayElement({ ...baseStyle, top: '10px', left: '10px' },
-                `Patient: ${metadata.patientName}\nID: ${metadata.patientID}\nStudy Date: ${metadata.studyDate}\nStudy Description: ${metadata.studyDescription}`),
-            this.#createOverlayElement({ ...baseStyle, bottom: '10px', left: '10px' },
-                `Series: ${metadata.seriesNumber}\nBody Part: ${metadata.bodyPart}\nModality: ${metadata.modality}`),
-            this.#createOverlayElement({ ...baseStyle, bottom: '10px', right: '10px', textAlign: 'right' },
-                `Slice Thickness: ${metadata.sliceThickness}(mm)\nInstitution Name: ${metadata.institutionName}`)
+            this.#createOverlayElement({...baseStyle, top: '10px', left: '10px'},
+                `Patient: ${safeMetadata.patientName}\nID: ${safeMetadata.patientID}\nStudy Date: ${safeMetadata.studyDate}\nStudy Description: ${safeMetadata.studyDescription}`),
+            this.#createOverlayElement({...baseStyle, bottom: '10px', left: '10px'},
+                `Series: ${safeMetadata.seriesNumber}\nBody Part: ${safeMetadata.bodyPart}\nModality: ${safeMetadata.modality}`),
+            this.#createOverlayElement({...baseStyle, bottom: '10px', right: '10px', textAlign: 'right'},
+                `Slice Thickness: ${safeMetadata.sliceThickness}(mm)\nInstitution Name: ${safeMetadata.institutionName}`)
         ];
     }
 

@@ -1,4 +1,4 @@
-import { LayoutManager } from './layoutManager.js';
+import {LayoutManager} from './layoutManager.js';
 
 export class LayoutInitializer {
     #state;
@@ -53,11 +53,11 @@ export class LayoutInitializer {
         const studyKey = urlParams.get('studyKey');
         if (studyKey && this.#state.currentViewport) {
             const event = new CustomEvent('imageSelected', {
-                detail: { studykey: studyKey, serieskey: '1' }
+                detail: {studykey: studyKey, serieskey: '1'}
             });
             document.dispatchEvent(event);
         } else {
-            console.warn('studykey가 없거나 뷰포트가 선택되지 않았습니다.');
+            console.warn('studykey 가 없거나 뷰포트가 선택되지 않았습니다.');
         }
     }
 }

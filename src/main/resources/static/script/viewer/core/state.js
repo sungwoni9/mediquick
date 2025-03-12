@@ -5,7 +5,7 @@ export function createState() {
         renderingEngine: null,
         toolGroup: null,
         isSingleViewport: false,
-        savedLayout: [],
+        savedLayout: {rows: 2, cols: 2},
         bindingTool: 'zoom'
     };
 }
