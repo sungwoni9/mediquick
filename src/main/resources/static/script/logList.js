@@ -2,12 +2,10 @@ if (typeof window.toggleRecord === 'undefined') {
     window.toggleRecord = false;
 }
 
-// 날짜 포맷팅 함수
 function formatDate(dateString) {
-    return dateString ? `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}` : "정보 없음";
+    return dateString ? `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}` : "작성 내역이 비어있습니다.";
 }
 
-// 판독 등급 포맷팅 함수
 function formatUrgencyLevel(level) {
     switch (level) {
         case 1:
@@ -17,11 +15,10 @@ function formatUrgencyLevel(level) {
         case 3:
             return "긴급";
         default:
-            return "판독 정보가 없습니다.";
+            return "작성 내역이 비어있습니다.";
     }
 }
 
-// 판독 등급 색상 함수
 function getUrgencyColor(level) {
     switch (level) {
         case 1:
@@ -35,7 +32,6 @@ function getUrgencyColor(level) {
     }
 }
 
-// 보고서 상태 포맷팅 함수
 function formatReportStatus(status) {
     switch (status) {
         case 1:
@@ -45,7 +41,7 @@ function formatReportStatus(status) {
         case 3:
             return "판독 완료";
         default:
-            return "판독 정보가 없습니다.";
+            return "작성 내역이 비어있습니다.";
     }
 }
 
@@ -130,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const response = await fetch(url, {
                 method: 'GET',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: {'Authorization': `Bearer ${token}`}
             });
 
             if (response.status === 404) {
@@ -194,29 +190,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updatePatientInfo(patientData) {
-        document.getElementById("chartNo").innerText = patientData.pid ? `${patientData.pid} / ` : "정보 없음";
-        document.getElementById("patientName").innerText = patientData.pname ? `${patientData.pname} / ` : "정보 없음";
-        document.getElementById("patientBirth").innerText = patientData.pbirthdatetime ? formatDate(patientData.pbirthdatetime) : "정보 없음";
-        document.getElementById("patientGender").innerText = patientData.psex || "정보 없음";
+        document.getElementById("chartNo").innerText = patientData.pid ? `${patientData.pid}` : "작성 내역이 비어있습니다.";
+        document.getElementById("patientName").innerText = patientData.pname ? `${patientData.pname}` : "작성 내역이 비어있습니다.";
+        document.getElementById("patientBirth").innerText = patientData.pbirthdatetime ?
+            `${formatDate(patientData.pbirthdatetime)}` : "작성 내역이 비어있습니다.";
+        document.getElementById("patientGender").innerText = patientData.psex || "작성 내역이 비어있습니다.";
     }
 
     function updateMedicalInfo(medicalData) {
-        document.getElementById("doctor-name").innerText = medicalData.username || "정보 없음";
-        document.getElementById("patient-symptoms").innerText = medicalData.patientSymptoms || "정보 없음";
-        document.getElementById("order-description").innerText = medicalData.orderDesc || "정보 없음";
-        document.getElementById("medical-date").innerText = medicalData.medicalDate ? new Date(medicalData.medicalDate).toISOString().split('T')[0] : "정보 없음";
+        document.getElementById("doctor-name").innerText = medicalData.username || "작성 내역이 비어있습니다.";
+        document.getElementById("patient-symptoms").innerText = medicalData.patientSymptoms || "작성 내역이 비어있습니다.";
+        document.getElementById("order-description").innerText = medicalData.orderDesc || "작성 내역이 비어있습니다.";
+        document.getElementById("medical-date").innerText = medicalData.medicalDate ?
+            new Date(medicalData.medicalDate).toISOString().split('T')[0] : "작성 내역이 비어있습니다.";
     }
 
     function updateReportInfo(reportData) {
-        document.getElementById("reader").innerText = reportData.radiologistName || "판독 정보가 없습니다.";
-        document.getElementById("hospital").innerText = reportData.institutionName || "판독 정보가 없습니다.";
-        document.getElementById("report-level").innerText = formatUrgencyLevel(reportData.urgencyLevel);
-        document.getElementById("report-level").style.color = getUrgencyColor(reportData.urgencyLevel);
+        document.getElementById("reader").innerText = reportData.radiologistName || "작성 내역이 비어있습니다.";
+        document.getElementById("hospital").innerText = reportData.institutionName || "작성 내역이 비어있습니다.";
         document.getElementById("normal-status").innerText = reportData.normal ? "정상" : "비정상";
         document.getElementById("additional-exam-needed").innerText = reportData.recommendedStudies ? "필요" : "불필요";
+        document.getElementById("lesion-location").innerText = reportData.lesionLocation || "작성 내역이 비어있습니다.";
+        document.getElementById("lesion-size").innerText = reportData.lesionSize || "작성 내역이 비어있습니다.";
+        document.getElementById("lesion-count").innerText = reportData.lesionCount || "작성 내역이 비어있습니다.";
+        document.getElementById("morphological-features").innerText = reportData.morphology || "작성 내역이 비어있습니다.";
+        document.getElementById("special-findings").innerText = reportData.additionalFindings || "작성 내역이 비어있습니다.";
+        document.getElementById("suspected-diagnosis").innerText = reportData.possibleDiagnosis || "작성 내역이 비어있습니다.";
+        document.getElementById("clinical-significance").innerText = reportData.clinicalSignificance || "작성 내역이 비어있습니다.";
+        document.getElementById("past-exam-reference").innerText = reportData.comparisonStudies || "작성 내역이 비어있습니다.";
+        document.getElementById("additional-comments").innerText = reportData.additionalComment || "작성 내역이 비어있습니다.";
+        document.getElementById("notes").innerText = reportData.additionalNotes || "작성 내역이 비어있습니다.";
         document.getElementById("report-status").innerText = formatReportStatus(reportData.reportStatus);
-        document.getElementById("report-date").innerText = reportData.regDate ? new Date(reportData.regDate).toISOString().split('T')[0] : "판독 정보가 없습니다.";
+        document.getElementById("report-date").innerText = reportData.regDate ?
+            new Date(reportData.regDate).toISOString().split('T')[0] : "작성 내역이 비어있습니다.";
+        document.getElementById("report-level").innerText = formatUrgencyLevel(reportData.urgencyLevel);
+        document.getElementById("report-level").style.color = getUrgencyColor(reportData.urgencyLevel);
     }
+
+    document.addEventListener("scroll", () => {
+        const recodeElement = document.querySelector("#recode");
+        const scrollPos = window.scrollY;
+
+        if (scrollPos > 50) {
+            recodeElement.style.height = "100%";
+        } else {
+            recodeElement.style.height = "calc(100% - 106px)"
+        }
+    });
 
     updateTable();
     movePageByStudyKey();
