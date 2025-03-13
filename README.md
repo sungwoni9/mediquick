@@ -51,7 +51,6 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 >- 의료 영상 데이터(DICOM 파일)는 네트워크 스토리지에 저장되어 있으며,<br/>
    >  해당 주소가 유효하지 않거나 접근 권한이 없는 경우 영상 렌더링 및 조회 기능이 동작하지 않습니다.
 
-
 <br/>
 
 ### 프로젝트 설계
@@ -69,6 +68,8 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/a51fb6ff-9442-478c-b5dd-74a4946fed1c" width="450"/>|<img src="https://github.com/user-attachments/assets/1599c512-7f2e-4b61-90cc-f3f889fe63e4" width="450"/>|
 |[Google Sheets 인터페이스 정의서](https://docs.google.com/spreadsheets/d/1MbzzqHyIaFTf0S_ZJ2TZQsR8DOOki0-J/edit?usp=sharing&ouid=116131386255283817773&rtpof=true&sd=true)|[Google Sheets WBS](https://docs.google.com/spreadsheets/d/1uvL3-ZCZ-tnin0C-UYyn6hjx2AccJz6l/edit?usp=sharing&ouid=116131386255283817773&rtpof=true&sd=true)|
+
+<br/>
 
 ### 프로젝트 화면구성
 |로그인|
