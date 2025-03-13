@@ -2,10 +2,10 @@ footer {
     position: relative;
     bottom: 0;
     height: 200px;
-    background-color: #0e315c;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top: 1px solid #eee;
 }
 
 #footer-wrap #f-tit {
@@ -17,8 +17,9 @@ footer {
     width: 90%;
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: black;
     font-size: 12px;
+    max-width: 1200px;
 }
 
 #team-wrap {
@@ -32,11 +33,12 @@ footer {
 }
 
 #team-wrap .team-info>a {
-    color: #adc6ff;
+    color: #2665d0;
+    text-decoration: none;
 }
 
 #team-wrap .team-info {
-    border: 1px solid white;
+    border: 1px solid #eee;
     border-radius: 4px;
     padding: 5px;
 }
@@ -52,9 +54,9 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1px;
-    height: 120px;
-    background-color: #ffffff;
+    width: 2px;
+    height: 92px;
+    background-color: #dbdbdb;
 }
 
 #f-desc {
