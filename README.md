@@ -75,17 +75,17 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |로그인|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/fe1ecb6f-71c0-4aa3-aa63-38077b90e8f7" width="450"/>|
-|MediQuick은 의료 영상 프로젝트로,<br/>로그인을 진행한 후 사용자 역할에 따른 기능을 제공합니다.<br>Spring Security 활용 및 JWT 토큰을<br/>발행하여 인증을 관리합니다.|
+|MediQuick은 의료 영상 프로젝트로,<br/>로그인을 진행한 후 사용자 역할에 따른 기능을 제공합니다.<br>Spring Security 을 활용 및 JWT 토큰을 발행하여 인증을 관리합니다.|
 
 |상세조회|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/caf21f4c-f982-471f-bb80-c0fec6391a60" width="450"/>|
-|로그인 후 표시되는 대시보드 페이지에서는<br/>검사별 판독 소견, 환자 정보, 진료 현황을<br/>한눈에 확인할 수 있습니다.|
+|로그인 후 표시되는 대시보드 페이지에서는<br/>검사별 판독 소견, 환자 정보, 진료 현황을 한눈에 확인할 수 있습니다.|
 
 |회원관리|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/17bb8157-6d08-4228-a45c-118a40a536b6" width="450"/>|
-|관리자 권한을 가진 사용자는<br/>회원 정보를 조회하고 관리할 수 있습니다.<br/>조회된 회원 목록은 10개 단위로<br/> 페이징 처리되어 표시됩니다.|
+|관리자 권한을 가진 사용자는 회원 정보를 조회하고 관리할 수 있습니다.<br/>조회된 회원 목록은 10개 단위로 페이징 처리되어 표시됩니다.|
 
 |영상조회|
 |:---:|
@@ -100,7 +100,7 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |로그관리|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/3a70da6e-c5a6-468c-a86c-07606a5123da" width="450"/>|
-|관리자 권한을 가진 사용자는<br/>사용자별 로그인·로그아웃 기록 및 조회 내역을<br/>확인할 수 있으며, 필터링 기능을 통해<br/>원하는 정보를 쉽게 찾을 수 있습니다.|
+|관리자 권한을 가진 사용자는<br/>사용자별 로그인·로그아웃 기록 및 조회 내역을 확인할 수 있으며,<br/>필터링 기능을 통해 원하는 정보를 쉽게 찾을 수 있습니다.|
 
 <br/>
 
@@ -146,18 +146,8 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 <br />
 
 ## 💁‍♂️ 프로젝트 팀원
-|                                           환자 정보 및 진료 기록                                           |                                              로그 및 보안                                              |
-|:-------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|
-| ![프로필1](https://github.com/user-attachments/assets/f850e168-a0f7-495f-a384-e48fd4d55e93?size=100) | ![프로필2](https://github.com/user-attachments/assets/88168d61-63b8-4b38-98e9-6047105a1e2d?size=100) |
-|                                [허성원](https://github.com/sungwoni9)                                |                                 [이동현](https://github.com/ghj0595)                                 |
 
-|                                          의료 영상 렌더링 및 조작                                           |                                          환자 판독 소견 기록 관리                                           |
-|:-------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|
-| ![프로필3](https://github.com/user-attachments/assets/b84e82b5-99d9-424f-a58b-05033a600bc6?size=100) | ![프로필4](https://github.com/user-attachments/assets/9b1df516-bfaa-4a46-9e51-5d34ca194dcd?size=100) |
-|                                 [이선구](https://github.com/SG5143)                                  |                                 [오세린](https://github.com/ohserin)                                 |
-
-|                                          사용자 관리 및 권한 설정                                           |
-|:-------------------------------------------------------------------------------------------------:|
-| ![프로필5](https://github.com/user-attachments/assets/721c8c20-d6b3-41c6-81bd-7aa70b0c42b0?size=100) |
-|                                 [한중수](https://github.com/Khankw)                                  |
-
+|환자 정보 및 진료 기록|로그 및 보안|의료 영상 렌더링 및 조작|환자 판독 소견 기록 관리|사용자 관리 및 권한 설정|
+|:-:|:-:|:-:|:-:|:-:|
+| ![프로필1](https://github.com/user-attachments/assets/f850e168-a0f7-495f-a384-e48fd4d55e93?size=100) | ![프로필2](https://github.com/user-attachments/assets/88168d61-63b8-4b38-98e9-6047105a1e2d?size=100) | ![프로필3](https://github.com/user-attachments/assets/b84e82b5-99d9-424f-a58b-05033a600bc6?size=100) | ![프로필4](https://github.com/user-attachments/assets/9b1df516-bfaa-4a46-9e51-5d34ca194dcd?size=100) | ![프로필5](https://github.com/user-attachments/assets/721c8c20-d6b3-41c6-81bd-7aa70b0c42b0?size=100) |
+|[허성원](https://github.com/sungwoni9)|[이동현](https://github.com/ghj0595)|[이선구](https://github.com/SG5143)|[오세린](https://github.com/ohserin)|[한중수](https://github.com/Khankw)|
