@@ -28,16 +28,6 @@
                         BodyPart
                         <input id="bodyPart" name="bodyPart" type="text" placeholder="Enter body part">
                     </div>
-                    <div class="form-group">
-                        Urgency Level
-                        <select id="urgencyLevel" name="urgencyLevel">
-                            <option value="">All</option>
-                            <option value="0">None</option>
-                            <option value="1">Normal</option>
-                            <option value="2">Bad</option>
-                            <option value="3">Good</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="form-actions">
                     <button type="submit">Search</button>
