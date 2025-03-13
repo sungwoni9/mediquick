@@ -76,6 +76,7 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |:---:|
 |<img src="https://github.com/user-attachments/assets/fe1ecb6f-71c0-4aa3-aa63-38077b90e8f7" width="450"/>|
 |MediQuick은 의료 영상 프로젝트로,<br/>로그인을 진행한 후 사용자 역할에 따른 기능을 제공합니다.<br>Spring Security 활용 및 JWT 토큰을<br/>발행하여 인증을 관리합니다.|
+
 |상세조회|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/caf21f4c-f982-471f-bb80-c0fec6391a60" width="450"/>|
