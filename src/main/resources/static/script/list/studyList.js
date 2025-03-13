@@ -59,7 +59,6 @@ if (searchFormStudy) {
         const studyTime = document.querySelector('#studyTime')?.value.toLowerCase() || '';
         const modality = document.querySelector('#modality')?.value.toLowerCase() || '';
         const bodyPart = document.querySelector('#bodyPart')?.value.toLowerCase() || '';
-        const urgencyLevel = document.querySelector('#urgencyLevel')?.value || '';
 
         const studies = document.getElementsByClassName('list-element');
         for (let i = 1; i < studies.length; i++) {
@@ -68,13 +67,11 @@ if (searchFormStudy) {
             const sTime = study.querySelector('.study-time')?.textContent.toLowerCase() || '';
             const mod = study.querySelector('.modality')?.textContent.toLowerCase() || '';
             const bPart = study.querySelector('.body-part')?.textContent.toLowerCase() || '';
-            const uLevel = study.querySelector('.status-dot')?.getAttribute('data-urgency-level') || '0';
 
             const matches = (!patientName || pName.includes(patientName)) &&
                 (!studyTime || sTime.includes(studyTime)) &&
                 (!modality || mod.includes(modality)) &&
-                (!bodyPart || bPart.includes(bodyPart)) &&
-                (!urgencyLevel || uLevel === urgencyLevel);
+                (!bodyPart || bPart.includes(bodyPart));
 
             study.style.display = matches ? '' : 'none';
         }
