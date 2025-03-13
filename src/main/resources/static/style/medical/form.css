@@ -1,45 +1,36 @@
 .medical-form {
-    margin: 30px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid #e0e6ed;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    max-width: 1000px;
+    margin: 50px;
 }
 
-#medicalRecordForm {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-}
-
-#medicalRecordForm > h2 {
+#medicalRecordForm h2 {
     font-size: 30px;
     color: #2c3e50;
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    gap: 10px;
-    margin: 20px 20px;
+    font-weight: 700;
+    margin: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 .information {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
-    justify-content: space-between;
     width: 100%;
+    padding: 15px 0;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 .doctor-name, .patient-name {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 12px;
     font-weight: 500;
+    color: #34495e;
+    font-size: 18px;
 }
 
 .separator {
@@ -51,8 +42,13 @@
     font-size: 15px;
     color: #2c3e50;
     display: flex;
-    flex-direction: column;
     gap: 10px;
+    margin: 20px 20px;
+}
+
+.table-content {
+    display: flex;
+    gap: 15px;
     margin: 20px 20px;
 }
 
@@ -62,9 +58,17 @@
     border-radius: 4px;
 }
 
+.patient-symptoms, .order-desc, .medical-date {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 #medicalRecordForm label {
-    font-size: 14px;
+    font-size: 15px;
     color: #37474f;
+    margin: 5px;
+    flex-direction: column;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
@@ -76,6 +80,7 @@
     border: 1px solid #cfd8dc;
     background-color: #fbfcfe;
     border-radius: 8px;
+    flex-direction: column;
     font-size: 14px;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -121,3 +126,4 @@
     width: 30%;
     color: white;
 }
+

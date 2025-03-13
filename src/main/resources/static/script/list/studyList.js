@@ -45,8 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             dot.classList.add(statusClass);
             dot.setAttribute('data-urgency-level', urgencyLevel);
         } catch (error) {
-            console.error('Error fetching report for studykey:', studykey, error);
-            dot.classList.add('status-none');
+            dot.classList.add('status-normal');
         }
     }
 });
