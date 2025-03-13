@@ -72,7 +72,7 @@
         <button id="next-btn">다음</button>
     </div>
 </div>
-<c:import url="/report/detail/1}"/>
+<c:import url="/report/detail"/>
 </body>
 <c:import url="/footer"/>
 </html>

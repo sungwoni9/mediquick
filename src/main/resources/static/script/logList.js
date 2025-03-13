@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const response = await fetch(url, {
                 method: 'GET',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: {'Authorization': `Bearer ${token}`}
             });
 
             if (response.status === 404) {
@@ -217,6 +217,17 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("report-status").innerText = formatReportStatus(reportData.reportStatus);
         document.getElementById("report-date").innerText = reportData.regDate ? new Date(reportData.regDate).toISOString().split('T')[0] : "판독 정보가 없습니다.";
     }
+
+    document.addEventListener("scroll", () => {
+        const recodeElement = document.querySelector("#recode");
+        const scrollPos = window.scrollY;
+
+        if (scrollPos > 50) {
+            recodeElement.style.height = "100%";
+        } else {
+            recodeElement.style.height = "calc(100% - 106px)"
+        }
+    });
 
     updateTable();
     movePageByStudyKey();
