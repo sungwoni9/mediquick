@@ -59,13 +59,11 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/86a04b6a-2389-4f56-b04f-8cbb6f5eae55" width="450"/>|<img src="https://github.com/user-attachments/assets/ab4886b5-e8ab-495a-9065-b0b6d3584bdb" width="450"/>|
 |MediQuick 데이터베이스 ERD|MediQuick 피그마 프로토타입|
-|:---:|:---:|
 
 |요구사항 정의서|테이블 정의서|
 |:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/66781acf-88f1-44cc-9795-a263f1b59308" width="450"/>|<img src="https://github.com/user-attachments/assets/dc8d893d-3aa6-4adb-b6db-99604111f814" width="450"/>|
 |[Google Sheets 요구사항 정의서](https://docs.google.com/spreadsheets/d/1AvJOkSIUwnnFd9uHGz644wMCefkAmMVV/edit?usp=sharing&ouid=116131386255283817773&rtpof=true&sd=true)|[Google Sheets 테이블 정의서](https://docs.google.com/spreadsheets/d/1_tvJvFedw2__coCm6LyZM1zzMcFbJS07/edit?usp=sharing&ouid=116131386255283817773&rtpof=true&sd=true)|
-|:---:|:---:|
 
 |인터페이스 정의서|WBS|
 |:---:|:---:|
@@ -77,8 +75,6 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |:---:|
 |<img src="https://github.com/user-attachments/assets/fe1ecb6f-71c0-4aa3-aa63-38077b90e8f7" width="450"/>|
 |MediQuick은 의료 영상 프로젝트로,<br/>로그인을 진행한 후 사용자 역할에 따른 기능을 제공합니다.<br>Spring Security 을 활용 및 JWT 토큰을 발행하여 인증을 관리합니다.|
-
-
 |상세조회|
 |:---:|
 |<img src="https://github.com/user-attachments/assets/caf21f4c-f982-471f-bb80-c0fec6391a60" width="450"/>|
