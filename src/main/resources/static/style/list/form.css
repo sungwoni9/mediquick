@@ -57,6 +57,20 @@
     opacity: 0.7;
 }
 
+.form-group select {
+    padding: 8px;
+    border: 1px none #ccc;
+    background-color: #e8edf4;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+}
+
+.form-group select:focus {
+    border-color: #007bff;
+}
+
 .form-actions {
     display: flex;
     gap: 10px;
@@ -89,7 +103,7 @@
     background-color: #5a6268;
 }
 
-.study-list-container {
+.study-list-container, .patient-list-container, .medical-list-container{
     font-family: Arial, sans-serif;
     max-width: 1440px;
     margin: 0 auto;
@@ -101,23 +115,13 @@
 
 .study-list-container .list-element {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(11, 1fr);
     padding: 10px;
     border-bottom: 1px solid #eee;
     background-color: #f9f9f9;
     align-items: center;
     font-size: 14px;
     line-height: 1.5;
-}
-
-.patient-list-container {
-    font-family: Arial, sans-serif;
-    max-width: 1440px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
 }
 
 .patient-list-container .list-element {
@@ -129,16 +133,6 @@
     align-items: center;
     font-size: 14px;
     line-height: 1.5;
-}
-
-.medical-list-container {
-    font-family: Arial, sans-serif;
-    max-width: 1440px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
 }
 
 .medical-list-container .list-element {
@@ -165,7 +159,7 @@
     text-align: center;
 }
 
-.study-key, patient-id, .patient-name, .study-time, .study-desc, .body-part, .patient-symptoms, .order-desc, .patient-name{
+.study-key, .patient-id, .patient-name, .study-time, .study-desc, .body-part, .patient-symptoms, .order-desc, .patient-name{
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
@@ -173,7 +167,7 @@
 }
 
 .pacs-button {
-    grid-column: 10;
+    grid-column: 11;
     text-align: right;
     background-size: 24px 24px;
     background-repeat: no-repeat;
@@ -183,3 +177,47 @@
     cursor: pointer;
     transition: opacity 0.3s;
 }
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    background-color: gray;
+}
+
+.status-none { background-color: gray; }
+.status-bad { background-color: red; }
+.status-normal { background-color: yellow; }
+.status-good { background-color: green; }
+
+.urgency-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.information {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.doctor-name, .patient-name {
+}
+
+.patient-name {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+#patientName {
+    display: inline !important;
+    visibility: visible !important;
+}
+
+
