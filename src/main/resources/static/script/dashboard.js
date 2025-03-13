@@ -15,7 +15,7 @@ const pageConfig = {
 class ContentFetcher {
     static async fetchContent(url) {
         try {
-            const response = await fetch(url, { method: 'GET' });
+            const response = await fetch(url, {method: 'GET'});
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return await response.text();
         } catch (error) {

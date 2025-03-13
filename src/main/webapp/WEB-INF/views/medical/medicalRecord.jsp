@@ -12,12 +12,13 @@
             <div class="patient-name">
                 환자 성명: <span id="patientName">Unknown</span>
             </div>
-        </div>
-        <div class="study-key">
-            <label for="studykey">검사 번호</label>
-            <select id="studykey" name="studykey">
-                <option value="">검사를 선택하세요</option>
-            </select>
+            <span class="separator">|</span>
+            <div class="study-key">
+                <label for="studykey">검사 번호</label>
+                <select id="studykey" name="studykey">
+                    <option value="">검사를 선택하세요</option>
+                </select>
+            </div>
         </div>
         <div class="pid">
             <input type="hidden" id="pid" name="pid">
