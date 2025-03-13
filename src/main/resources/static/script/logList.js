@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePatientInfo(patientData) {
         document.getElementById("chartNo").innerText = patientData.pid ? `${patientData.pid}` : "작성 내역이 비어있습니다.";
-        document.getElementById("patientName").innerText = patientData.pname ? `${patientData.pname}` : "작성 내역이 비어있습니다.";
+        document.getElementById("pname").innerText = patientData.pname ? `${patientData.pname}` : "작성 내역이 비어있습니다.";
         document.getElementById("patientBirth").innerText = patientData.pbirthdatetime ?
             `${formatDate(patientData.pbirthdatetime)}` : "작성 내역이 비어있습니다.";
         document.getElementById("patientGender").innerText = patientData.psex || "작성 내역이 비어있습니다.";
