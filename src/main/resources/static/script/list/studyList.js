@@ -4,6 +4,53 @@ if (typeof window.toggleRecord === 'undefined') {
 
 const contentArea = document.getElementById('content-area');
 
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM fully loaded');
+    const statusDots = document.querySelectorAll('.status-dot');
+    console.log('Found status dots:', statusDots.length);
+
+    if (statusDots.length === 0) {
+        console.error('No .status-dot elements found in the DOM');
+        return;
+    }
+
+    for (const dot of statusDots) {
+        const listElement = dot.closest('.list-element');
+        const studykey = listElement.id.split('study-')[1];
+        console.log('Processing studykey:', studykey);
+
+        try {
+            const response = await fetch(`/report/${studykey}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                console.error('Fetch failed for studykey:', studykey, 'Status:', response.status);
+                dot.classList.add('status-none');
+                continue;
+            }
+            const data = await response.json();
+            console.log('Response data:', data);
+            const urgencyLevel = data.urgencyLevel || 0;
+            console.log('Urgency level for', studykey, ':', urgencyLevel);
+
+            let statusClass;
+            switch (parseInt(urgencyLevel)) {
+                case 0: statusClass = 'status-none'; break;
+                case 1: statusClass = 'status-normal'; break;
+                case 2: statusClass = 'status-bad'; break;
+                case 3: statusClass = 'status-good'; break;
+                default: statusClass = 'status-none';
+            }
+            dot.classList.add(statusClass);
+            dot.setAttribute('data-urgency-level', urgencyLevel);
+        } catch (error) {
+            console.error('Error fetching report for studykey:', studykey, error);
+            dot.classList.add('status-none');
+        }
+    }
+});
+
 // 검색 폼 이벤트
 const searchFormStudy = document.querySelector('#searchForm');
 if (searchFormStudy) {
@@ -13,7 +60,7 @@ if (searchFormStudy) {
         const studyTime = document.querySelector('#studyTime')?.value.toLowerCase() || '';
         const modality = document.querySelector('#modality')?.value.toLowerCase() || '';
         const bodyPart = document.querySelector('#bodyPart')?.value.toLowerCase() || '';
-
+        const urgencyLevel = document.querySelector('#urgencyLevel')?.value || '';
 
         const studies = document.getElementsByClassName('list-element');
         for (let i = 1; i < studies.length; i++) {
@@ -22,11 +69,13 @@ if (searchFormStudy) {
             const sTime = study.querySelector('.study-time')?.textContent.toLowerCase() || '';
             const mod = study.querySelector('.modality')?.textContent.toLowerCase() || '';
             const bPart = study.querySelector('.body-part')?.textContent.toLowerCase() || '';
+            const uLevel = study.querySelector('.status-dot')?.getAttribute('data-urgency-level') || '0';
 
             const matches = (!patientName || pName.includes(patientName)) &&
                 (!studyTime || sTime.includes(studyTime)) &&
                 (!modality || mod.includes(modality)) &&
-                (!bodyPart || bPart.includes(bodyPart));
+                (!bodyPart || bPart.includes(bodyPart)) &&
+                (!urgencyLevel || uLevel === urgencyLevel);
 
             study.style.display = matches ? '' : 'none';
         }
