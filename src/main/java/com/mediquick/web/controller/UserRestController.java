@@ -196,6 +196,11 @@ public class UserRestController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
+            if (user.isDeleted()) {
+                response.put("message", "삭제된 사용자입니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+
             // Spring Security 인증 수행
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
