@@ -7,22 +7,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String index(){
-        return "index";
+    public String login(){
+        return "/user/login";
     }
 
     @GetMapping("/header")
     public String header(){
-        return "modle/header";
+        return "module/header";
+    }
+
+    @GetMapping("/headerViewer")
+    public String header1(){
+        return "module/headerViewer";
     }
 
     @GetMapping("/footer")
     public String footer(){
-        return "modle/footer";
+        return "module/footer";
     }
 
     @GetMapping("/error")
     public String error(){
         return "error";
     }
+
 }

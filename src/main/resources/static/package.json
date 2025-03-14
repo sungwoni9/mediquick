@@ -1,0 +1,25 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "@cornerstonejs/core": "^2.19.7",
+    "@cornerstonejs/dicom-image-loader": "^2.19.7",
+    "@cornerstonejs/nifti-volume-loader": "^2.19.7",
+    "@cornerstonejs/tools": "^2.19.7",
+    "@icr/polyseg-wasm": "^0.4.0",
+    "cornerstone-core": "^2.6.1",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "devDependencies": {
+    "path-browserify": "^1.0.1"
+  }
+}

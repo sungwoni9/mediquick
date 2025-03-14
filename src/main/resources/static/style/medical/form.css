@@ -1,0 +1,129 @@
+.medical-form {
+    margin: 50px;
+}
+
+#medicalRecordForm h2 {
+    font-size: 30px;
+    color: #2c3e50;
+    font-weight: 700;
+    margin: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.information {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 15px 0;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.doctor-name, .patient-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: #34495e;
+    font-size: 18px;
+}
+
+.separator {
+    color: #78909c;
+    font-weight: bold;
+}
+
+#medicalRecordForm > div {
+    font-size: 15px;
+    color: #2c3e50;
+    display: flex;
+    gap: 10px;
+    margin: 20px 20px;
+}
+
+.table-content {
+    display: flex;
+    gap: 15px;
+    margin: 20px 20px;
+}
+
+#medicalRecordForm > div span {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.patient-symptoms, .order-desc, .medical-date {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#medicalRecordForm label {
+    font-size: 15px;
+    color: #37474f;
+    margin: 5px;
+    flex-direction: column;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#medicalRecordForm textarea,
+#medicalRecordForm input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cfd8dc;
+    background-color: #fbfcfe;
+    border-radius: 8px;
+    flex-direction: column;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#medicalRecordForm textarea {
+    height: 100px;
+    resize: none;
+}
+
+#medicalRecordForm textarea:focus,
+#medicalRecordForm input[type="datetime-local"]:focus {
+    border-color: #1e88e5;
+    outline: none;
+    box-shadow: 0 0 8px rgba(30, 136, 229, 0.2);
+}
+
+#medicalRecordForm .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 20px 0;
+}
+
+#medicalRecordForm button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#medicalRecordForm button[type="submit"] {
+    background-color: #0F3A6B;
+    width: 30%;
+    color: white;
+}
+
+#medicalRecordForm button[type="button"] {
+    background-color: #78909c;
+    width: 30%;
+    color: white;
+}
+

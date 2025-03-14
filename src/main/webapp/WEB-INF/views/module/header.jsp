@@ -1,38 +1,34 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hurda
-  Date: 2025-02-14
-  Time: 오후 2:27
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <html>
 <head>
     <title>mediquick</title>
-  <link rel="stylesheet" href="/style/reset.css">
-  <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="<c:url value="/style/reset.css"/>">
+    <link rel="stylesheet" href="<c:url value="/style/global.css"/>">
+<%--    <link rel="stylesheet" href="<c:url value="/style/layout/header.css"/>--%>
+
+    <script src="<c:url value="/script/user/header.js"/>"></script>
+    <script type="module" src="<c:url value="/script/block-screenshot.js"/>"></script>
+    <script type="module" src="<c:url value="/script/auto-logout.js"/>"></script>
 </head>
 <body>
 <header>
-  <h1>mediquick</h1>
-  <div>
-    <nav id="navi-user">
-      <ul>
-        <li>로그인</li>
-        <li>로그아웃</li>
-        <li>회원가입</li>
-        <li>님 마이페이지</li>
-      </ul>
-    </nav>
-  </div>
-  <nav id="navi-main">
-    <ul>
-      <li>메뉴1</li>
-      <li>메뉴2</li>
-      <li>메뉴3</li>
-      <li>메뉴4</li>
-    </ul>
-  </nav>
+    <div id="header-cont">
+        <h2><a href="<c:url value="/dashboard"/>">MediQuick</a></h2>
+        <div id="user-info">
+            <div id="user-details"></div>
+            <div id="user-profile-image"></div>
+            <div id="user-menu">
+                <button id="manager-button"></button>
+                <button id="login-profile-button"></button>
+                <button id="register-logout-button"></button>
+            </div>
+        </div>
+        <div id="token-timer">남은 시간:</div>
+        <button id="btn-extend">시간 연장</button>
+    </div>
 </header>
+
 </body>
 </html>

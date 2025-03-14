@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.mediquick'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
     toolchain {
@@ -22,6 +22,9 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://www.dcm4che.org/maven2/")
+    }
 }
 
 dependencies {
@@ -38,9 +41,60 @@ dependencies {
     implementation group: 'jakarta.servlet.jsp.jstl', name: 'jakarta.servlet.jsp.jstl-api', version: '3.0.1'
     implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '3.0.1'
 
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.4.2'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '21.5.0.0'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    // 메일서비스
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.4.3'
+
+    // jcifs-ng 라이브러리: SMB(서버 메시지 블록) 프로토콜을 통해 파일 공유 및 네트워크 작업을 지원
+    implementation 'eu.agno3.jcifs:jcifs-ng:2.1.10'
+
+    // dcm4che-core 라이브러리: 의료 영상 데이터(DICOM 형식)를 처리하기 위한 기능 제공
+    implementation 'org.dcm4che:dcm4che-core:5.31.2'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// 부분 컴파일(Incremental Compilation)을 활성화하여 변경된 파일만 컴파일하도록 설정 -> 빌드 속도 개선
+tasks.withType(JavaCompile).configureEach {
+    options.incremental = true
+}
+
+// JAR, WAR 등의 아카이브 생성 시 캐싱을 활성화하여 동일한 결과물이 생성될 경우 재빌드를 방지 -> 불필요한 빌드를 줄여서 속도를 향상.
+tasks.withType(AbstractArchiveTask).configureEach {
+    outputs.cacheIf { true }
+}
+
+/* Webpack 빌드 작업 추가
+ * webpackBuild라는 새로운 Gradle 작업을 등록하여 npm run build 실행
+ * workingDir 설정 -> src/main/resources/static에서 실행되도록 지정
+ * 입력/출력 디렉토리(inputs.dir / outputs.dir) 설정 -> Gradle이 변화를 감지하여 불필요한 재실행 방지
+ * 출력 로그 저장 및 출력 -> standardOutput을 통해 빌드 실행 로그를 저장하고 doLast에서 출력하여 디버깅 가능.
+ */
+tasks.register('webpackBuild', Exec) {
+    workingDir 'src/main/resources/static'
+
+    // OS에 따라 npm 또는 npm.cmd 설정
+    def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+    commandLine = isWindows ? ['npm.cmd', 'run', 'build'] : ['npm', 'run', 'build']
+
+    inputs.dir 'src/main/resources/static'
+    outputs.dir 'build/resources/main/static'
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = standardOutput
+    doLast {
+        println standardOutput.toString()
+    }
+}
+
+processResources.dependsOn tasks.named('webpackBuild')
