@@ -151,3 +151,7 @@ Spring Security와 JWT를 활용한 보안 인증, Cornerstone JS를 사용한 D
 |:-:|:-:|:-:|:-:|:-:|
 | ![프로필1](https://github.com/user-attachments/assets/f850e168-a0f7-495f-a384-e48fd4d55e93?size=100) | ![프로필2](https://github.com/user-attachments/assets/88168d61-63b8-4b38-98e9-6047105a1e2d?size=100) | ![프로필3](https://github.com/user-attachments/assets/b84e82b5-99d9-424f-a58b-05033a600bc6?size=100) | ![프로필4](https://github.com/user-attachments/assets/9b1df516-bfaa-4a46-9e51-5d34ca194dcd?size=100) | ![프로필5](https://github.com/user-attachments/assets/721c8c20-d6b3-41c6-81bd-7aa70b0c42b0?size=100) |
 |[허성원](https://github.com/sungwoni9)|[이동현](https://github.com/ghj0595)|[이선구](https://github.com/SG5143)|[오세린](https://github.com/ohserin)|[한중수](https://github.com/Khankw)|
+
+## ️🎬 발표 영상
+
+[[작품발표] 허성원 팀 - 메디퀵 ](https://www.youtube.com/watch?v=8M0UpUs2VtE)
