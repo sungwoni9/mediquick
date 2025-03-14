@@ -42,8 +42,7 @@
                 <c:otherwise>
                     <c:forEach var="user" items="${users}">
                         <tr>
-                            <td><a href="/logList?username=${user.username}">${user.username}</a></td>
-                            <td>${user.name}</td>
+                            <td><a href="#" onclick="redirectToLogList('${user.username}')">${user.username}</a></td>
                             <td>${user.email}</td>
                             <td>${user.phone}</td>
                             <td>${user.address}</td>
