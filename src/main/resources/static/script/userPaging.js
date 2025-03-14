@@ -45,3 +45,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     showPage(currentPage);
 });
+
+function redirectToLogList(username) {
+    const token = localStorage.getItem("jwtToken");
+
+    if (!token) {
+        alert("로그인이 필요합니다.");
+        return;
+    }
+
+    fetch(`/logList?username=${username}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }).then(response => {
+        if (response.status === 401) {
+            alert("Unauthorized: 로그인 정보가 유효하지 않습니다.");
+        } else if (response.status === 403) {
+            alert("Forbidden: 접근 권한이 없습니다.");
+        } else {
+            window.location.href = `/logList?username=${username}`;
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+    });
+}
+
+window.redirectToLogList = redirectToLogList;
