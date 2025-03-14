@@ -1,7 +1,7 @@
 #tools{
     position: fixed;
     top:0;
-    width: 100%;
+    left: calc(50% - 220px);
     height: 50px;
     color: white;
     display: flex;

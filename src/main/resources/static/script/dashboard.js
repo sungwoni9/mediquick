@@ -91,7 +91,7 @@ class NavigationManager {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const navItems = document.querySelectorAll('.nav-item');
     const contentArea = document.getElementById('content-area');
 
@@ -112,6 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    loadDefaultPage();
+    await loadDefaultPage();
     navManager.initialize();
 });

@@ -2,22 +2,12 @@ if (typeof window.toggleRecord === 'undefined') {
     window.toggleRecord = false;
 }
 
-const contentArea = document.getElementById('content-area');
-
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('DOM fully loaded');
     const statusDots = document.querySelectorAll('.status-dot');
-    console.log('Found status dots:', statusDots.length);
-
-    if (statusDots.length === 0) {
-        console.error('No .status-dot elements found in the DOM');
-        return;
-    }
 
     for (const dot of statusDots) {
         const listElement = dot.closest('.list-element');
         const studykey = listElement.id.split('study-')[1];
-        console.log('Processing studykey:', studykey);
 
         try {
             const response = await fetch(`/report/${studykey}`, {
@@ -25,14 +15,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (!response.ok) {
-                console.error('Fetch failed for studykey:', studykey, 'Status:', response.status);
                 dot.classList.add('status-none');
                 continue;
             }
             const data = await response.json();
-            console.log('Response data:', data);
-            const urgencyLevel = data.urgencyLevel || 0;
-            console.log('Urgency level for', studykey, ':', urgencyLevel);
+            const urgencyLevel = data.urgencyLevel;
 
             let statusClass;
             switch (parseInt(urgencyLevel)) {
@@ -43,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 default: statusClass = 'status-none';
             }
             dot.classList.add(statusClass);
-            dot.setAttribute('data-urgency-level', urgencyLevel);
         } catch (error) {
             dot.classList.add('status-normal');
         }
@@ -127,5 +113,3 @@ if (pacsButtons.length > 0) {
         });
     });
 }
-
-
