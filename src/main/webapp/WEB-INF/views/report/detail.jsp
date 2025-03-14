@@ -3,14 +3,13 @@
 
 <div id="recode">
     <div id="top">
-        <p>Chart No</p>
-        <p id="chartNo"></p>
-        <p>Name</p>
-        <p id="patientName"></p>
-        <p>Birth</p>
-        <p id="patientBirth"></p>
-        <p>Gender</p>
-        <p id="patientGender"></p>
+        <div>
+            <p id="chartNo"></p>
+            <p id="pname"></p>
+            <p id="patientBirth"></p>
+            <p id="patientGender"></p>
+        </div>
+        <button id="close-recode">CLOSE</button>
     </div>
 
     <div id="wrap">
@@ -37,7 +36,6 @@
             <div class="grid-item"><p class="label">보고서 상태</p><p class="value" id="report-status">작성 내역이 비어있습니다.</p></div>
             <div class="grid-item"><p class="label">판독 등급</p><p class="value" id="report-level">작성 내역이 비어있습니다.</p></div>
         </div>
-    <button id="close-recode">CLOSE</button>
     </div>
 </div>
 

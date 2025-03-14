@@ -130,3 +130,17 @@ header {
     background-color: var(--btn-hover-color);
     color: var(--secondary-color);
 }
+
+body::-webkit-scrollbar {
+    width: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #488ada;
+    height: 30%;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #d2e6ff;
+}

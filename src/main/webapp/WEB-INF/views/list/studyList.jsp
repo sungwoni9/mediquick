@@ -28,16 +28,6 @@
                         BodyPart
                         <input id="bodyPart" name="bodyPart" type="text" placeholder="Enter body part">
                     </div>
-                    <div class="form-group">
-                        Report Status
-                        <select id="urgencyLevel" name="urgencyLevel">
-                            <option value="">All</option>
-                            <option value="none">None</option>
-                            <option value="bad">Bad</option>
-                            <option value="normal">Normal</option>
-                            <option value="good">Good</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="form-actions">
                     <button type="submit">Search</button>
@@ -74,6 +64,9 @@
                 <div class="body-part">${study.bodypart}</div>
                 <div class="series-count">${study.seriescnt}</div>
                 <div class="image-count">${study.imagecnt}</div>
+                <div class="urgency-level">
+                    <span class="status-dot"></span>
+                </div>
                 <img class="pacs-button" src="/icons/pacs-icon.png" alt="PACS Icon"/>
             </div>
         </c:forEach>
